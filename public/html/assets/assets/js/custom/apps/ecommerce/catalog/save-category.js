@@ -2,44 +2,44 @@
 
 // Class definition
 var KTAppEcommerceSaveCategory = function () {
-
+    let quill;
     // Private functions
 
     // Init quill editor
-    const initQuill = () => {
-        // Define all elements for quill editor
-        const elements = [
-            '#kt_ecommerce_add_category_description',
-            '#kt_ecommerce_add_category_meta_description'
-        ];
+    // const initQuill = () => {
+    //     // Define all elements for quill editor
+    //     const elements = [
+    //         '#kt_ecommerce_add_category_description',
+    //         '#kt_ecommerce_add_category_meta_description'
+    //     ];
+    //     const hiddenInput = document.getElementById('description');
+    //     // Loop all elements
+    //     elements.forEach(element => {
+    //         // Get quill element
+    //         let quill = document.querySelector(element);
 
-        // Loop all elements
-        elements.forEach(element => {
-            // Get quill element
-            let quill = document.querySelector(element);
+    //         // Break if element not found
+    //         if (!quill) {
+    //             return;
+    //         }
 
-            // Break if element not found
-            if (!quill) {
-                return;
-            }
+    //         // Init quill --- more info: https://quilljs.com/docs/quickstart/
+    //         quill = new Quill(element, {
+    //             modules: {
+    //                 toolbar: [
+    //                     [{
+    //                         header: [1, 2, false]
+    //                     }],
+    //                     ['bold', 'italic', 'underline'],
+    //                     ['image', 'code-block']
+    //                 ]
+    //             },
+    //             placeholder: 'Type your text here...',
+    //             theme: 'snow' // or 'bubble'
+    //         });
+    //     });
 
-            // Init quill --- more info: https://quilljs.com/docs/quickstart/
-            quill = new Quill(element, {
-                modules: {
-                    toolbar: [
-                        [{
-                            header: [1, 2, false]
-                        }],
-                        ['bold', 'italic', 'underline'],
-                        ['image', 'code-block']
-                    ]
-                },
-                placeholder: 'Type your text here...',
-                theme: 'snow' // or 'bubble'
-            });
-        });
-
-    }
+    // }
 
     // Init tagify
     const initTagify = () => {
@@ -63,54 +63,54 @@ var KTAppEcommerceSaveCategory = function () {
         });
     }
 
-    // Init form repeater --- more info: https://github.com/DubFriend/jquery.repeater
-    const initFormRepeater = () => {
-        $('#kt_ecommerce_add_category_conditions').repeater({
-            initEmpty: false,
+    // // Init form repeater --- more info: https://github.com/DubFriend/jquery.repeater
+    // const initFormRepeater = () => {
+    //     $('#kt_ecommerce_add_category_conditions').repeater({
+    //         initEmpty: false,
 
-            defaultValues: {
-                'text-input': 'foo'
-            },
+    //         defaultValues: {
+    //             'text-input': 'foo'
+    //         },
 
-            show: function () {
-                $(this).slideDown();
+    //         show: function () {
+    //             $(this).slideDown();
 
-                // Init select2 on new repeated items
-                initConditionsSelect2();
-            },
+    //             // Init select2 on new repeated items
+    //             initConditionsSelect2();
+    //         },
 
-            hide: function (deleteElement) {
-                $(this).slideUp(deleteElement);
-            }
-        });
-    }
+    //         hide: function (deleteElement) {
+    //             $(this).slideUp(deleteElement);
+    //         }
+    //     });
+    // }
 
-    // Init condition select2
-    const initConditionsSelect2 = () => {
-        // Tnit new repeating condition types
-        const allConditionTypes = document.querySelectorAll('[data-kt-ecommerce-catalog-add-category="condition_type"]');
-        allConditionTypes.forEach(type => {
-            if ($(type).hasClass("select2-hidden-accessible")) {
-                return;
-            } else {
-                $(type).select2({
-                    minimumResultsForSearch: -1
-                });
-            }
-        });
+    // // Init condition select2
+    // const initConditionsSelect2 = () => {
+    //     // Tnit new repeating condition types
+    //     const allConditionTypes = document.querySelectorAll('[data-kt-ecommerce-catalog-add-category="condition_type"]');
+    //     allConditionTypes.forEach(type => {
+    //         if ($(type).hasClass("select2-hidden-accessible")) {
+    //             return;
+    //         } else {
+    //             $(type).select2({
+    //                 minimumResultsForSearch: -1
+    //             });
+    //         }
+    //     });
 
-        // Tnit new repeating condition equals
-        const allConditionEquals = document.querySelectorAll('[data-kt-ecommerce-catalog-add-category="condition_equals"]');
-        allConditionEquals.forEach(equal => {
-            if ($(equal).hasClass("select2-hidden-accessible")) {
-                return;
-            } else {
-                $(equal).select2({
-                    minimumResultsForSearch: -1
-                });
-            }
-        });
-    }
+    //     // Tnit new repeating condition equals
+    //     const allConditionEquals = document.querySelectorAll('[data-kt-ecommerce-catalog-add-category="condition_equals"]');
+    //     allConditionEquals.forEach(equal => {
+    //         if ($(equal).hasClass("select2-hidden-accessible")) {
+    //             return;
+    //         } else {
+    //             $(equal).select2({
+    //                 minimumResultsForSearch: -1
+    //             });
+    //         }
+    //     });
+    // }
 
     // Category status handler
     const handleStatus = () => {
@@ -183,17 +183,71 @@ var KTAppEcommerceSaveCategory = function () {
     const handleSubmit = () => {
         // Define variables
         let validator;
+        let quill1;
+        let quill2;
 
         // Get elements
         const form = document.getElementById('kt_ecommerce_add_category_form');
         const submitButton = document.getElementById('kt_ecommerce_add_category_submit');
+
+         // Define all elements for quill editor
+         const elements = [
+            '#kt_ecommerce_add_category_description',
+            '#kt_ecommerce_add_category_meta_description'
+        ];
+        const editorElement1 = document.getElementById('kt_ecommerce_add_category_description');
+        const editorElement2 = document.getElementById('kt_ecommerce_add_category_meta_description');
+        const hiddenInput1 = document.getElementById('description');
+        const hiddenInput2 = document.getElementById('meta_tag_description');
+        // // Loop all elements
+        // elements.forEach(element => {
+        //     // Get quill element
+        //     quill = document.querySelector(element);
+
+        //     // Break if element not found
+        //     if (!quill) {
+        //         return;
+        //     }
+
+            // Init quill --- more info: https://quilljs.com/docs/quickstart/
+            quill1 = new Quill(editorElement1, {
+                modules: {
+                    toolbar: [
+                        [{
+                            header: [1, 2, false]
+                        }],
+                        ['bold', 'italic', 'underline'],
+                        ['image', 'code-block']
+                    ]
+                },
+                placeholder: 'Type your text here...',
+                theme: 'snow' // or 'bubble'
+            });
+
+            quill2 = new Quill(editorElement2, {
+                modules: {
+                    toolbar: [
+                        [{
+                            header: [1, 2, false]
+                        }],
+                        ['bold', 'italic', 'underline'],
+                        ['image', 'code-block']
+                    ]
+                },
+                placeholder: 'Type your text here...',
+                theme: 'snow' // or 'bubble'
+            });
+
+      //  });
+
+
 
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         validator = FormValidation.formValidation(
             form,
             {
                 fields: {
-                    'category_name': {
+                    'name': {
                         validators: {
                             notEmpty: {
                                 message: 'Category name is required'
@@ -212,9 +266,15 @@ var KTAppEcommerceSaveCategory = function () {
             }
         );
 
+
+
         // Handle submit button
         submitButton.addEventListener('click', e => {
+            hiddenInput1.value = quill1.root.innerHTML;
+            hiddenInput2.value = quill2.root.innerHTML;
+
             e.preventDefault();
+
 
             // Validate form before submit
             if (validator) {
@@ -243,8 +303,10 @@ var KTAppEcommerceSaveCategory = function () {
                                     // Enable submit button after loading
                                     submitButton.disabled = false;
 
-                                    // Redirect to customers list page
-                                    window.location = form.getAttribute("data-kt-redirect");
+                                    // // Redirect to customers list page
+                                    // window.location = form.getAttribute("data-kt-redirect");
+
+                                    form.submit();
                                 }
                             });
                         }, 2000);
@@ -268,10 +330,10 @@ var KTAppEcommerceSaveCategory = function () {
     return {
         init: function () {
             // Init forms
-            initQuill();
+           // initQuill();
             initTagify();
-            initFormRepeater();
-            initConditionsSelect2();
+            // initFormRepeater();
+            // initConditionsSelect2();
 
             // Handle forms
             handleStatus();

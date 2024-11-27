@@ -16,6 +16,7 @@
         "maatwebsite/excel": "^3.1",
         "mpdf/mpdf": "*",
         "phpoffice/phpspreadsheet": "^1.28",
+        "spatie/laravel-health": "*",
         "spatie/laravel-html": "^3.2",
         "spatie/laravel-permission": "^5.10"
     },

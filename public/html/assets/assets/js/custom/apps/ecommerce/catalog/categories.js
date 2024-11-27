@@ -34,24 +34,111 @@ var KTAppEcommerceCategories = function () {
     }
 
     // Delete cateogry
-    var handleDeleteRows = () => {
-        // Select all delete buttons
-        const deleteButtons = table.querySelectorAll('[data-kt-ecommerce-category-filter="delete_row"]');
+    // var handleDeleteRows = () => {
+    //     // Select all delete buttons
+    //     const deleteButtons = table.querySelectorAll('[data-kt-ecommerce-category-filter="delete_row"]');
 
-        deleteButtons.forEach(d => {
-            // Delete button on click
+    //     deleteButtons.forEach(d => {
+    //         // Delete button on click
+    //         d.addEventListener('click', function (e) {
+    //             e.preventDefault();
+
+    //             // Select parent row
+    //             const parent = e.target.closest('tr');
+        
+
+    //             // Get customer name
+    //             const userName = parent.querySelectorAll('td')[2].innerText;
+    //             var userURL = $(this).data('url');
+    //              alert(userURL);
+
+
+    //             // Get category name
+    //             const categoryName = parent.querySelector('[data-kt-ecommerce-category-filter="category_name"]').innerText;
+
+    //             // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
+    //             Swal.fire({
+    //                 text: "Are you sure you want to delete " + categoryName + "?",
+    //                 icon: "warning",
+    //                 showCancelButton: true,
+    //                 buttonsStyling: false,
+    //                 confirmButtonText: "Yes, delete!",
+    //                 cancelButtonText: "No, cancel",
+    //                 customClass: {
+    //                     confirmButton: "btn fw-bold btn-danger",
+    //                     cancelButton: "btn fw-bold btn-active-light-primary"
+    //                 }
+    //             }).then(function (result) {
+    //                 if (result.value) {
+    //                     Swal.fire({
+    //                         text: "You have deleted " + categoryName + "!.",
+    //                         icon: "success",
+    //                         buttonsStyling: false,
+    //                         confirmButtonText: "Ok, got it!",
+    //                         customClass: {
+    //                             confirmButton: "btn fw-bold btn-primary",
+    //                         }
+    //                     }).then(function () {
+    //                         // Remove current row
+    //                         datatable.row($(parent)).remove().draw();
+
+    //                         if (e.value === true) {
+                              
+
+    //                             $.ajax({
+    //                                 type: 'POST',
+    //                                 url: userURL,
+    //                                 data: { _token: CSRF_TOKEN, _method: 'DELETE' },
+    //                                 dataType: 'JSON',
+    //                                 success: function (results) {
+    //                                     if (results.success) {
+    //                                         Swal.fire("Deleted!", `${categoryName} has been deleted.`, "success");
+    //                                         datatable.row($(parent)).remove().draw(); // Update table
+    //                                     } else {
+    //                                         Swal.fire("Error!", results.message, "error");
+    //                                     }
+    //                                 },
+    //                                 error: function (xhr) {
+    //                                     Swal.fire("Error!", "Something went wrong. Please try again.", "error");
+    //                                     console.error(xhr.responseText);
+    //                                 },
+    //                             });
+    //                         } else {
+    //                             e.dismiss;
+    //                         }
+
+                          
+    //                     });
+    //                 } else if (result.dismiss === 'cancel') {
+    //                     Swal.fire({
+    //                         text: categoryName + " was not deleted.",
+    //                         icon: "error",
+    //                         buttonsStyling: false,
+    //                         confirmButtonText: "Ok, got it!",
+    //                         customClass: {
+    //                             confirmButton: "btn fw-bold btn-primary",
+    //                         }
+    //                     });
+    //                 }
+    //             });
+    //         })
+    //     });
+    // }
+
+
+    var handleDeleteRows = () => {
+        const deleteButtons = table.querySelectorAll('[data-kt-ecommerce-category-filter="delete_row"]');
+    
+        deleteButtons.forEach((d) => {
             d.addEventListener('click', function (e) {
                 e.preventDefault();
-
-                // Select parent row
-                const parent = e.target.closest('tr');
-
-                // Get category name
+    
+                const parent = d.closest('tr');
                 const categoryName = parent.querySelector('[data-kt-ecommerce-category-filter="category_name"]').innerText;
-
-                // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
+                const userURL = d.dataset.url; // Retrieve URL from data attribute
+    
                 Swal.fire({
-                    text: "Are you sure you want to delete " + categoryName + "?",
+                    text: `Are you sure you want to delete ${categoryName}?`,
                     icon: "warning",
                     showCancelButton: true,
                     buttonsStyling: false,
@@ -59,38 +146,44 @@ var KTAppEcommerceCategories = function () {
                     cancelButtonText: "No, cancel",
                     customClass: {
                         confirmButton: "btn fw-bold btn-danger",
-                        cancelButton: "btn fw-bold btn-active-light-primary"
-                    }
-                }).then(function (result) {
-                    if (result.value) {
+                        cancelButton: "btn fw-bold btn-active-light-primary",
+                    },
+                }).then((result) => {
+                    if (result.isConfirmed) {
                         Swal.fire({
-                            text: "You have deleted " + categoryName + "!.",
-                            icon: "success",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                            }
-                        }).then(function () {
-                            // Remove current row
-                            datatable.row($(parent)).remove().draw();
+                            text: `Deleting ${categoryName}...`,
+                            icon: "info",
+                            showConfirmButton: false,
+                            allowOutsideClick: false,
                         });
-                    } else if (result.dismiss === 'cancel') {
-                        Swal.fire({
-                            text: categoryName + " was not deleted.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                            }
+    
+                        const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    
+                        $.ajax({
+                            type: 'POST',
+                            url: userURL,
+                            data: { _token: CSRF_TOKEN, _method: 'DELETE' },
+                            dataType: 'JSON',
+                            success: function (results) {
+                                if (results.success) {
+                                    Swal.fire("Deleted!", `${categoryName} has been deleted.`, "success");
+                                    datatable.row($(parent)).remove().draw(); // Update table
+                                } else {
+                                    Swal.fire("Error!", results.message, "error");
+                                }
+                            },
+                            error: function (xhr) {
+                                Swal.fire("Error!", "Something went wrong. Please try again.", "error");
+                                console.error(xhr.responseText);
+                            },
                         });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire(`${categoryName} was not deleted.`, "", "info");
                     }
                 });
-            })
+            });
         });
-    }
-
+    };
 
     // Public methods
     return {

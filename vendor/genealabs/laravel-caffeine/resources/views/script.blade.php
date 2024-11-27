@@ -25,10 +25,19 @@
     }, {{ $interval }});
 
     if ({{ $ageCheckInterval }} > 0) {
-        setInterval(function () {
-            if (new Date() - lastCheck >= {{ $ageCheckInterval + $ageThreshold }}) {
-                location.reload(true);
-            }
-        }, {{ $ageCheckInterval }});
+        setInterval(
+            function () {
+                if (new Date() - lastCheck >= {{ $ageCheckInterval + $ageThreshold }}) {
+                    location.reload(true);
+                    setTimeout(
+                        function () {
+                            location.reload(true);
+                        },
+                        Math.max(0, {{ $ageCheckInterval }} - 500),
+                    );
+                }
+            },
+            {{ $ageCheckInterval }},
+        );
     }
 </script>

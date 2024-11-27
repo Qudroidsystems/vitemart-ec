@@ -42,33 +42,41 @@ var KTAppEcommerceSaveProduct = function () {
 
     // Init tagify
     const initTagify = () => {
-        // Define all elements for tagify
-        const elements = [
-            '#kt_ecommerce_add_product_category',
-            '#kt_ecommerce_add_product_tags'
-        ];
 
-        // Loop all elements
-        elements.forEach(element => {
-            // Get tagify element
-            const tagify = document.querySelector(element);
+        const tagsInput = document.querySelector('#kt_ecommerce_add_product_tags');
+    const _tagsInput = document.querySelector('#_tags');
 
-            // Break if element not found
-            if (!tagify) {
-                return;
+    if (tagsInput && _tagsInput) {
+        // Parse the _tags input value into an array of objects
+        const tagsData = JSON.parse(_tagsInput.value);
+
+        // Map the tagsData into a format Tagify accepts (whitelist of strings with additional data)
+        const tagsWhitelist = tagsData.map(tag => ({
+            value: tag.name, // Tag name for display
+            id: tag.id       // Tag ID for submission
+        }));
+
+        // Initialize Tagify on the tags input
+        const tagify = new Tagify(tagsInput, {
+            whitelist: tagsWhitelist,
+            dropdown: {
+                maxItems: 20,           // Maximum allowed rendered suggestions
+                classname: "tagify__inline__suggestions", // Custom class for styling
+                enabled: 0,             // Show suggestions on focus
+                closeOnSelect: false    // Do not close the suggestions dropdown after selecting an item
             }
-
-            // Init tagify --- more info: https://yaireo.github.io/tagify/
-            new Tagify(tagify, {
-                whitelist: ["new", "trending", "sale", "discounted", "selling fast", "last 10"],
-                dropdown: {
-                    maxItems: 20,           // <- mixumum allowed rendered suggestions
-                    classname: "tagify__inline__suggestions", // <- custom classname for this dropdown, so it could be targeted
-                    enabled: 0,             // <- show suggestions on focus
-                    closeOnSelect: false    // <- do not hide the suggestions dropdown once an item has been selected
-                }
-            });
         });
+
+        // Sync tagify data to a hidden input for submission
+        tagify.on('change', function () {
+            // Extract IDs of selected tags
+            const selectedTags = tagify.value.map(tag => tag.id);
+
+            // Create a hidden input to store the selected IDs
+            document.querySelector('#selected_tag_ids').value = JSON.stringify(selectedTags);
+        });
+    }
+
     }
 
     // Init form repeater --- more info: https://github.com/DubFriend/jquery.repeater
@@ -109,27 +117,27 @@ var KTAppEcommerceSaveProduct = function () {
     }
 
 
-    // Init noUIslider
-    const initSlider = () => {
-        var slider = document.querySelector("#kt_ecommerce_add_product_discount_slider");
-        var value = document.querySelector("#kt_ecommerce_add_product_discount_label");
+    // // Init noUIslider
+    // const initSlider = () => {
+    //     var slider = document.querySelector("#kt_ecommerce_add_product_discount_slider");
+    //     var value = document.querySelector("#kt_ecommerce_add_product_discount_label");
 
-        noUiSlider.create(slider, {
-            start: [10],
-            connect: true,
-            range: {
-                "min": 1,
-                "max": 100
-            }
-        });
+    //     noUiSlider.create(slider, {
+    //         start: [10],
+    //         connect: true,
+    //         range: {
+    //             "min": 1,
+    //             "max": 100
+    //         }
+    //     });
 
-        slider.noUiSlider.on("update", function (values, handle) {
-            value.innerHTML = Math.round(values[handle]);
-            if (handle) {
-                value.innerHTML = Math.round(values[handle]);
-            }
-        });
-    }
+    //     slider.noUiSlider.on("update", function (values, handle) {
+    //         value.innerHTML = Math.round(values[handle]);
+    //         if (handle) {
+    //             value.innerHTML = Math.round(values[handle]);
+    //         }
+    //     });
+    // }
 
     // Init DropzoneJS --- more info:
     const initDropzone = () => {
@@ -150,51 +158,51 @@ var KTAppEcommerceSaveProduct = function () {
     }
 
     // Handle discount options
-    const handleDiscount = () => {
-        const discountOptions = document.querySelectorAll('input[name="discount_option"]');
-        const percentageEl = document.getElementById('kt_ecommerce_add_product_discount_percentage');
-        const fixedEl = document.getElementById('kt_ecommerce_add_product_discount_fixed');
+    // const handleDiscount = () => {
+    //     const discountOptions = document.querySelectorAll('input[name="discount_option"]');
+    //     const percentageEl = document.getElementById('kt_ecommerce_add_product_discount_percentage');
+    //     const fixedEl = document.getElementById('kt_ecommerce_add_product_discount_fixed');
 
-        discountOptions.forEach(option => {
-            option.addEventListener('change', e => {
-                const value = e.target.value;
+    //     discountOptions.forEach(option => {
+    //         option.addEventListener('change', e => {
+    //             const value = e.target.value;
 
-                switch (value) {
-                    case '2': {
-                        percentageEl.classList.remove('d-none');
-                        fixedEl.classList.add('d-none');
-                        break;
-                    }
-                    case '3': {
-                        percentageEl.classList.add('d-none');
-                        fixedEl.classList.remove('d-none');
-                        break;
-                    }
-                    default: {
-                        percentageEl.classList.add('d-none');
-                        fixedEl.classList.add('d-none');
-                        break;
-                    }
-                }
-            });
-        });
-    }
+    //             switch (value) {
+    //                 case '2': {
+    //                     percentageEl.classList.remove('d-none');
+    //                     fixedEl.classList.add('d-none');
+    //                     break;
+    //                 }
+    //                 case '3': {
+    //                     percentageEl.classList.add('d-none');
+    //                     fixedEl.classList.remove('d-none');
+    //                     break;
+    //                 }
+    //                 default: {
+    //                     percentageEl.classList.add('d-none');
+    //                     fixedEl.classList.add('d-none');
+    //                     break;
+    //                 }
+    //             }
+    //         });
+    //     });
+    // }
 
     // Shipping option handler
-    const handleShipping = () => {
-        const shippingOption = document.getElementById('kt_ecommerce_add_product_shipping_checkbox');
-        const shippingForm = document.getElementById('kt_ecommerce_add_product_shipping');
+    // const handleShipping = () => {
+    //     const shippingOption = document.getElementById('kt_ecommerce_add_product_shipping_checkbox');
+    //     const shippingForm = document.getElementById('kt_ecommerce_add_product_shipping');
 
-        shippingOption.addEventListener('change', e => {
-            const value = e.target.checked;
+    //     shippingOption.addEventListener('change', e => {
+    //         const value = e.target.checked;
 
-            if (value) {
-                shippingForm.classList.remove('d-none');
-            } else {
-                shippingForm.classList.add('d-none');
-            }
-        });
-    }
+    //         if (value) {
+    //             shippingForm.classList.remove('d-none');
+    //         } else {
+    //             shippingForm.classList.add('d-none');
+    //         }
+    //     });
+    // }
 
     // Category status handler
     const handleStatus = () => {
@@ -283,7 +291,7 @@ var KTAppEcommerceSaveProduct = function () {
             form,
             {
                 fields: {
-                    'product_name': {
+                    'name': {
                         validators: {
                             notEmpty: {
                                 message: 'Product name is required'
@@ -297,24 +305,24 @@ var KTAppEcommerceSaveProduct = function () {
                             }
                         }
                     },
-                    'sku': {
+                    'barcode': {
                         validators: {
                             notEmpty: {
                                 message: 'Product barcode is required'
                             }
                         }
                     },
-                    'shelf': {
+                    'stock': {
                         validators: {
                             notEmpty: {
                                 message: 'Shelf quantity is required'
                             }
                         }
                     },
-                    'price': {
+                    'stock_alert': {
                         validators: {
                             notEmpty: {
-                                message: 'Product base price is required'
+                                message: 'Stock alert is required'
                             }
                         }
                     },
@@ -339,6 +347,62 @@ var KTAppEcommerceSaveProduct = function () {
 
         // Handle submit button
         submitButton.addEventListener('click', e => {
+
+    //           // Get all repeater items
+    // const repeaterItems = document.querySelectorAll('.repeater-item');
+
+
+    // // Loop through each repeater item
+    // repeaterItems.forEach((item, index) => {
+    //     // Get the discount type select element for each item
+    //     const discountType = item.querySelector('select[name="discounttype"]');
+    //      if (repeaterItems){
+    //     alert(repeaterItems.item.toString())
+    //      }
+    //     const percentageInput = item.querySelector('input[name="percentage"]');
+    //     const fixedInput = item.querySelector('input[name="fixed"]');
+    //     alert(percentageInput)
+
+    //     // Add an event listener to the submit button for each form
+    //     const submitButton = document.getElementById('kt_ecommerce_add_product_submit');
+
+    //     submitButton.addEventListener('click', e => {
+    //         e.preventDefault();
+
+    //         // Validate discount type and inputs
+    //         let isValid = true;
+    //         const discountTypeValue = discountType.value;
+
+    //         if (discountTypeValue === 'percentage') {
+    //             if (!percentageInput.value || parseFloat(percentageInput.value) <= 0) {
+    //                 isValid = false;
+    //                 Swal.fire({
+    //                     icon: 'error',
+    //                     title: 'Invalid Input',
+    //                     text: 'Please enter a valid percentage value for the discount.',
+    //                 });
+    //             }
+    //         } else if (discountTypeValue === 'fixed') {
+    //             if (!fixedInput.value || parseFloat(fixedInput.value) <= 0) {
+    //                 isValid = false;
+    //                 Swal.fire({
+    //                     icon: 'error',
+    //                     title: 'Invalid Input',
+    //                     text: 'Please enter a valid fixed discount value.',
+    //                 });
+    //             }
+    //         }
+
+    //         // If valid, submit the form
+    //         if (isValid) {
+    //             // Your form submission logic goes here
+    //             console.log('Form is valid');
+    //             // You can submit the form or perform other actions here
+    //         }
+    //     });
+    // });
+
+
             e.preventDefault();
 
             // Validate form before submit
@@ -369,7 +433,8 @@ var KTAppEcommerceSaveProduct = function () {
                                     submitButton.disabled = false;
 
                                     // Redirect to customers list page
-                                    window.location = form.getAttribute("data-kt-redirect");
+                                    // window.location = form.getAttribute("data-kt-redirect");
+                                    form.submit();
                                 }
                             });
                         }, 2000);
@@ -395,7 +460,7 @@ var KTAppEcommerceSaveProduct = function () {
             // Init forms
             initQuill();
             initTagify();
-            initSlider();
+           // initSlider();
             initFormRepeater();
             initDropzone();
             initConditionsSelect2();
@@ -403,8 +468,8 @@ var KTAppEcommerceSaveProduct = function () {
             // Handle forms
             handleStatus();
             handleConditions();
-            handleDiscount();
-            handleShipping();
+            // handleDiscount();
+            // handleShipping();
             handleSubmit();
         }
     };
@@ -414,3 +479,9 @@ var KTAppEcommerceSaveProduct = function () {
 KTUtil.onDOMContentLoaded(function () {
     KTAppEcommerceSaveProduct.init();
 });
+
+
+
+
+
+
