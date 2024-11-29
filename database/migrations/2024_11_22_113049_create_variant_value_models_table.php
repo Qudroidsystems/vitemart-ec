@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('variant_values', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('variant_id')->constrained()->onDelete('cascade'); // Links to the variants table
-            $table->string('value'); // e.g., "Red", "Large"
+            $table->unsignedBigInteger('variant_id'); // This field must be provided
+            $table->string('value'); // Assuming there's a 'value' column for the variant value
             $table->timestamps();
+            $table->foreign('variant_id')->references('id')->on('variants')->onDelete('cascade');
         });
     }
 
-    
+
     /**
      * Reverse the migrations.
      */

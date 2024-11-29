@@ -540,8 +540,12 @@
             <!--end::Description-->
         </div>
         <!--end::Input group-->
+
+
     </div>
     <!--end::Card header-->
+
+
 </div>
 <!--end::Meta options-->
 
@@ -567,294 +571,272 @@
 
     <!--begin::Card body-->
     <div class="card-body pt-0 ">
+
+         <!--begin::Input group-->
+         <div class="mb-10 fv-row">
+
+
+          
+               <!--begin::Input group-->
+               <div class="w-100 w-md-800px">
+                <!--begin::Label-->
+                <label class="required form-label">SKU</label>
+                <!--end::Label-->
+
+                <!--begin::Input-->
+                <input type="text" name="sku" id="sku" class="form-control mb-2" placeholder="Barcode Number" value="" required />
+                <!--end::Input-->
+
+                <!--begin::Description-->
+                <div class="text-muted fs-7">Enter the product SKU.</div>
+                <!--end::Description-->
+            </div>
+            <!--end::Input group-->
+
+
+            <!--begin::Input group-->
+            <div class="w-100 w-md-800px">
+                <!--begin::Label-->
+                <label class="required form-label">Barcode</label>
+                <!--end::Label-->
+
+                <!--begin::Input-->
+                <input type="text" name="barcode" class="form-control mb-2" placeholder="Barcode Number" value="" required />
+                <!--end::Input-->
+
+                <!--begin::Description-->
+                <div class="text-muted fs-7">Enter the product barcode number.</div>
+                <!--end::Description-->
+            </div>
+            <!--end::Input group-->
+
+             <!--begin::Input group-->
+             <div class="w-100 w-md-800px">
+                <!--begin::Label-->
+                <label class="required form-label">Stock (Quantity)</label>
+                <!--end::Label-->
+
+                <!--begin::Input-->
+                <div class="d-flex gap-3">
+                    <input type="number" name="stock" class="form-control mb-2" placeholder="On shelf" value="" required />
+
+                </div>
+                <!--end::Input-->
+
+                <!--begin::Description-->
+                <div class="text-muted fs-7">Enter the product quantity.</div>
+                <!--end::Description-->
+            </div>
+
+
+              <!--begin::Input group-->
+              <div class="w-100 w-md-800px">
+                <!--begin::Label-->
+                <label class="required form-label">Stock Alert</label>
+                <!--end::Label-->
+
+                <!--begin::Input-->
+                <div class="d-flex gap-3">
+                    <input type="number" name="stock_alert" class="form-control mb-2" placeholder="Stock alert" required value="" />
+
+                </div>
+                <!--end::Input-->
+
+                <!--begin::Description-->
+                <div class="text-muted fs-7">Enter the product quantity.</div>
+                <!--end::Description-->
+            </div>
+
+
+
+                <!--begin::Input group-->
+                <div class="w-100 w-md-800px">
+                    <!--begin::Label-->
+                    <label class="required form-label">Price</label>
+                    <!--end::Label-->
+
+                    <!--begin::Input-->
+                    <div class="d-flex gap-3">
+                        <input type="number" name="price" class="form-control mb-2" placeholder="Price" required value="" />
+
+                    </div>
+                    <!--end::Input-->
+
+                    <!--begin::Description-->
+                    <div class="text-muted fs-7">Enter the product Price.</div>
+                    <!--end::Description-->
+                </div>
+            <!--end::Input group-->
+
+
+                   <!--begin::Card body-->
+                    
+
+
+            <!--end::Input group-->
+
+     <!--begin::Select2-->
+     <div class="w-100 w-md-800px">
+        <!--begin::Label-->
+      <label class="required form-label">Discount Type</label>
+      <!--end::Label-->
+        <select class="form-select" name="kt_ecommerce_add_product_options[0][discounttype]" required >
+            <option value="nodiscount">No Discount</option>
+            <option value="percentage">Percentage %</option>
+            <option value="fixed">Fixed</option>
+        </select>
+    </div>
+    <!--end::Select2-->
+
+       <!--begin::Input group-->
+       <div class="w-100 w-md-800px">
+        <!--begin::Label-->
+        <label class="required form-label">If Percentage %</label>
+        <!--end::Label-->
+
+        <!--begin::Input-->
+        <div class="d-flex gap-3">
+            <input type="number" name="kt_ecommerce_add_product_options[0][percentage]" class="form-control mb-2" placeholder="Enter Percentage" value="" />
+
+        </div>
+        <!--end::Input-->
+
+        <!--begin::Description-->
+        <div class="text-muted fs-7">Enter the Percentage Value.</div>
+        <!--end::Description-->
+    </div>
+<!--end::Input group-->
+
+
+   <!--begin::Input group-->
+   <div class="w-100 w-md-800px">
+    <!--begin::Label-->
+    <label class="required form-label">If Fixed Price</label>
+    <!--end::Label-->
+
+    <!--begin::Input-->
+    <div class="d-flex gap-3">
+        <input type="number" name="kt_ecommerce_add_product_options[0][fixed]" class="form-control mb-2" placeholder="Enter Fixed Discount Price" value="" />
+
+    </div>
+    <!--end::Input-->
+
+    <!--begin::Description-->
+    <div class="text-muted fs-7">Enter the Fixed Discounted Price.</div>
+    <!--end::Description-->
+</div>
+<!--end::Input group-->
+
+
+
+
+                <!--begin::Tax-->
+    <div class="d-flex flex-wrap gap-5">
         <!--begin::Input group-->
-        <div class="" data-kt-ecommerce-catalog-add-product="auto-options">
+        <div class="fv-row w-100 flex-md-root">
             <!--begin::Label-->
-            <label class="form-label">Add Product Variations</label>
+            <label class="required form-label">Tax Class</label>
             <!--end::Label-->
 
-
-            <!--begin::Repeater-->
-            <div id="kt_ecommerce_add_product_options">
-                <!--begin::Form group-->
-                <div class="form-group repeater-item">
-                    <div data-repeater-list="kt_ecommerce_add_product_options" class="d-flex flex-column gap-3">
-                        <div data-repeater-item class="form-group d-flex flex-wrap align-items-center gap-5">
-                            <!--begin::Select2-->
-                            <div class="w-100 w-md-800px">
-                                <select required class="form-select" name="product_option" data-placeholder="Select a variation" data-kt-ecommerce-catalog-add-product="product_option">
-                                    <option value="" disabled selected>Select a Variant</option>
-                                        <?php $__currentLoopData = $kt_ecommerce_add_product_options; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variant): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <optgroup label="<?php echo e($variant->name); ?>">
-                                                <?php $__currentLoopData = $variant->values; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <option value="<?php echo e($value->id); ?>"><?php echo e($value->value); ?></option>
-                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                            </optgroup>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </select>
-                            </div>
-                            <!--end::Select2-->
-
-
-
-
-
-
-
-                                    <!--begin::Input group-->
-                                    <div class="w-100 w-md-800px">
-                                        <!--begin::Label-->
-                                        <label class="required form-label">SKU</label>
-                                        <!--end::Label-->
-
-                                        <!--begin::Input-->
-                                        <input type="text" name="sku" id="sku" class="form-control mb-2" placeholder="Barcode Number" value="" required />
-                                        <!--end::Input-->
-
-                                        <!--begin::Description-->
-                                        <div class="text-muted fs-7">Enter the product SKU.</div>
-                                        <!--end::Description-->
-                                    </div>
-                                    <!--end::Input group-->
-
-
-                                    <!--begin::Input group-->
-                                    <div class="w-100 w-md-800px">
-                                        <!--begin::Label-->
-                                        <label class="required form-label">Barcode</label>
-                                        <!--end::Label-->
-
-                                        <!--begin::Input-->
-                                        <input type="text" name="barcode" class="form-control mb-2" placeholder="Barcode Number" value="" required />
-                                        <!--end::Input-->
-
-                                        <!--begin::Description-->
-                                        <div class="text-muted fs-7">Enter the product barcode number.</div>
-                                        <!--end::Description-->
-                                    </div>
-                                    <!--end::Input group-->
-
-                                     <!--begin::Input group-->
-                                     <div class="w-100 w-md-800px">
-                                        <!--begin::Label-->
-                                        <label class="required form-label">Stock (Quantity)</label>
-                                        <!--end::Label-->
-
-                                        <!--begin::Input-->
-                                        <div class="d-flex gap-3">
-                                            <input type="number" name="stock" class="form-control mb-2" placeholder="On shelf" value="" required />
-
-                                        </div>
-                                        <!--end::Input-->
-
-                                        <!--begin::Description-->
-                                        <div class="text-muted fs-7">Enter the product quantity.</div>
-                                        <!--end::Description-->
-                                    </div>
-
-
-                                      <!--begin::Input group-->
-                                      <div class="w-100 w-md-800px">
-                                        <!--begin::Label-->
-                                        <label class="required form-label">Stock Alert</label>
-                                        <!--end::Label-->
-
-                                        <!--begin::Input-->
-                                        <div class="d-flex gap-3">
-                                            <input type="number" name="stock_alert" class="form-control mb-2" placeholder="Stock alert" required value="" />
-
-                                        </div>
-                                        <!--end::Input-->
-
-                                        <!--begin::Description-->
-                                        <div class="text-muted fs-7">Enter the product quantity.</div>
-                                        <!--end::Description-->
-                                    </div>
-
-
-
-                                        <!--begin::Input group-->
-                                        <div class="w-100 w-md-800px">
-                                            <!--begin::Label-->
-                                            <label class="required form-label">Price</label>
-                                            <!--end::Label-->
-
-                                            <!--begin::Input-->
-                                            <div class="d-flex gap-3">
-                                                <input type="number" name="price" class="form-control mb-2" placeholder="Price" required value="" />
-
-                                            </div>
-                                            <!--end::Input-->
-
-                                            <!--begin::Description-->
-                                            <div class="text-muted fs-7">Enter the product Price.</div>
-                                            <!--end::Description-->
-                                        </div>
-                                    <!--end::Input group-->
-
-
-                                           <!--begin::Card body-->
-                                            
-
-
-                                    <!--end::Input group-->
-
-                             <!--begin::Select2-->
-                             <div class="w-100 w-md-800px">
-                                <!--begin::Label-->
-                              <label class="required form-label">Discount Type</label>
-                              <!--end::Label-->
-                                <select class="form-select" name="kt_ecommerce_add_product_options[0][discounttype]" required >
-                                    <option value="nodiscount">No Discount</option>
-                                    <option value="percentage">Percentage %</option>
-                                    <option value="fixed">Fixed</option>
-                                </select>
-                            </div>
-                            <!--end::Select2-->
-
-                               <!--begin::Input group-->
-                               <div class="w-100 w-md-800px">
-                                <!--begin::Label-->
-                                <label class="required form-label">If Percentage %</label>
-                                <!--end::Label-->
-
-                                <!--begin::Input-->
-                                <div class="d-flex gap-3">
-                                    <input type="number" name="kt_ecommerce_add_product_options[0][percentage]" class="form-control mb-2" placeholder="Enter Percentage" value="" />
-
-                                </div>
-                                <!--end::Input-->
-
-                                <!--begin::Description-->
-                                <div class="text-muted fs-7">Enter the Percentage Value.</div>
-                                <!--end::Description-->
-                            </div>
-                        <!--end::Input group-->
-
-
-                           <!--begin::Input group-->
-                           <div class="w-100 w-md-800px">
-                            <!--begin::Label-->
-                            <label class="required form-label">If Fixed Price</label>
-                            <!--end::Label-->
-
-                            <!--begin::Input-->
-                            <div class="d-flex gap-3">
-                                <input type="number" name="kt_ecommerce_add_product_options[0][fixed]" class="form-control mb-2" placeholder="Enter Fixed Discount Price" value="" />
-
-                            </div>
-                            <!--end::Input-->
-
-                            <!--begin::Description-->
-                            <div class="text-muted fs-7">Enter the Fixed Discounted Price.</div>
-                            <!--end::Description-->
-                        </div>
-                        <!--end::Input group-->
-
-
-
-
-                                        <!--begin::Tax-->
-                            <div class="d-flex flex-wrap gap-5">
-                                <!--begin::Input group-->
-                                <div class="fv-row w-100 flex-md-root">
-                                    <!--begin::Label-->
-                                    <label class="required form-label">Tax Class</label>
-                                    <!--end::Label-->
-
-                                    <!--begin::Select2-->
-                                    <select class="form-select mb-2" name="tax" data-control="select2" data-hide-search="true" data-placeholder="Select an option">
-                                        <option></option>
-                                        <option value="0">Tax Free</option>
-                                        <option value="1">Taxable Goods</option>
-                                    <option value="2">Downloadable Product</option>
-                                    </select>
-                                    <!--end::Select2-->
-
-                                    <!--begin::Description-->
-                                    <div class="text-muted fs-7">Set the product tax class.</div>
-                                    <!--end::Description-->
-                                </div>
-                                <!--end::Input group-->
-
-
-                                <!--begin::Input group-->
-                                <div class="fv-row w-100 flex-md-root">
-                                    <!--begin::Label-->
-                                    <label class="form-label">VAT Amount (%)</label>
-                                    <!--end::Label-->
-
-                                    <!--begin::Input-->
-                                    <input type="text" name="vat_amount" class="form-control mb-2" value="" />
-                                    <!--end::Input-->
-
-                                    <!--begin::Description-->
-                                    <div class="text-muted fs-7">Set the product VAT about.</div>
-                                    <!--end::Description-->
-                                </div>
-                                <!--end::Input group-->
-                            </div>
-                            <!--end:Tax-->
-
-
-
-                                           <!--begin::Tax-->
-                                           <div class="d-flex flex-wrap gap-5">
-                                            <!--begin::Input group-->
-                                            <div class="fv-row w-100 flex-md-root">
-                                                <!--begin::Label-->
-                                                <label class="required form-label">Manufacture Date</label>
-                                                <!--end::Label-->
-
-                                                <!--begin::Select2-->
-                                                  <!--begin::Input-->
-                                                  <input type="date" name="manufacture" class="form-control mb-2" value="" />
-                                                  <!--end::Input-->
-
-                                                <!--end::Select2-->
-
-                                                <!--begin::Description-->
-                                                <div class="text-muted fs-7">Set the product Manufacture Date.</div>
-                                                <!--end::Description-->
-                                            </div>
-                                            <!--end::Input group-->
-
-
-                                            <!--begin::Input group-->
-                                            <div class="fv-row w-100 flex-md-root">
-                                                <!--begin::Label-->
-                                                <label class="form-label">Expiry On</label>
-                                                <!--end::Label-->
-
-                                                <!--begin::Input-->
-                                                <input type="date" name="expiry" class="form-control mb-2" value="" />
-                                                <!--end::Input-->
-
-                                                <!--begin::Description-->
-                                                <div class="text-muted fs-7">Set the product Expiry Date.</div>
-                                                <!--end::Description-->
-                                            </div>
-                                            <!--end::Input group-->
-                                        </div>
-                                        <!--end:Tax-->
-
-                            <button type="button" data-repeater-delete class="btn btn-sm btn-icon btn-light-danger">
-                                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                             </button>
-                        </div>
+            <!--begin::Select2-->
+            <select class="form-select mb-2" name="tax" data-control="select2" data-hide-search="true" data-placeholder="Select an option">
+                <option></option>
+                <option value="0">Tax Free</option>
+                <option value="1">Taxable Goods</option>
+            <option value="2">Downloadable Product</option>
+            </select>
+            <!--end::Select2-->
+
+            <!--begin::Description-->
+            <div class="text-muted fs-7">Set the product tax class.</div>
+            <!--end::Description-->
+        </div>
+        <!--end::Input group-->
+
+
+        <!--begin::Input group-->
+        <div class="fv-row w-100 flex-md-root">
+            <!--begin::Label-->
+            <label class="form-label">VAT Amount (%)</label>
+            <!--end::Label-->
+
+            <!--begin::Input-->
+            <input type="text" name="vat_amount" class="form-control mb-2" value="" />
+            <!--end::Input-->
+
+            <!--begin::Description-->
+            <div class="text-muted fs-7">Set the product VAT about.</div>
+            <!--end::Description-->
+        </div>
+        <!--end::Input group-->
+    </div>
+    <!--end:Tax-->
+
+
+
+                   <!--begin::Tax-->
+                   <div class="d-flex flex-wrap gap-5">
+                    <!--begin::Input group-->
+                    <div class="fv-row w-100 flex-md-root">
+                        <!--begin::Label-->
+                        <label class="required form-label">Manufacture Date</label>
+                        <!--end::Label-->
+
+                        <!--begin::Select2-->
+                          <!--begin::Input-->
+                          <input type="date" name="manufacture" class="form-control mb-2" value="" />
+                          <!--end::Input-->
+
+                        <!--end::Select2-->
+
+                        <!--begin::Description-->
+                        <div class="text-muted fs-7">Set the product Manufacture Date.</div>
+                        <!--end::Description-->
                     </div>
-                </div>
-                <!--end::Form group-->
+                    <!--end::Input group-->
 
-                <!--begin::Form group-->
-                <div class="form-group mt-5">
-                    <button type="button" data-repeater-create class="btn btn-sm btn-light-primary">
-                        <i class="ki-duotone ki-plus fs-2"></i> Add another variation
-                    </button>
+
+                    <!--begin::Input group-->
+                    <div class="fv-row w-100 flex-md-root">
+                        <!--begin::Label-->
+                        <label class="form-label">Expiry On</label>
+                        <!--end::Label-->
+
+                        <!--begin::Input-->
+                        <input type="date" name="expiry" class="form-control mb-2" value="" />
+                        <!--end::Input-->
+
+                        <!--begin::Description-->
+                        <div class="text-muted fs-7">Set the product Expiry Date.</div>
+                        <!--end::Description-->
+                    </div>
+                    <!--end::Input group-->
                 </div>
-                <!--end::Form group-->
-            </div>
-            <!--end::Repeater-->
+                <!--end:Tax-->
+
+                <div class="d-flex justify-content-end">
+                    <!--begin::Button-->
+                    <a href="products.html" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">
+                        Cancel
+                    </a>
+                    <!--end::Button-->
+
+                    <!--begin::Button-->
+                    <button type="submit" id="kt_ecommerce_add_product_submit" class="btn btn-primary">
+                        <span class="indicator-label">
+                            Save Changes
+                        </span>
+                        <span class="indicator-progress">
+                            Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                        </span>
+                    </button>
+                    <!--end::Button-->
+                </div>
+
+
+
+
+
         </div>
         <!--end::Input group-->
     </div>
@@ -864,9 +846,7 @@
 
 
 
-<!--begin::Shipping-->
 
-<!--end::Shipping-->
 
             </div>
             </div>
@@ -882,16 +862,7 @@
             </a>
             <!--end::Button-->
 
-            <!--begin::Button-->
-            <button type="submit" id="kt_ecommerce_add_product_submit" class="btn btn-primary">
-                <span class="indicator-label">
-                    Save Changes
-                </span>
-                <span class="indicator-progress">
-                    Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                </span>
-            </button>
-            <!--end::Button-->
+
         </div>
     </div>
     <!--end::Main column-->

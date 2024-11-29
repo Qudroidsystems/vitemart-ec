@@ -5,6 +5,8 @@ var KTAppEcommerceSaveProduct = function () {
 
     // Private functions
 
+
+
     // Init quill editor
     const initQuill = () => {
         // Define all elements for quill editor

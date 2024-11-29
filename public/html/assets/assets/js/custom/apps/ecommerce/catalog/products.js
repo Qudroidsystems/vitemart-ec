@@ -16,7 +16,7 @@ var KTAppEcommerceProducts = function () {
             'columnDefs': [
                 { render: DataTable.render.number(',', '.', 2), targets: 4},
                 { orderable: false, targets: 0 }, // Disable ordering on column 0 (checkbox)
-                { orderable: false, targets: 7 }, // Disable ordering on column 7 (actions)
+                { orderable: false, targets: 6 }, // Disable ordering on column 7 (actions)
             ]
         });
 

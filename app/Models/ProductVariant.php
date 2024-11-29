@@ -8,15 +8,34 @@ class ProductVariant extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id', 'variation_value_id', 'price', 'stock', 'sku'];
+    protected $fillable = [
+        'product_id',
+        'variant_value_id',
+        'sku',
+        'vat_amount',
+        'stock',
+        'stock_alert',
+        'barcode',
+        'thumbnail',
+        'base_price',
+        'discounted_price',
+        'discount_type',
+        'discount_value',
+        'tax',
+        'tax_value',
+        'manufured',
+        'expiry',
+    ];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
 
-    public function variationValue()
+    public function variantValues()
     {
-        return $this->belongsTo(VariationValue::class);
+        return $this->hasMany(VariantValue::class, 'variant_id');
     }
+
+    
 }

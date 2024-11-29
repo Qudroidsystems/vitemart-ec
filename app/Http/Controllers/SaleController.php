@@ -11,7 +11,8 @@ class SaleController extends Controller
      */
     public function index()
     {
-        //
+        $sales = Sale::with(['product', 'order'])->get();
+        return response()->json($sales);
     }
 
     /**
@@ -27,7 +28,23 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer',
+            'price' => 'required|numeric',
+            'total' => 'required|numeric',
+            'order_id' => 'required|exists:orders,id',
+        ]);
+
+        $sale = Sale::create($validated);
+
+        // Update product stock
+        $product = Product::findOrFail($validated['product_id']);
+        $product->stock -= $validated['quantity'];
+        $product->save();
+
+        return response()->json($sale, 201);
+    
     }
 
     /**

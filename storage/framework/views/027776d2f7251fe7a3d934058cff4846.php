@@ -768,8 +768,7 @@
 
 
                                <!--begin:Menu item-->
-                    <div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('overview*') ||
-                        request()->is('settings*')
+                    <div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('pos*') 
                         ? ' here show menu-accordion' : ''); ?>" >
                     <!--begin:Menu link-->
                     <span class="menu-link" >
@@ -791,8 +790,8 @@
                                      <!--begin:Menu item-->
                                      <div  class="menu-item" >
                                          <!--begin:Menu link-->
-                                         <a class="menu-link  <?php echo e(request()->is('user.overview')
-                                             ? ' active' : ''); ?>"  href="<?php echo e(route('user.overview',Auth::user()->id)); ?>" >
+                                         <a class="menu-link  <?php echo e(request()->is('pos.index')
+                                             ? ' active' : ''); ?>"  href="<?php echo e(route('pos.index')); ?>" >
                                              <span  class="menu-bullet" >
                                                  <span class="bullet bullet-dot">
                                                      </span>

@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.12.0/tagify.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.12.0/tagify.min.js"></script>
 
-{{--
+
         <style>
             * {
                 /* box-sizing: border-box;
@@ -191,7 +191,223 @@
                 width: 11%;
                 border-bottom-style: dotted;
             }
-        </style> --}}
+/*
+ .modal-body {
+    padding: 20px;
+    background-color: #f8f9fa; /* Light background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.icon-head {
+    margin-bottom: 20px;
+}
+
+.icon-head img {
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.info {
+    margin-bottom: 20px;
+}
+
+.info h6 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.info p {
+    font-size: 14px;
+    color: #666;
+    margin: 2px 0;
+}
+
+.tax-invoice h6 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.invoice-user-name {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.invoice-user-name span:first-child {
+    font-weight: bold;
+}
+
+.table-fit {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+    width: 100%;
+}
+
+.table-fit th,
+.table-fit td {
+    padding: 5px 10px;
+}
+
+.table-fit th {
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+}
+
+.table-fit td {
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.table-fit .text-end {
+    text-align: right;
+}
+
+.invoice-bar {
+    margin-top: 30px;
+}
+
+.invoice-bar p {
+    font-size: 12px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.invoice-bar img {
+    margin: 10px auto;
+    display: block;
+    max-width: 150px;
+}
+
+.invoice-bar .btn {
+    margin-top: 10px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.invoice-bar .btn:hover {
+    background-color: #0056b3;
+}
+
+
+.table-fit {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+    width: 100%;
+}
+
+.table-fit th,
+.table-fit td {
+    padding: 5px 10px;
+}
+
+.table-fit th {
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+}
+
+.table-fit tbody tr:not(:last-child) {
+    border-bottom: 1px dotted #aaa; /* Dotted line for item rows */
+}
+
+.table-fit tbody tr:last-child td {
+    border: none; /* Remove border for the final subtotal row */
+}
+
+.table-fit .text-end {
+    text-align: right;
+}
+
+.table-fit .subtotal-row {
+    border-top: 1px dotted #aaa; /* Dotted line separating items and subtotal */
+} 
+
+/* :root {
+    --background-light: #ffffff;
+    --background-dark: #1a1a1a;
+    --text-light: #000000;
+    --text-dark: #ffffff;
+    --secondary-text-light: #555555;
+    --secondary-text-dark: #bbbbbb;
+    --border-light: #ddd;
+    --border-dark: #444;
+}
+
+body.light-theme {
+    background-color: var(--background-light);
+    color: var(--text-light);
+}
+
+body.dark-theme {
+    background-color: var(--background-dark);
+    color: var(--text-dark);
+}
+
+.table-fit {
+    margin-top: 20px;
+    font-size: 14px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-fit th,
+.table-fit td {
+    padding: 5px 10px;
+    color: inherit; /* Inherit text color based on theme
+}
+
+/* .table-fit th {
+    font-weight: bold;
+    border-bottom: 2px solid var(--border-light);
+} */ */
+
+/* body.dark-theme .table-fit th {
+    border-bottom: 2px solid var(--border-dark);
+}
+
+.table-fit tbody tr:not(:last-child) {
+    border-bottom: 1px dotted var(--border-light);
+}
+
+body.dark-theme .table-fit tbody tr:not(:last-child) {
+    border-bottom: 1px dotted var(--border-dark);
+}
+
+.table-fit .text-end {
+    text-align: right;
+}
+
+.icon-head img, .invoice-bar img {
+    max-width: 100px;
+    height: auto;
+}
+
+/* Additional Styling for Secondary Text */
+/* .info p, .invoice-bar p {
+    color: var(--secondary-text-light);
+}
+
+body.dark-theme .info p,
+body.dark-theme .invoice-bar p {
+    color: var(--secondary-text-dark);
+} */
+
+        </style>
 
         @if (Route::is('dashboard'))
              @include('layouts.pages-assets.css.dashboard-css')
@@ -237,6 +453,10 @@
         @endif
 
         @if (Route::is('store.*'))
+             @include('layouts.pages-assets.css.users-list-css')
+        @endif
+
+        @if (Route::is('pos.*'))
              @include('layouts.pages-assets.css.users-list-css')
         @endif
 
@@ -382,7 +602,7 @@
 
         <!--begin::Javascript-->
         <script>
-            // var hostUrl = "{{ asset('html/assets/assets/index.html')}}";      
+            // var hostUrl = "{{ asset('html/assets/assets/index.html')}}";
               </script>
 
 
@@ -431,6 +651,10 @@
 
         @if (Route::is('store.*'))
              @include('layouts.pages-assets.js.store-list-js')
+        @endif
+
+        @if (Route::is('pos.*'))
+             @include('layouts.pages-assets.js.pos-list-js')
         @endif
 
 

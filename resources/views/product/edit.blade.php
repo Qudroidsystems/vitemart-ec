@@ -109,8 +109,10 @@
         <!--begin::Content container-->
         <div id="kt_app_content_container" class="app-container  container-xxl ">
             <!--begin::Form-->
-<form action="{{ route('product.store') }}" method="POST" id="kt_ecommerce_add_product_form" class="form d-flex flex-column flex-lg-row" enctype="multipart/form-data">
-@csrf
+<form action="{{ route('product.update', $product->id) }}" method="POST" id="kt_ecommerce_add_product_form" class="form d-flex flex-column flex-lg-row" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+
     <!--begin::Aside column-->
     <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
         <!--begin::Thumbnail settings-->
@@ -137,7 +139,14 @@
                 [data-bs-theme="dark"] .image-input-placeholder {
                     background-image: url('../../../assets/media/svg/files/blank-image-dark.svg');
                 }
+
             </style>
+             {{-- @if ($product->thumbnail_path)
+             <img src="{{ asset('storage/'.$product->thumbnail_path) }}" alt="Product Thumbnail" width="100" class="mt-2">
+         @endif
+         @error('thumbnail')
+             <div class="alert alert-danger">{{ $message }}</div>
+         @enderror --}}
             <!--end::Image input placeholder-->
 
         <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
@@ -151,6 +160,7 @@
                 <!--begin::Inputs-->
                 <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
                 <input type="hidden" name="avatar_remove" />
+
                 <!--end::Inputs-->
             </label>
             <!--end::Label-->
@@ -195,13 +205,15 @@
     <!--begin::Card body-->
     <div class="card-body pt-0">
         <!--begin::Select2-->
-        <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-placeholder="Select an option" id="kt_ecommerce_add_product_status_select">
-            <option></option>
-            <option value="published" selected>Published</option>
-            <option value="draft">Draft</option>
-            <option value="scheduled">Scheduled</option>
-            <option value="inactive">Inactive</option>
-        </select>
+        <select class="form-select mb-2"  id="status" name="status" data-control="select2" data-hide-search="true" data-placeholder="Select an option" id="kt_ecommerce_add_product_status_select"  required>
+
+                <option value="published" {{ $product->status == 'published' ? 'selected' : '' }}>Published</option>
+                <option value="draft" {{ $product->status == 'draft' ? 'selected' : '' }}>Draft</option>
+            </select>
+            @error('status')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+
         <!--end::Select2-->
 
         <!--begin::Description-->
@@ -239,19 +251,17 @@
         <!--end::Label-->
 
         <!--begin::Select2-->
-        <select name="category" class="form-select mb-2" required>
-                            <option value="">Select a category</option>
-                            <option value="Computers">Computers</option>
-                            <option value="Watches">Watches</option>
-                            <option value="Headphones">Headphones</option>
-                            <option value="Footwear">Footwear</option>
-                            <option value="Cameras">Cameras</option>
-                            <option value="Shirts">Shirts</option>
-                            <option value="Household">Household</option>
-                            <option value="Handbags">Handbags</option>
-                            <option value="Wines">Wines</option>
-                            <option value="Sandals">Sandals</option>
-                    </select>
+        <select id="category" name="category"  class="form-select mb-2" required>
+
+                <option value="">Select Category</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" {{ $category->id == $product->category_id ? 'selected' : '' }}>{{ $category->name }}</option>
+                @endforeach
+            </select>
+            @error('category')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+
         <!--end::Select2-->
 
         <!--begin::Description-->
@@ -471,7 +481,10 @@
             <!--end::Label-->
 
             <!--begin::Input-->
-                        <input type="text" name="product_name" class="form-control mb-2" placeholder="Product name" value="" />
+                        <input type="text" name="product_name" class="form-control mb-2" placeholder="Product name" value="{{ old('product_name', $product->name) }}" />
+                        @error('product_name')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
             <!--end::Input-->
 
             <!--begin::Description-->
@@ -490,7 +503,10 @@
 
             <!--begin::Editor-->
             <div id="kt_ecommerce_add_product_description" name="kt_ecommerce_add_product_description" class="min-h-200px mb-2"></div>
-            <textarea id="description" name="description" class="d-none"></textarea>
+            <textarea id="description" name="description" class="d-none">{{ nl2br(e(strip_tags(old('description', $product->description) )))}}</textarea>
+            @error('description')
+                     <div class="alert alert-danger">{{ $message }}</div>
+             @enderror
             <!--end::Editor-->
 
             <!--begin::Description-->
@@ -666,11 +682,14 @@
                                         <!--end::Label-->
 
                                         <!--begin::Input-->
-                                        <input type="text" name="sku" class="form-control mb-2" placeholder="Barcode Number" value="" />
+                                        <input type="text" name="sku" class="form-control mb-2" placeholder="Barcode Number" value="{{ old('sku', $product->sku) }}" />
                                         <!--end::Input-->
 
                                         <!--begin::Description-->
                                         <div class="text-muted fs-7">Enter the product SKU.</div>
+                                        @error('sku')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                         <!--end::Description-->
                                     </div>
                                     <!--end::Input group-->
@@ -719,8 +738,10 @@
 
                                         <!--begin::Input-->
                                         <div class="d-flex gap-3">
-                                            <input type="number" name="stock_alert" class="form-control mb-2" placeholder="On shelf" value="" />
-
+                                            <input type="number" name="stock_alert" class="form-control mb-2" placeholder="On shelf" value="{{ old('stock', $product->stock) }}" />
+                                            @error('stock')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                         </div>
                                         <!--end::Input-->
 
@@ -739,7 +760,7 @@
 
                                             <!--begin::Input-->
                                             <div class="d-flex gap-3">
-                                                <input type="number" name="price" class="form-control mb-2" placeholder="On shelf" value="" />
+                                                <input type="number" name="price" class="form-control mb-2" placeholder="On shelf" value="{{ old('price', $product->base_price) }}" />
 
                                             </div>
                                             <!--end::Input-->

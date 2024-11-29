@@ -63,7 +63,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('customer', CustomerController::class);
     Route::resource('invoice', InvoiceController::class);
     Route::resource('pos', PosController::class);
+
     Route::resource('product', ProductController::class);
+    Route::delete('/deleteproduct/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+
     Route::resource('report', ReportController::class);
     Route::resource('return', ReturnController::class);
 
@@ -80,4 +83,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('variant', VariantController::class);
     Route::delete('/deletevariant/{id}', [VariantController::class, 'destroy'])->name('variant.destroy');
+
+    Route::resource('pos', PosController::class);
+
+    Route::resource('stocks', StockController::class);
+
+    Route::resource('orders', OrderController::class);
+    
+    Route::resource('sales', SaleController::class);
+
 });

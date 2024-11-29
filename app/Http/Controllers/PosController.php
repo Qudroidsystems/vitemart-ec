@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class PosController extends Controller
@@ -11,7 +12,9 @@ class PosController extends Controller
      */
     public function index()
     {
-        //
+        // Fetch all products with relevant data like SKU, quantity, price, etc.
+        $products = Product::select('id', 'name', 'description','sku', 'stock', 'base_price', )->get();
+        return view('pos.index', compact('products'));
     }
 
     /**
