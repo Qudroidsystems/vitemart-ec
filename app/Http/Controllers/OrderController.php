@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log; // Import Log Facade
 
 class OrderController extends Controller
 {
@@ -107,66 +108,62 @@ class OrderController extends Controller
     //      }
     //  }
 
-
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'items' => 'required|array|min:1',
-        'items.*.product_id' => 'required|integer|exists:products,id',
-        'items.*.quantity' => 'required|integer|min:1',
-        'payment_method' => 'required|string|in:cash,card,transfer', // Add validation for payment_method
-    ]);
+    {
+        Log::info('Incoming request data:', $request->all());
+        // // or
+        // dd($request->all());
+        // Log::info('Processing order creation request.', [
+        //     'customer_id' => $request->customer_id,
+        //     'items' => $request->items,
+        // ]);
 
-    DB::beginTransaction();
-
-    try {
-        // Generate Order ID
-        $orderId = (string) Str::uuid();
-
-        // Calculate total amount
-        $totalAmount = $this->calculateTotalAmount($validated['items']);
-
-        // Create Order
-        $order = Order::create([
-            'order_id' => $orderId,
-            'customer_id' => $request->customer_id ?? null,
-            'total_amount' => $totalAmount,
-            'status' => 'Pending',
-        ]);
-
-        // Save Order Items
-        foreach ($validated['items'] as $item) {
-            $order->items()->create([
-                'product_id' => $item['product_id'],
-                'quantity' => $item['quantity'],
+        try {
+            $validated = $request->validate([
+                'items' => 'required|array|min:1',
+                'items.*.product_id' => 'required|integer|exists:products,id',
+                'items.*.quantity' => 'required|integer|min:1',
+                'payment_method' => 'required|string',
             ]);
+
+            Log::debug('Validation passed, proceeding with order creation.', [
+                'validated_data' => $validated,
+            ]);
+
+            DB::beginTransaction();
+
+            // Generate Order ID and other logic...
+            $orderId = (string) Str::uuid();
+            Log::info('Generated order ID: ' . $orderId);
+
+            // Create Order, Save Order Items, and Create Payment Record...
+            // More logic here...
+
+            DB::commit();
+
+            Log::info('Order created successfully.', [
+                'order_id' => $orderId,
+                'total_amount' => $validated['total_amount'],
+            ]);
+
+            return response()->json([
+                'message' => 'Order created successfully.',
+                'order_id' => $orderId,
+            ], 201);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Failed to create order.', [
+                'error_message' => $e->getMessage(),
+                'stack_trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'error' => 'Failed to create order.',
+                'details' => $e->getMessage(),
+            ], 500);
         }
-
-        // Create Payment Record
-        $order->payment()->create([
-            'customer_id' => $request->customer_id ?? null,
-            'payment_method' => $validated['payment_method'], // Use the payment method sent from the frontend
-            'amount' => $totalAmount,
-            'status' => 'Pending',
-        ]);
-
-        DB::commit();
-
-        return response()->json([
-            'message' => 'Order created successfully.',
-            'order_id' => $orderId,
-            'total_amount' => $totalAmount,
-        ], 201);
-    } catch (\Exception $e) {
-        DB::rollBack();
-
-        return response()->json([
-            'error' => 'Failed to create order.',
-            'details' => $e->getMessage(),
-        ], 500);
     }
-}
-
 
      /**
       * Calculate the total amount for the order items.

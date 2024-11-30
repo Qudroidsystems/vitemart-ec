@@ -373,7 +373,7 @@
                                     <!--begin::Radio-->
                     <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 " data-kt-button="true">
                         <!--begin::Input-->
-                        <input class="btn-check" type="radio" name="paymentmethod" value="Cash"/>
+                        <input class="btn-check" type="radio" name="paymentmethod" value="cash"/>
                         <!--end::Input-->
 
                         <!--begin::Icon-->
@@ -387,7 +387,7 @@
                                     <!--begin::Radio-->
                     <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 active" data-kt-button="true">
                         <!--begin::Input-->
-                        <input class="btn-check" type="radio" name="paymentmethod" value="Card"/>
+                        <input class="btn-check" type="radio" name="paymentmethod" value="card"/>
                         <!--end::Input-->
 
                         <!--begin::Icon-->
@@ -401,7 +401,7 @@
                                     <!--begin::Radio-->
                     <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 " data-kt-button="true">
                         <!--begin::Input-->
-                        <input class="btn-check" type="radio" name="paymentmethod" value="Transfer"/>
+                        <input class="btn-check" type="radio" name="paymentmethod" value="transfer"/>
                         <!--end::Input-->
 
                         <!--begin::Icon-->
@@ -470,7 +470,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="product_1">
+                                            <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="{{ $product->id}}">
                                                 <!--begin::Thumbnail-->
                                                 <a href="#" class="symbol symbol-50px">
                                                     <span class="symbol-label" style="background-image:url('{{ $product->cover ? asset('storage/' . $product->cover->path) : asset('storage/uploads/category_default.jpg') }}');"></span>

@@ -368,7 +368,7 @@ body.dark-theme {
 .table-fit th,
 .table-fit td {
     padding: 5px 10px;
-    color: inherit; 
+    color: inherit;
 }
 
  .table-fit th {
