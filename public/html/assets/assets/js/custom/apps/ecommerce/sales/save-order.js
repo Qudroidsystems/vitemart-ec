@@ -954,7 +954,7 @@ var KTAppEcommerceSalesSaveOrder = function () {
                 return;
             }
 
-            
+
         // Check if there are any selected items
         if (orderItems.length > 0) {
             // Send the order details (orderId and items) to the backend
@@ -981,7 +981,6 @@ var KTAppEcommerceSalesSaveOrder = function () {
             console.log('No items selected for the order.');
         }
     };
-
 
 
 

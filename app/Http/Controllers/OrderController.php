@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -27,50 +28,108 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        // Validate the request
-        $validated = $request->validate([
-            'items' => 'required|array|min:1', // Ensure at least one item is sent
-            'items.*.product_id' => 'required|integer|exists:products,id', // Validate each product
-            'items.*.quantity' => 'required|integer|min:1', // Ensure valid quantities
-            'payment_method' => 'required|string|in:cash,card,transfer', // Validate payment method
-            'customer_id' => 'nullable|integer|exists:customers,id', // Validate optional customer ID
+
+     public function store(Request $request)
+     {
+         // Wrap the operation in a database transaction for safety
+         DB::beginTransaction();
+
+         try {
+             // Validate the request
+             $validated = $request->validate([
+                 'items' => 'required|array|min:1', // Ensure at least one item is sent
+                 'items.*.product_id' => 'required|integer|exists:products,id', // Validate each product
+                 'items.*.quantity' => 'required|integer|min:1', // Ensure valid quantities
+                 'payment_method' => 'required|string|in:cash,card,transfer', // Validate payment method
+                 'customer_id' => 'nullable|integer|exists:customers,id', // Validate optional customer ID
+             ]);
+
+             // Generate a unique Order ID
+             $orderId = (string) Str::uuid();
+
+             // Calculate total amount for the order
+             $totalAmount = $this->calculateTotalAmount($validated['items']);
+
+             // Create a new order
+             $order = Order::create([
+                 'order_id' => $orderId,
+                 'customer_id' => $validated['customer_id'] ?? null, // Optional customer reference
+                 'total_amount' => $totalAmount,
+                 'status' => 'Pending',
+             ]);
+
+             // Save the sales (order items)
+             foreach ($validated['items'] as $item) {
+                 $product = Product::findOrFail($item['product_id']);
+
+                 Sale::create([
+                     'product_id' => $item['product_id'],
+                     'quantity' => $item['quantity'],
+                     'price' => $product->price,
+                     'total' => $product->price * $item['quantity'],
+                     'order_id' => $order->id,
+                 ]);
+             }
+
+             // Optionally create a payment record
+             $order->payment()->create([
+                 'payment_method' => $validated['payment_method'],
+                 'amount' => $totalAmount,
+                 'status' => 'Pending', // Default payment status
+             ]);
+
+             // Commit the transaction
+             DB::commit();
+
+             // Return success response
+             return response()->json([
+                 'message' => 'Order created successfully.',
+                 'order_id' => $orderId,
+                 'total_amount' => $totalAmount,
+             ], 201);
+         } catch (\Exception $e) {
+             // Roll back the transaction in case of an error
+             DB::rollBack();
+
+
+
+        // Log the error
+        \Log::error('Order creation failed.', [
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString(), // Optional: Include the stack trace
+            'request_data' => $request->all(), // Optional: Log the request data
         ]);
+             // Return error response
+             return response()->json([
+                 'error' => 'Failed to create order.',
+                 'details' => $e->getMessage(),
+             ], 500);
+         }
+     }
 
-        // Generate a unique Order ID
-        $orderId = (string) Str::uuid();
+     /**
+      * Calculate the total amount for the order items.
+      *
+      * @param array $items
+      * @return float
+      * @throws \Exception
+      */
+     private function calculateTotalAmount(array $items)
+     {
+         $productIds = array_column($items, 'product_id');
+         $products = Product::whereIn('id', $productIds)->get()->keyBy('id');
 
-        // Calculate total amount
-        $totalAmount = $this->calculateTotalAmount($validated['items']);
+         $total = 0;
+         foreach ($items as $item) {
+             if (!isset($products[$item['product_id']])) {
+                 throw new \Exception('Product not found.');
+             }
+             $total += $products[$item['product_id']]->price * $item['quantity'];
+         }
 
-        // Process the order and save to the database
-        $order = Order::create([
-            'order_id' => $orderId,
-            'customer_id' => $validated['customer_id'] ?? null, // Optional, depending on setup
-            'total_amount' => $totalAmount,
-            'status' => 'Pending',
-        ]);
+         return $total;
+     }
 
-        // Save sales (order items)
-        foreach ($validated['items'] as $item) {
-            $product = Product::findOrFail($item['product_id']);
-            $sale = Sale::create([
-                'product_id' => $item['product_id'],
-                'quantity' => $item['quantity'],
-                'price' => $product->price,
-                'total' => $product->price * $item['quantity'],
-                'order_id' => $order->id,
-            ]);
-        }
-
-        // Return response
-        return response()->json([
-            'message' => 'Order created successfully.',
-            'order_id' => $orderId,
-            'total_amount' => $totalAmount,
-        ], 201);
-    }
 
     /**
      * Show an order.
@@ -86,28 +145,7 @@ class OrderController extends Controller
         return response()->json($order, 200);
     }
 
-    private function calculateTotalAmount($items)
-    {
-        $productIds = array_column($items, 'product_id');
-        $products = Product::whereIn('id', $productIds)->get()->keyBy('id');
 
-        $total = 0;
-        foreach ($items as $item) {
-            if (!isset($products[$item['product_id']])) {
-                throw new \Exception('Product not found.');
-            }
-            $total += $products[$item['product_id']]->price * $item['quantity'];
-        }
-
-        return $total;
-    }
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.

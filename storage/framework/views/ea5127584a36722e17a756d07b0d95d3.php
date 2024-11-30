@@ -719,7 +719,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <script>
     // Set the URL for the payments.store route in a JavaScript variable
-    const paymentStoreUrl = '<?php echo e(route('payments.store')); ?>';
+    const paymentStoreUrl = '<?php echo e(route('orders.saveorders')); ?>';
 </script>
 <?php $__env->stopSection(); ?>
 

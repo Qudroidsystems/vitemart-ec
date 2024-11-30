@@ -811,6 +811,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <script>
     // Set the URL for the payments.store route in a JavaScript variable
-    const paymentStoreUrl = '{{ route('payments.store') }}';
+    const paymentStoreUrl = '{{ route('orders.saveorders') }}';
 </script>
 @endsection

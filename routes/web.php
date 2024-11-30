@@ -103,7 +103,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     //Route::resource('orders', OrderController::class);
-    Route::post('/orders', [OrderController::class, 'storeOrder']);
+    Route::post('/saveorders', [OrderController::class, 'store'])->name('orders.saveorders');
 
 
 });
