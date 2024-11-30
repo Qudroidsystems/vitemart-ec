@@ -284,7 +284,7 @@
                                     <!--begin::Radio-->
                     <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 " data-kt-button="true">
                         <!--begin::Input-->
-                        <input class="btn-check" type="radio" name="method" value="0"/>
+                        <input class="btn-check" type="radio" name="paymentmethod" value="Cash"/>
                         <!--end::Input-->
 
                         <!--begin::Icon-->
@@ -298,7 +298,7 @@
                                     <!--begin::Radio-->
                     <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 active" data-kt-button="true">
                         <!--begin::Input-->
-                        <input class="btn-check" type="radio" name="method" value="1"/>
+                        <input class="btn-check" type="radio" name="paymentmethod" value="Card"/>
                         <!--end::Input-->
 
                         <!--begin::Icon-->
@@ -312,7 +312,7 @@
                                     <!--begin::Radio-->
                     <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 " data-kt-button="true">
                         <!--begin::Input-->
-                        <input class="btn-check" type="radio" name="method" value="2"/>
+                        <input class="btn-check" type="radio" name="paymentmethod" value="Transfer"/>
                         <!--end::Input-->
 
                         <!--begin::Icon-->

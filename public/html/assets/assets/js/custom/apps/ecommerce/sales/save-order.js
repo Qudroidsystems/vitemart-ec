@@ -944,20 +944,29 @@ var KTAppEcommerceSalesSaveOrder = function () {
 
     // Function to send the order data to the backend
     const sendOrderToBackend = () => {
+        // Get all selected items from the second table
+        const selectedRows = document.querySelectorAll('#itemselected tr[data-kt-pos-element="item"]');
 
-            // Get all selected items from the second table
-            const selectedRows = document.querySelectorAll('#itemselected tr[data-kt-pos-element="item"]');
+        // If no items are selected, alert the user and exit
+        if (selectedRows.length === 0) {
+            alert('No items selected for the order.');
+            return;
+        }
 
-            // If no items are selected, alert the user and exit
-            if (selectedRows.length === 0) {
-                alert('No items selected for the order.');
-                return;
-            }
+        // Get the selected payment method from the radio buttons
+        const paymentMethod = document.querySelector('input[name="paymentmethod"]:checked');
 
+        if (!paymentMethod) {
+            alert('Please select a payment method.');
+            return;
+        }
+
+        // Get the selected payment method value
+        const selectedPaymentMethod = paymentMethod.value;
 
         // Check if there are any selected items
         if (orderItems.length > 0) {
-            // Send the order details (orderId and items) to the backend
+            // Send the order details (orderId, items, and payment method) to the backend
             fetch(paymentStoreUrl, {
                 method: 'POST',
                 headers: {
@@ -966,6 +975,7 @@ var KTAppEcommerceSalesSaveOrder = function () {
                 },
                 body: JSON.stringify({
                     items: orderItems, // Array of items in the order
+                    payment_method: selectedPaymentMethod, // Include the selected payment method
                 }),
             })
             .then(response => response.json())
@@ -983,7 +993,6 @@ var KTAppEcommerceSalesSaveOrder = function () {
     };
 
 
-
     // Add an event listener to the Print Receipt button
     const printReceiptButton = document.querySelector('.btn.btn-primary.flex-fill[data-bs-toggle="modal"]');
     if (printReceiptButton) {
@@ -999,6 +1008,12 @@ var KTAppEcommerceSalesSaveOrder = function () {
 };
 
 handleProductSelect();
+
+
+
+
+
+
 
     // Submit form handler
     const handleSubmit = () => {
