@@ -196,7 +196,23 @@
 
 <!--begin::Pos order-->
 <div class="card card-flush bg-body " id="kt_pos_form">
+       <!--begin::Separator-->
+       <div class="separator"></div>
+       <!--end::Separator-->
     <!--begin::Header-->
+    <h6 class="card-title fw-bold text-gray-800 fs-2qx">Choose Customer</h6>
+       <!--begin::Separator-->
+       <div class="separator"></div>
+       <!--end::Separator-->
+     <!--begin::Select2-->
+     <select name="status" class="form-select mb-2" data-control="select2" data-placeholder="Select an option" id="kt_ecommerce_add_product_status_select">
+        <option></option>
+        <option value="published" selected>Walk in Customer</option>
+        <option value="draft">Draft</option>
+        <option value="scheduled">Scheduled</option>
+        <option value="inactive">Inactive</option>
+    </select>
+    <!--end::Select2-->
     <div class="card-header pt-5">
         <h3 class="card-title fw-bold text-gray-800 fs-2qx">Current Order</h3>
 
@@ -311,7 +327,7 @@
             <!--end::Radio group-->
 
             <!--begin::Actions-->
-            <button class="btn btn-primary fs-1 w-100 py-4">Print Bills</button>
+            <button class="btn btn-primary fs-1 w-100 py-4" >Print Bills</button>
             <!--end::Actions-->
         </div>
         <!--end::Payment Method-->
@@ -643,6 +659,14 @@
     <!-- /Print Receipt -->
 <script>
 
+// // Initialize select2 with search functionality
+// $(document).ready(function() {
+//     $('#kt_ecommerce_add_product_status_select').select2({
+//         placeholder: "Select an option", // Placeholder text
+//         allowClear: true, // Allow clearing the selection
+//         width: '100%' // Optional: make it full width
+//     });
+// });
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -693,7 +717,10 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 
-
+<script>
+    // Set the URL for the payments.store route in a JavaScript variable
+    const paymentStoreUrl = '<?php echo e(route('payments.store')); ?>';
+</script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\vitemart-ec\resources\views/pos/index.blade.php ENDPATH**/ ?>

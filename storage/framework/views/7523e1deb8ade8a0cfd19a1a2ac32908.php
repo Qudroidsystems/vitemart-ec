@@ -140,7 +140,9 @@
                 [data-bs-theme="dark"] .image-input-placeholder {
                     background-image: url('../../../assets/media/svg/files/blank-image-dark.svg');
                 }
+
             </style>
+             
             <!--end::Image input placeholder-->
 
         <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
@@ -154,6 +156,7 @@
                 <!--begin::Inputs-->
                 <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
                 <input type="hidden" name="avatar_remove" />
+
                 <!--end::Inputs-->
             </label>
             <!--end::Label-->
@@ -750,8 +753,17 @@ unset($__errorArgs, $__bag); ?>
 
                                         <!--begin::Input-->
                                         <div class="d-flex gap-3">
-                                            <input type="number" name="stock_alert" class="form-control mb-2" placeholder="On shelf" value="" />
-
+                                            <input type="number" name="stock_alert" class="form-control mb-2" placeholder="On shelf" value="<?php echo e(old('stock', $product->stock)); ?>" />
+                                            <?php $__errorArgs = ['stock'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <div class="alert alert-danger"><?php echo e($message); ?></div>
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                         <!--end::Input-->
 

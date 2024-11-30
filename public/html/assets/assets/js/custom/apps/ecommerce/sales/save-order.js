@@ -461,10 +461,319 @@ var KTAppEcommerceSalesSaveOrder = function () {
     // // Initialize the handleProductSelect function
     // handleProductSelect();
 
-const handleProductSelect = () => {
-    // Define variables
+
+
+    // const handleProductSelect = () => {
+    //     // Define variables
+    //     const checkboxes = document.querySelectorAll('[type="checkbox"]');
+    //     const target = document.getElementById('kt_ecommerce_edit_order_selected_products');
+    //     const itemSelectedTable = document.getElementById('itemselected'); // Second table's tbody
+    //     const totalPrice = document.getElementById('kt_ecommerce_edit_order_total_price');
+    //     const quantityModal = document.getElementById('quantityModal');
+    //     const modalQuantityInput = document.getElementById('modalQuantityInput');
+    //     const updateQuantityBtn = document.getElementById('updateQuantityBtn');
+    //     const clearAllButton = document.querySelector('.btn-light-primary'); // "Clear All" button
+    //     let selectedProductRow = null; // To store the selected product row for updating
+
+    //     // Function to calculate the total price of all selected items
+    //     const calculateTotals = function () {
+    //         const items = Array.from(itemSelectedTable.querySelectorAll('[data-kt-pos-element="item-total"]'));
+    //         let total = 0;
+    //         const tax = 12; // Tax percentage
+    //         const discount = 8; // Discount amount
+    //         let grandTotal = 0;
+
+    //         // Sum all item totals
+    //         items.forEach(function (item) {
+    //             total += parseFloat(item.innerHTML.replace('$', ''));
+    //         });
+
+    //         // Calculate grand total
+    //         grandTotal = total - discount + (total * tax / 100);
+
+    //         // Update totals in the UI
+    //         document.querySelector('[data-kt-pos-element="total"]').innerHTML = `$${total.toFixed(2)}`;
+    //         document.querySelector('[data-kt-pos-element="grant-total"]').innerHTML = `$${grandTotal.toFixed(2)}`;
+    //     };
+
+    //     // Function to handle quantity input click (open modal)
+    //     const handleQuantityClick = (event) => {
+    //         const productRow = event.target.closest('[data-kt-pos-element="item"]');
+    //         selectedProductRow = productRow; // Store reference to the row
+
+    //         // Get current quantity and set it in the modal
+    //         const currentQuantity = productRow.querySelector('#quantityInput').value;
+    //         modalQuantityInput.value = currentQuantity;
+
+    //         // Show the modal
+    //         const modal = new bootstrap.Modal(quantityModal);
+    //         modal.show();
+    //     };
+
+    //     // Function to update the quantity and total cost
+    //     const updateQuantity = () => {
+    //         if (selectedProductRow) {
+    //             const newQuantity = parseInt(modalQuantityInput.value);
+    //             const price = parseFloat(selectedProductRow.getAttribute('data-kt-pos-item-price'));
+    //             const total = newQuantity * price;
+
+    //             // Update the input field and item total
+    //             selectedProductRow.querySelector('#quantityInput').value = newQuantity;
+    //             selectedProductRow.querySelector('[data-kt-pos-element="item-total"]').innerHTML = `$${total.toFixed(2)}`;
+
+    //             // Recalculate totals
+    //             calculateTotals();
+    //         }
+    //     };
+
+    //     // Clear All button functionality
+    //     clearAllButton.addEventListener('click', () => {
+    //         // Clear all rows in the second table
+    //         while (itemSelectedTable.firstChild) {
+    //             itemSelectedTable.removeChild(itemSelectedTable.firstChild);
+    //         }
+
+    //         // Uncheck all checkboxes
+    //         checkboxes.forEach((checkbox) => {
+    //             checkbox.checked = false;
+    //         });
+
+    //         // Recalculate totals
+    //         calculateTotals();
+    //     });
+
+    //     // Loop through all checkboxes
+    //     checkboxes.forEach((checkbox) => {
+    //         checkbox.addEventListener('change', (e) => {
+    //             // Select parent row element
+    //             const parent = checkbox.closest('tr');
+
+    //             // Get product details
+    //             const productId = parent.querySelector('[data-kt-ecommerce-edit-order-id]').getAttribute('data-kt-ecommerce-edit-order-id');
+    //             const productName = parent.querySelector('.text-gray-800').innerText; // Product Name
+    //             const productImage = parent.querySelector('.symbol-label').style.backgroundImage.match(/url\("(.*?)"\)/)[1]; // Image URL
+    //             const productPrice = parseFloat(parent.querySelector('[data-kt-ecommerce-edit-order-filter="price"]').innerText).toFixed(2); // Product Price
+
+    //             // Check if the row is already in the second table (to prevent duplicates)
+    //             const existingRow = itemSelectedTable.querySelector(`[data-kt-pos-element="item"][data-kt-pos-item-price="${productPrice}"][data-kt-ecommerce-edit-order-id="${productId}"]`);
+
+    //             if (e.target.checked && !existingRow) {
+    //                 // Create a new row for the second table
+    //                 const newRow = document.createElement('tr');
+    //                 newRow.setAttribute('data-kt-pos-element', 'item');
+    //                 newRow.setAttribute('data-kt-pos-item-price', productPrice);
+    //                 newRow.setAttribute('data-kt-ecommerce-edit-order-id', productId);
+
+    //                 newRow.innerHTML = `
+    //                     <td class="pe-0">
+    //                         <div class="d-flex align-items-center">
+    //                             <img src="${productImage}" class="w-50px h-50px rounded-3 me-3" alt="${productName}" />
+    //                             <span class="fw-bold text-gray-800 cursor-pointer text-hover-primary fs-6 me-1">${productName}</span>
+    //                         </div>
+    //                     </td>
+    //                     <td class="pe-0">
+    //                         <input type="text" class="form-control border-0 text-center px-0 fs-3 fw-bold text-gray-800 w-30px" id="quantityInput" value="1" readonly />
+    //                     </td>
+    //                     <td class="text-end">
+    //                         <span class="fw-bold text-primary fs-2" data-kt-pos-element="item-total">$${productPrice}</span>
+    //                     </td>
+    //                 `;
+
+    //                 // Append the new row to the second table
+    //                 itemSelectedTable.appendChild(newRow);
+
+    //                 // Add event listener for quantity click (open modal)
+    //                 newRow.querySelector('#quantityInput').addEventListener('click', handleQuantityClick);
+    //             } else if (!e.target.checked && existingRow) {
+    //                 // Remove the product row from the second table if unchecked
+    //                 itemSelectedTable.removeChild(existingRow);
+    //             }
+
+    //             // Recalculate totals after every checkbox change
+    //             calculateTotals();
+    //         });
+    //     });
+
+    //     // Event listener for modal button to update quantity
+    //     updateQuantityBtn.addEventListener('click', updateQuantity);
+    // };
+
+    // // Initialize the handleProductSelect function
+    // handleProductSelect();
+
+    // const handleProductSelect = () => {
+    //     // Define variables
+    //     const checkboxes = document.querySelectorAll('[type="checkbox"]');
+    //     const itemSelectedTable = document.getElementById('itemselected'); // Second table's tbody
+    //     const totalPrice = document.getElementById('kt_ecommerce_edit_order_total_price');
+    //     const quantityModal = document.getElementById('quantityModal');
+    //     const modalQuantityInput = document.getElementById('modalQuantityInput');
+    //     const updateQuantityBtn = document.getElementById('updateQuantityBtn');
+    //     const clearAllButton = document.querySelector('.btn-light-primary'); // "Clear All" button
+    //     let selectedProductRow = null; // To store the selected product row for updating
+
+    //     // Function to calculate the total price of all selected items
+    //     const calculateTotals = function () {
+    //         const items = Array.from(itemSelectedTable.querySelectorAll('[data-kt-pos-element="item-total"]'));
+    //         let total = 0;
+    //         const tax = 12; // Tax percentage
+    //         const discount = 8; // Discount amount
+    //         let grandTotal = 0;
+
+    //         // Sum all item totals
+    //         items.forEach(function (item) {
+    //             total += parseFloat(item.innerHTML.replace('₦', '').replace(/,/g, '')); // Remove currency and commas
+    //         });
+
+    //         // Calculate grand total
+    //         grandTotal = total - discount + (total * tax / 100);
+
+    //         // Update totals in the UI
+    //         document.querySelector('[data-kt-pos-element="total"]').innerHTML = formatMoney(total);
+    //         document.querySelector('[data-kt-pos-element="grant-total"]').innerHTML = formatMoney(grandTotal);
+    //     };
+
+    //     // Function to handle quantity input click (open modal)
+    //     const handleQuantityClick = (event) => {
+    //         const productRow = event.target.closest('[data-kt-pos-element="item"]');
+    //         selectedProductRow = productRow; // Store reference to the row
+
+    //         // Get current quantity and set it in the modal
+    //         const currentQuantity = productRow.querySelector('#quantityInput').value;
+    //         modalQuantityInput.value = currentQuantity;
+
+    //         // Show the modal
+    //         const modal = new bootstrap.Modal(quantityModal);
+    //         modal.show();
+    //     };
+
+    //     // Function to update the quantity and total cost
+    //     const updateQuantity = () => {
+    //         if (selectedProductRow) {
+    //             const newQuantity = parseFloat(modalQuantityInput.value);
+    //             const price = parseFloat(selectedProductRow.getAttribute('data-kt-pos-item-price'));
+
+    //             // Check if price and quantity are valid numbers
+    //             if (isNaN(price) || isNaN(newQuantity) || newQuantity <= 0) {
+    //                 console.error("Invalid price or quantity");
+    //                 return;
+    //             }
+
+    //             const total = (newQuantity * price).toFixed(2); // Ensure the total has two decimal places
+
+    //             // Update the input field and item total
+    //             selectedProductRow.querySelector('#quantityInput').value = newQuantity;
+    //             selectedProductRow.querySelector('[data-kt-pos-element="item-total"]').innerHTML = formatMoney(total);
+
+    //             // Recalculate totals
+    //             calculateTotals();
+    //         }
+    //     };
+
+    //     // Clear All button functionality
+    //     clearAllButton.addEventListener('click', () => {
+    //         // Clear all rows in the second table
+    //         while (itemSelectedTable.firstChild) {
+    //             itemSelectedTable.removeChild(itemSelectedTable.firstChild);
+    //         }
+
+    //         // Uncheck all checkboxes
+    //         checkboxes.forEach((checkbox) => {
+    //             checkbox.checked = false;
+    //         });
+
+    //         // Recalculate totals
+    //         calculateTotals();
+    //     });
+
+    //     // Loop through all checkboxes
+    //     checkboxes.forEach((checkbox) => {
+    //         checkbox.addEventListener('change', (e) => {
+    //             // Select parent row element
+    //             const parent = checkbox.closest('tr');
+
+    //             // Get product details
+    //             const productId = parent.querySelector('[data-kt-ecommerce-edit-order-id]').getAttribute('data-kt-ecommerce-edit-order-id');
+    //             const productName = parent.querySelector('.text-gray-800').innerText; // Product Name
+    //             const productImage = parent.querySelector('.symbol-label').style.backgroundImage.match(/url\("(.*?)"\)/)[1]; // Image URL
+    //             const productPrice = parseFloat(parent.querySelector('[data-kt-ecommerce-edit-order-filter="price"]').innerText.replace('₦', '').replace(/,/g, '')); // Product Price
+
+    //             // Check if price is valid
+    //             if (isNaN(productPrice)) {
+    //                 console.error("Invalid product price");
+    //                 return;
+    //             }
+
+    //             // Check if the row is already in the second table (to prevent duplicates)
+    //             const existingRow = itemSelectedTable.querySelector(`[data-kt-pos-element="item"][data-kt-pos-item-price="${productPrice}"][data-kt-ecommerce-edit-order-id="${productId}"]`);
+
+    //             if (e.target.checked && !existingRow) {
+    //                 // Create a new row for the second table
+    //                 const newRow = document.createElement('tr');
+    //                 newRow.setAttribute('data-kt-pos-element', 'item');
+    //                 newRow.setAttribute('data-kt-pos-item-price', productPrice);
+    //                 newRow.setAttribute('data-kt-ecommerce-edit-order-id', productId);
+
+    //                 const initialQuantity = 1;
+    //                 const initialTotal = (initialQuantity * productPrice).toFixed(2); // Ensure the initial total has two decimal places
+
+    //                 newRow.innerHTML = `
+    //                     <td class="pe-0">
+    //                         <div class="d-flex align-items-center">
+
+    //                             <span class="fw-bold text-gray-800 cursor-pointer text-hover-primary fs-6 me-1">${productName}</span>
+    //                         </div>
+    //                     </td>
+    //                     <td class="pe-0">
+    //                         <input type="text" class="form-control border-0 text-center px-0 fs-3 fw-bold text-gray-800 w-30px" id="quantityInput" value="${initialQuantity}" readonly />
+    //                     </td>
+    //                     <td class="text-end">
+    //                         <span class="fw-bold text-primary fs-2" data-kt-pos-element="item-total">${formatMoney(initialTotal)}</span>
+    //                     </td>
+    //                 `;
+
+    //                 // Append the new row to the second table
+    //                 itemSelectedTable.appendChild(newRow);
+
+    //                 // Add event listener for quantity click (open modal)
+    //                 newRow.querySelector('#quantityInput').addEventListener('click', handleQuantityClick);
+    //             } else if (!e.target.checked && existingRow) {
+    //                 // Remove the product row from the second table if unchecked
+    //                 itemSelectedTable.removeChild(existingRow);
+    //             }
+
+    //             // Recalculate totals after every checkbox change
+    //             calculateTotals();
+    //         });
+    //     });
+
+    //     // Event listener for modal button to update quantity
+    //     updateQuantityBtn.addEventListener('click', updateQuantity);
+
+    // };
+
+    // // Function to format money as Naira (₦)
+    // const formatMoney = (amount) => {
+    //     const number = parseFloat(amount);
+    //     if (isNaN(number)) {
+    //         return '₦0.00'; // Return default value if the number is invalid
+    //     }
+    //     return number.toLocaleString('en-NG', {
+    //         style: 'currency',
+    //         currency: 'NGN',
+    //         minimumFractionDigits: 2,
+    //         maximumFractionDigits: 2
+    //     });
+    // };
+
+    // Initialize the handleProductSelect function
+   // handleProductSelect();
+
+
+
+   const handleProductSelect = () => {
+    // DOM elements
     const checkboxes = document.querySelectorAll('[type="checkbox"]');
-    const target = document.getElementById('kt_ecommerce_edit_order_selected_products');
     const itemSelectedTable = document.getElementById('itemselected'); // Second table's tbody
     const totalPrice = document.getElementById('kt_ecommerce_edit_order_total_price');
     const quantityModal = document.getElementById('quantityModal');
@@ -472,6 +781,8 @@ const handleProductSelect = () => {
     const updateQuantityBtn = document.getElementById('updateQuantityBtn');
     const clearAllButton = document.querySelector('.btn-light-primary'); // "Clear All" button
     let selectedProductRow = null; // To store the selected product row for updating
+    let orderItems = []; // Initialize empty array to store order items
+    let orderId = generateOrderId(); // Placeholder for order ID generation logic
 
     // Function to calculate the total price of all selected items
     const calculateTotals = function () {
@@ -483,15 +794,15 @@ const handleProductSelect = () => {
 
         // Sum all item totals
         items.forEach(function (item) {
-            total += parseFloat(item.innerHTML.replace('$', ''));
+            total += parseFloat(item.innerHTML.replace('₦', '').replace(/,/g, '')); // Remove currency and commas
         });
 
         // Calculate grand total
         grandTotal = total - discount + (total * tax / 100);
 
         // Update totals in the UI
-        document.querySelector('[data-kt-pos-element="total"]').innerHTML = `$${total.toFixed(2)}`;
-        document.querySelector('[data-kt-pos-element="grant-total"]').innerHTML = `$${grandTotal.toFixed(2)}`;
+        document.querySelector('[data-kt-pos-element="total"]').innerHTML = formatMoney(total);
+        document.querySelector('[data-kt-pos-element="grant-total"]').innerHTML = formatMoney(grandTotal);
     };
 
     // Function to handle quantity input click (open modal)
@@ -511,13 +822,20 @@ const handleProductSelect = () => {
     // Function to update the quantity and total cost
     const updateQuantity = () => {
         if (selectedProductRow) {
-            const newQuantity = parseInt(modalQuantityInput.value);
+            const newQuantity = parseFloat(modalQuantityInput.value);
             const price = parseFloat(selectedProductRow.getAttribute('data-kt-pos-item-price'));
-            const total = newQuantity * price;
+
+            // Check if price and quantity are valid numbers
+            if (isNaN(price) || isNaN(newQuantity) || newQuantity <= 0) {
+                console.error("Invalid price or quantity");
+                return;
+            }
+
+            const total = (newQuantity * price).toFixed(2); // Ensure the total has two decimal places
 
             // Update the input field and item total
             selectedProductRow.querySelector('#quantityInput').value = newQuantity;
-            selectedProductRow.querySelector('[data-kt-pos-element="item-total"]').innerHTML = `$${total.toFixed(2)}`;
+            selectedProductRow.querySelector('[data-kt-pos-element="item-total"]').innerHTML = formatMoney(total);
 
             // Recalculate totals
             calculateTotals();
@@ -536,6 +854,9 @@ const handleProductSelect = () => {
             checkbox.checked = false;
         });
 
+        // Clear the orderItems array
+        orderItems = [];
+
         // Recalculate totals
         calculateTotals();
     });
@@ -550,7 +871,13 @@ const handleProductSelect = () => {
             const productId = parent.querySelector('[data-kt-ecommerce-edit-order-id]').getAttribute('data-kt-ecommerce-edit-order-id');
             const productName = parent.querySelector('.text-gray-800').innerText; // Product Name
             const productImage = parent.querySelector('.symbol-label').style.backgroundImage.match(/url\("(.*?)"\)/)[1]; // Image URL
-            const productPrice = parseFloat(parent.querySelector('[data-kt-ecommerce-edit-order-filter="price"]').innerText).toFixed(2); // Product Price
+            const productPrice = parseFloat(parent.querySelector('[data-kt-ecommerce-edit-order-filter="price"]').innerText.replace('₦', '').replace(/,/g, '')); // Product Price
+
+            // Check if price is valid
+            if (isNaN(productPrice)) {
+                console.error("Invalid product price");
+                return;
+            }
 
             // Check if the row is already in the second table (to prevent duplicates)
             const existingRow = itemSelectedTable.querySelector(`[data-kt-pos-element="item"][data-kt-pos-item-price="${productPrice}"][data-kt-ecommerce-edit-order-id="${productId}"]`);
@@ -562,8 +889,8 @@ const handleProductSelect = () => {
                 newRow.setAttribute('data-kt-pos-item-price', productPrice);
                 newRow.setAttribute('data-kt-ecommerce-edit-order-id', productId);
 
-                // Apply a green border-bottom to each row
-                newRow.style.borderBottom = '2px solid green'; // Green line between rows
+                const initialQuantity = 1;
+                const initialTotal = (initialQuantity * productPrice).toFixed(2); // Ensure the initial total has two decimal places
 
                 newRow.innerHTML = `
                     <td class="pe-0">
@@ -572,10 +899,10 @@ const handleProductSelect = () => {
                         </div>
                     </td>
                     <td class="pe-0">
-                        <input type="text" class="form-control border-0 text-center px-0 fs-3 fw-bold text-gray-800 w-30px" id="quantityInput" value="1" readonly />
+                        <input type="text" class="form-control border-0 text-center px-0 fs-3 fw-bold text-gray-800 w-30px" id="quantityInput" value="${initialQuantity}" readonly />
                     </td>
                     <td class="text-end">
-                        <span class="fw-bold text-primary fs-2" data-kt-pos-element="item-total">$${productPrice}</span>
+                        <span class="fw-bold text-primary fs-2" data-kt-pos-element="item-total">${formatMoney(initialTotal)}</span>
                     </td>
                 `;
 
@@ -584,9 +911,22 @@ const handleProductSelect = () => {
 
                 // Add event listener for quantity click (open modal)
                 newRow.querySelector('#quantityInput').addEventListener('click', handleQuantityClick);
+
+                // Add item to the orderItems array
+                orderItems.push({
+                    productId,
+                    productName,
+                    productImage,
+                    productPrice,
+                    quantity: initialQuantity,
+                    total: initialTotal,
+                });
             } else if (!e.target.checked && existingRow) {
                 // Remove the product row from the second table if unchecked
                 itemSelectedTable.removeChild(existingRow);
+
+                // Remove item from the orderItems array
+                orderItems = orderItems.filter(item => item.productId !== productId);
             }
 
             // Recalculate totals after every checkbox change
@@ -596,11 +936,70 @@ const handleProductSelect = () => {
 
     // Event listener for modal button to update quantity
     updateQuantityBtn.addEventListener('click', updateQuantity);
+
+    // Function to generate unique order ID (for example, using a timestamp or a UUID)
+    function generateOrderId() {
+        return 'ORD-' + new Date().getTime(); // Simple order ID based on timestamp
+    }
+
+    // Function to send the order data to the backend
+    const sendOrderToBackend = () => {
+
+            // Get all selected items from the second table
+            const selectedRows = document.querySelectorAll('#itemselected tr[data-kt-pos-element="item"]');
+
+            // If no items are selected, alert the user and exit
+            if (selectedRows.length === 0) {
+                alert('No items selected for the order.');
+                return;
+            }
+
+            
+        // Check if there are any selected items
+        if (orderItems.length > 0) {
+            // Send the order details (orderId and items) to the backend
+            fetch(paymentStoreUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // CSRF token for security
+                },
+                body: JSON.stringify({
+                    items: orderItems, // Array of items in the order
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Order saved:', data);
+                // Handle the response here (e.g., show a success message)
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle any error here (e.g., show an error message)
+            });
+        } else {
+            console.log('No items selected for the order.');
+        }
+    };
+
+
+
+
+    // Add an event listener to the Print Receipt button
+    const printReceiptButton = document.querySelector('.btn.btn-primary.flex-fill[data-bs-toggle="modal"]');
+    if (printReceiptButton) {
+        printReceiptButton.addEventListener('click', sendOrderToBackend);
+    }
+
+    // Function to format money as Naira (₦)
+    const formatMoney = (amount) => {
+        const number = parseFloat(amount);
+        if (isNaN(number)) return '₦0.00';
+        return '₦' + number.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
 };
 
-// Initialize the handleProductSelect function
 handleProductSelect();
-
 
     // Submit form handler
     const handleSubmit = () => {

@@ -191,13 +191,13 @@
                 width: 11%;
                 border-bottom-style: dotted;
             }
-/*
+
  .modal-body {
     padding: 20px;
-    background-color: #f8f9fa; /* Light background */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-}
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ }
 
 .icon-head {
     margin-bottom: 20px;
@@ -335,9 +335,9 @@
 
 .table-fit .subtotal-row {
     border-top: 1px dotted #aaa; /* Dotted line separating items and subtotal */
-} 
+}
 
-/* :root {
+ :root {
     --background-light: #ffffff;
     --background-dark: #1a1a1a;
     --text-light: #000000;
@@ -368,15 +368,15 @@ body.dark-theme {
 .table-fit th,
 .table-fit td {
     padding: 5px 10px;
-    color: inherit; /* Inherit text color based on theme
+    color: inherit; 
 }
 
-/* .table-fit th {
+ .table-fit th {
     font-weight: bold;
     border-bottom: 2px solid var(--border-light);
-} */ */
+}
 
-/* body.dark-theme .table-fit th {
+ body.dark-theme .table-fit th {
     border-bottom: 2px solid var(--border-dark);
 }
 
@@ -397,15 +397,15 @@ body.dark-theme .table-fit tbody tr:not(:last-child) {
     height: auto;
 }
 
-/* Additional Styling for Secondary Text */
-/* .info p, .invoice-bar p {
+ Additional Styling for Secondary Text
+ .info p, .invoice-bar p {
     color: var(--secondary-text-light);
 }
 
 body.dark-theme .info p,
 body.dark-theme .invoice-bar p {
     color: var(--secondary-text-dark);
-} */
+}
 
         </style>
 
