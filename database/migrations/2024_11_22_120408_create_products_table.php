@@ -108,33 +108,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Orders Table
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->string('order_number')->unique(); // Unique order number
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null'); // Customer/User placing the order
-            $table->decimal('subtotal', 10, 2); // Subtotal amount
-            $table->decimal('tax', 10, 2)->nullable(); // Tax applied
-            $table->decimal('discount', 10, 2)->nullable(); // Discount applied
-            $table->decimal('total', 10, 2); // Total amount
-            $table->string('payment_method')->nullable(); // Payment method
-            $table->string('payment_status')->default('Pending'); // Payment status
-            $table->string('transaction_id')->nullable(); // Transaction ID from the payment gateway
-            $table->string('status')->default('Pending'); // Order status
-            $table->timestamps();
-        });
-
-        // Sales Table
-        Schema::create('sales', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade'); // Product reference
-            $table->integer('quantity'); // Quantity sold
-            $table->decimal('price', 10, 2); // Sale price per unit
-            $table->decimal('total', 10, 2); // Total price (quantity * price)
-            $table->foreignId('order_id')->nullable()->constrained()->onDelete('cascade'); // Associated order
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null'); // User reference
-            $table->timestamps();
-        });
+        
 
 
     }

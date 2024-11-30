@@ -90,7 +90,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('stocks', StockController::class);
 
-    Route::resource('orders', OrderController::class);
+
 
     Route::resource('sales', SaleController::class);
 
@@ -102,7 +102,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('payments', PaymentController::class);
 
 
+    //Route::resource('orders', OrderController::class);
+    Route::post('/orders', [OrderController::class, 'storeOrder']);
 
-    Route::resource('payments', OrderController::class);
 
 });

@@ -15,6 +15,7 @@ class Orders extends Model
         'status',
     ];
 
+    
     public function items()
     {
         return $this->hasMany(OrderItem::class);
@@ -23,5 +24,10 @@ class Orders extends Model
     public function payment()
     {
         return $this->hasOne(Payment::class);
+    }
+
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
     }
 }

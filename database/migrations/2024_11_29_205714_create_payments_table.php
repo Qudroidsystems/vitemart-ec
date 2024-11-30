@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null');
-            $table->string('payment_method'); // cash, card, transfer
+            $table->unsignedBigInteger('order_id'); // Unsigned BigInteger
+            $table->unsignedBigInteger('customer_id'); // Unsigned BigInteger
+            $table->string('payment_method');
             $table->string('transaction_id')->nullable();
             $table->decimal('amount', 10, 2);
             $table->string('currency')->default('NGN');
-            $table->string('status')->default('Pending'); // Pending, Completed, Failed
+            $table->string('status')->default('Pending');
             $table->timestamps();
+
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 

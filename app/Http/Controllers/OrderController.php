@@ -29,61 +29,61 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the request
         $validated = $request->validate([
-            'items' => 'required|array|min:1',
-            'items.*.product_id' => 'required|integer|exists:products,id',
-            'items.*.quantity' => 'required|integer|min:1',
-            'payment_method' => 'required|string|in:cash,card,transfer',
+            'items' => 'required|array|min:1', // Ensure at least one item is sent
+            'items.*.product_id' => 'required|integer|exists:products,id', // Validate each product
+            'items.*.quantity' => 'required|integer|min:1', // Ensure valid quantities
+            'payment_method' => 'required|string|in:cash,card,transfer', // Validate payment method
+            'customer_id' => 'nullable|integer|exists:customers,id', // Validate optional customer ID
         ]);
 
-        DB::beginTransaction();
+        // Generate a unique Order ID
+        $orderId = (string) Str::uuid();
 
-        try {
-            // Generate Order ID
-            $orderId = (string) Str::uuid();
+        // Calculate total amount
+        $totalAmount = $this->calculateTotalAmount($validated['items']);
 
-            // Calculate total amount
-            $totalAmount = $this->calculateTotalAmount($validated['items']);
+        // Process the order and save to the database
+        $order = Order::create([
+            'order_id' => $orderId,
+            'customer_id' => $validated['customer_id'] ?? null, // Optional, depending on setup
+            'total_amount' => $totalAmount,
+            'status' => 'Pending',
+        ]);
 
-            // Create Order
-            $order = Order::create([
-                'order_id' => $orderId,
-                'customer_id' => $request->customer_id ?? null,
-                'total_amount' => $totalAmount,
-                'status' => 'Pending',
+        // Save sales (order items)
+        foreach ($validated['items'] as $item) {
+            $product = Product::findOrFail($item['product_id']);
+            $sale = Sale::create([
+                'product_id' => $item['product_id'],
+                'quantity' => $item['quantity'],
+                'price' => $product->price,
+                'total' => $product->price * $item['quantity'],
+                'order_id' => $order->id,
             ]);
-
-            // Save Order Items
-            foreach ($validated['items'] as $item) {
-                $order->items()->create([
-                    'product_id' => $item['product_id'],
-                    'quantity' => $item['quantity'],
-                ]);
-            }
-
-            // Create Payment Record
-            $order->payment()->create([
-                'customer_id' => $request->customer_id ?? null,
-                'payment_method' => $validated['payment_method'],
-                'amount' => $totalAmount,
-                'status' => 'Pending',
-            ]);
-
-            DB::commit();
-
-            return response()->json([
-                'message' => 'Order created successfully.',
-                'order_id' => $orderId,
-                'total_amount' => $totalAmount,
-            ], 201);
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            return response()->json([
-                'error' => 'Failed to create order.',
-                'details' => $e->getMessage(),
-            ], 500);
         }
+
+        // Return response
+        return response()->json([
+            'message' => 'Order created successfully.',
+            'order_id' => $orderId,
+            'total_amount' => $totalAmount,
+        ], 201);
+    }
+
+    /**
+     * Show an order.
+     */
+    public function show($id)
+    {
+        $order = Order::with(['sales.product', 'payment'])->find($id);
+
+        if (!$order) {
+            return response()->json(['message' => 'Order not found.'], 404);
+        }
+
+        return response()->json($order, 200);
     }
 
     private function calculateTotalAmount($items)
