@@ -2,4 +2,4 @@
 /storage
 
 # Ignore environment file
-.env
+#.env
