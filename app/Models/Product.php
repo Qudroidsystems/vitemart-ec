@@ -18,7 +18,7 @@ class Product extends Model
         'barcode',
         'stock',
         'stock_alert',
-        'price',
+        'base_price',
         'tax',
         'vat_amount',
         'manufacture',

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Orders;
+use App\Models\Product;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log; // Import Log Facade
@@ -26,145 +30,78 @@ class OrderController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
 
-    //  public function store(Request $request)
-    //  {
-    //      // Wrap the operation in a database transaction for safety
-    //      DB::beginTransaction();
-
-    //      try {
-    //          // Validate the request
-    //          $validated = $request->validate([
-    //              'items' => 'required|array|min:1', // Ensure at least one item is sent
-    //              'items.*.product_id' => 'required|integer|exists:products,id', // Validate each product
-    //              'items.*.quantity' => 'required|integer|min:1', // Ensure valid quantities
-    //              'paymentmethod' => 'required|string|in:cash,card,transfer', // Validate payment method
-    //              'customer_id' => 'nullable|integer|exists:customers,id', // Validate optional customer ID
-    //          ]);
-
-    //          // Generate a unique Order ID
-    //          $orderId = (string) Str::uuid();
-
-    //          // Calculate total amount for the order
-    //          $totalAmount = $this->calculateTotalAmount($validated['items']);
-
-    //          // Create a new order
-    //          $order = Order::create([
-    //              'order_id' => $orderId,
-    //              'customer_id' => $validated['customer_id'] ?? null, // Optional customer reference
-    //              'total_amount' => $totalAmount,
-    //              'status' => 'Pending',
-    //          ]);
-
-    //          // Save the sales (order items)
-    //          foreach ($validated['items'] as $item) {
-    //              $product = Product::findOrFail($item['product_id']);
-
-    //              Sale::create([
-    //                  'product_id' => $item['product_id'],
-    //                  'quantity' => $item['quantity'],
-    //                  'price' => $product->price,
-    //                  'total' => $product->price * $item['quantity'],
-    //                  'order_id' => $order->id,
-    //              ]);
-    //          }
-
-    //          // Optionally create a payment record
-    //          $order->payment()->create([
-    //              'payment_method' => $validated['payment_method'],
-    //              'amount' => $totalAmount,
-    //              'status' => 'Pending', // Default payment status
-    //          ]);
-
-    //          // Commit the transaction
-    //          DB::commit();
-
-    //          // Return success response
-    //          return response()->json([
-    //              'message' => 'Order created successfully.',
-    //              'order_id' => $orderId,
-    //              'total_amount' => $totalAmount,
-    //          ], 201);
-    //      } catch (\Exception $e) {
-    //          // Roll back the transaction in case of an error
-    //          DB::rollBack();
-
-
-
-    //     // Log the error
-    //     \Log::error('Order creation failed.', [
-    //         'error' => $e->getMessage(),
-    //         'trace' => $e->getTraceAsString(), // Optional: Include the stack trace
-    //         'request_data' => $request->all(), // Optional: Log the request data
-    //     ]);
-    //          // Return error response
-    //          return response()->json([
-    //              'error' => 'Failed to create order.',
-    //              'details' => $e->getMessage(),
-    //          ], 500);
-    //      }
-    //  }
 
     public function store(Request $request)
-    {
-        Log::info('Incoming request data:', $request->all());
-        // // or
-        // dd($request->all());
-        // Log::info('Processing order creation request.', [
-        //     'customer_id' => $request->customer_id,
-        //     'items' => $request->items,
-        // ]);
+        {
+            Log::info('Incoming request data', $request->all());
 
-        try {
             $validated = $request->validate([
                 'items' => 'required|array|min:1',
-                'items.*.product_id' => 'required|integer|exists:products,id',
+                'items.*.productId' => 'required|integer|exists:products,id',
                 'items.*.quantity' => 'required|integer|min:1',
-                'payment_method' => 'required|string',
-            ]);
-
-            Log::debug('Validation passed, proceeding with order creation.', [
-                'validated_data' => $validated,
+                'payment_method' => 'required|string|in:cash,card,transfer',
+                'customer_id' => 'nullable|integer|exists:customers,id', // Keep nullable if it's optional
             ]);
 
             DB::beginTransaction();
 
-            // Generate Order ID and other logic...
-            $orderId = (string) Str::uuid();
-            Log::info('Generated order ID: ' . $orderId);
+            try {
+                $orderId = (string) Str::uuid();
+                $totalAmount = $this->calculateTotalAmount($validated['items']);
 
-            // Create Order, Save Order Items, and Create Payment Record...
-            // More logic here...
+                Log::info('Validation passed, proceeding with order creation.', [
+                    'validated_data' => $validated,
+                    'total_amount' => $totalAmount,
+                ]);
 
-            DB::commit();
+                $order = Orders::create([
+                    'genOrderId' => $orderId,
+                    'customer_id' => $request->customer_id ?? null,
+                    'total_amount' => $totalAmount,
+                    'status' => 'Pending',
+                ]);
 
-            Log::info('Order created successfully.', [
-                'order_id' => $orderId,
-                'total_amount' => $validated['total_amount'],
-            ]);
+                foreach ($validated['items'] as $item) {
+                    $product = Product::findOrFail($item['productId']); // Retrieve product details
 
-            return response()->json([
-                'message' => 'Order created successfully.',
-                'order_id' => $orderId,
-            ], 201);
+                    $order->items()->create([
+                        'product_id' => $item['productId'],
+                        'quantity' => $item['quantity'],
+                        'price' => $product->base_price, // Include the price field
+                        'total' => $product->base_price * $item['quantity'],
+                    ]);
+                }
 
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Failed to create order.', [
-                'error_message' => $e->getMessage(),
-                'stack_trace' => $e->getTraceAsString(),
-            ]);
+                $order->payment()->create([
+                    'order_id' => $order->id, // Ensure this matches your payments table schema
+                    'customer_id' => $validated['customer_id'] ?? null, // Ensure null is acceptable
+                    'payment_method' => $validated['payment_method'],
+                    'amount' => $totalAmount,
+                    'status' => 'Pending',
+                ]);
 
-            return response()->json([
-                'error' => 'Failed to create order.',
-                'details' => $e->getMessage(),
-            ], 500);
-        }
+                DB::commit();
+
+                return response()->json([
+                    'message' => 'Order created successfully.',
+                    'order_id' => $orderId,
+                    'total_amount' => $totalAmount,
+                ], 201);
+             } catch (\Exception $e) {
+                DB::rollBack();
+
+                Log::error('Failed to create order.', [
+                    'error_message' => $e->getMessage(),
+                    'stack_trace' => $e->getTraceAsString(),
+                ]);
+
+                return response()->json([
+                    'error' => 'Failed to create order.',
+                    'details' => $e->getMessage(),
+                ], 500);
+            }
     }
-
      /**
       * Calculate the total amount for the order items.
       *
@@ -172,23 +109,40 @@ class OrderController extends Controller
       * @return float
       * @throws \Exception
       */
-     private function calculateTotalAmount(array $items)
+     private function calculateTotalAmount(array $items): float
      {
-         $productIds = array_column($items, 'product_id');
-         $products = Product::whereIn('id', $productIds)->get()->keyBy('id');
-
          $total = 0;
+
          foreach ($items as $item) {
-             if (!isset($products[$item['product_id']])) {
-                 throw new \Exception('Product not found.');
+             $product = Product::find($item['productId']);
+             if (!$product) {
+                 throw new \Exception("Product with ID {$item['productId']} not found.");
              }
-             $total += $products[$item['product_id']]->price * $item['quantity'];
+
+             if (is_null($product->base_price)) {
+                 Log::error("Product price is null", [
+                     'product_id' => $item['productId'],
+                     'product_name' => $product->name ?? 'Unknown',
+                 ]);
+                 throw new \Exception("Product with ID {$item['productId']} has no price.");
+             }
+
+             $itemTotal = $product->base_price * $item['quantity'];
+             $total += $itemTotal;
+
+             //Log the details for debugging
+             Log::info("Calculating total for item", [
+                 'product_id' => $item['productId'],
+                 'price' => $product->base_price,
+                 'quantity' => $item['quantity'],
+                 'item_total' => $itemTotal,
+             ]);
          }
+
+         Log::info("Total amount calculated: {$total}");
 
          return $total;
      }
-
-
     /**
      * Show an order.
      */

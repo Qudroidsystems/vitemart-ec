@@ -770,7 +770,6 @@ var KTAppEcommerceSalesSaveOrder = function () {
    // handleProductSelect();
 
 
-
    const handleProductSelect = () => {
     // DOM elements
     const checkboxes = document.querySelectorAll('[type="checkbox"]');
@@ -1007,13 +1006,9 @@ var KTAppEcommerceSalesSaveOrder = function () {
     };
 };
 
+
+
 handleProductSelect();
-
-
-
-
-
-
 
     // Submit form handler
     const handleSubmit = () => {

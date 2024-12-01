@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id(); // Unsigned BigInteger by default
+            $table->string('genOrderId');
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->decimal('total_amount', 10, 2);
             $table->string('status')->default('Pending');
