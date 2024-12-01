@@ -34,7 +34,7 @@ class OrderController extends Controller
 
     public function store(Request $request)
         {
-            Log::info('Incoming request data', $request->all());
+            //Log::info('Incoming request data', $request->all());
 
             $validated = $request->validate([
                 'items' => 'required|array|min:1',
@@ -50,10 +50,10 @@ class OrderController extends Controller
                 $orderId = (string) Str::uuid();
                 $totalAmount = $this->calculateTotalAmount($validated['items']);
 
-                Log::info('Validation passed, proceeding with order creation.', [
-                    'validated_data' => $validated,
-                    'total_amount' => $totalAmount,
-                ]);
+                // Log::info('Validation passed, proceeding with order creation.', [
+                //     'validated_data' => $validated,
+                //     'total_amount' => $totalAmount,
+                // ]);
 
                 $order = Orders::create([
                     'genOrderId' => $orderId,
@@ -91,10 +91,10 @@ class OrderController extends Controller
              } catch (\Exception $e) {
                 DB::rollBack();
 
-                Log::error('Failed to create order.', [
-                    'error_message' => $e->getMessage(),
-                    'stack_trace' => $e->getTraceAsString(),
-                ]);
+                // Log::error('Failed to create order.', [
+                //     'error_message' => $e->getMessage(),
+                //     'stack_trace' => $e->getTraceAsString(),
+                // ]);
 
                 return response()->json([
                     'error' => 'Failed to create order.',
@@ -120,26 +120,26 @@ class OrderController extends Controller
              }
 
              if (is_null($product->base_price)) {
-                 Log::error("Product price is null", [
-                     'product_id' => $item['productId'],
-                     'product_name' => $product->name ?? 'Unknown',
-                 ]);
-                 throw new \Exception("Product with ID {$item['productId']} has no price.");
+                //  Log::error("Product price is null", [
+                //      'product_id' => $item['productId'],
+                //      'product_name' => $product->name ?? 'Unknown',
+                //  ]);
+                //  throw new \Exception("Product with ID {$item['productId']} has no price.");
              }
 
              $itemTotal = $product->base_price * $item['quantity'];
              $total += $itemTotal;
 
              //Log the details for debugging
-             Log::info("Calculating total for item", [
-                 'product_id' => $item['productId'],
-                 'price' => $product->base_price,
-                 'quantity' => $item['quantity'],
-                 'item_total' => $itemTotal,
-             ]);
+            //  Log::info("Calculating total for item", [
+            //      'product_id' => $item['productId'],
+            //      'price' => $product->base_price,
+            //      'quantity' => $item['quantity'],
+            //      'item_total' => $itemTotal,
+            //  ]);
          }
 
-         Log::info("Total amount calculated: {$total}");
+         //Log::info("Total amount calculated: {$total}");
 
          return $total;
      }

@@ -346,7 +346,7 @@
             <div class="fs-6 fw-bold text-white">
                 <span class="d-block lh-1 mb-2">Subtotal</span>
                 <span class="d-block mb-2">Discounts</span>
-                <span class="d-block mb-9">Tax(12%)</span>
+                <span class="d-block mb-9">Tax(%)</span>
                 <span class="d-block fs-2qx lh-1">Total</span>
             </div>
             <!--end::Content-->
@@ -418,6 +418,7 @@
             <!--begin::Actions-->
             <button class="btn btn-primary fs-1 w-100 py-4" >Print Bills</button>
             <!--end::Actions-->
+
         </div>
         <!--end::Payment Method-->
     </div>
@@ -434,81 +435,81 @@
     <!--begin::Main column-->
     <div class="d-flex flex-column flex-lg-row-fluid gap-4 gap-lg-10">
 
-<!--begin::Order details-->
-<div class="card card-flush py-4">
+        <!--begin::Order details-->
+        <div class="card card-flush py-4">
 
-    <!--begin::Card body-->
-    <div class="card-body pt-0">
-        <div class="d-flex flex-column gap-10">
+            <!--begin::Card body-->
+            <div class="card-body pt-0">
+                <div class="d-flex flex-column gap-10">
 
 
-            <!--begin::Separator-->
-            <div class="separator"></div>
-            <!--end::Separator-->
+                    <!--begin::Separator-->
+                    <div class="separator"></div>
+                    <!--end::Separator-->
 
-            <!--begin::Search products-->
-            <div class="d-flex align-items-center position-relative mb-n7 ">
-                <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4"><span class="path1"></span><span class="path2"></span></i>                <input type="text" data-kt-ecommerce-edit-order-filter="search" class="form-control form-control-solid w-100 w-lg-50 ps-12" placeholder="Search Products" />
-            </div>
-            <!--end::Search products-->
+                    <!--begin::Search products-->
+                    <div class="d-flex align-items-center position-relative mb-n7 ">
+                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4"><span class="path1"></span><span class="path2"></span></i>                <input type="text" data-kt-ecommerce-edit-order-filter="search" class="form-control form-control-solid w-100 w-lg-50 ps-12" placeholder="Search Products" />
+                    </div>
+                    <!--end::Search products-->
 
-            <!--begin::Table-->
-            <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_edit_order_product_table">
-                <thead>
-                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                        <th class="w-25px pe-2"></th>
-                        <th class="min-w-200px">Product</th>
-                        <th class="min-w-100px text-end pe-5">Qty Remaining</th>
-                    </tr>
-                </thead>
-                <tbody class="fw-semibold text-gray-600">
-                    @foreach($products as $product)
-                     <tr>
-                                        <td>
-                                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                <input class="form-check-input" type="checkbox" value="1"  />
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="{{ $product->id}}">
-                                                <!--begin::Thumbnail-->
-                                                <a href="#" class="symbol symbol-50px">
-                                                    <span class="symbol-label" style="background-image:url('{{ $product->cover ? asset('storage/' . $product->cover->path) : asset('storage/uploads/category_default.jpg') }}');"></span>
-                                                </a>
-                                                <!--end::Thumbnail-->
-
-                                                <div class="ms-5">
-                                                    <!--begin::Title-->
-                                                    <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $product->name }}</a>
-                                                    <!--end::Title-->
-
-                                                    <!--begin::Price-->
-                                                    <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter="price">
-                                                       <span class="fw-bold text-success ms-3">{{ $product->base_price}}</span>
-                                                    </span></div>
-                                                    <!--end::Price-->
-
-                                                    <!--begin::SKU-->
-                                                    <div class="text-muted fs-7">SKU: {{ $product->sku }}</div>
-                                                    <!--end::SKU-->
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-end pe-5" data-order="0">
-                                                                                {{-- <span class="badge badge-light-danger">Sold out</span> --}}
-                                                <span class="fw-bold text-success ms-3">{{ number_format($product->stock, 2) }}</span>
-                                          </td>
+                    <!--begin::Table-->
+                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_edit_order_product_table">
+                        <thead>
+                            <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                <th class="w-25px pe-2"></th>
+                                <th class="min-w-200px">Product</th>
+                                <th class="min-w-100px text-end pe-5">Qty Remaining</th>
                             </tr>
-                        @endforeach
+                        </thead>
+                        <tbody class="fw-semibold text-gray-600">
+                            @foreach($products as $product)
+                            <tr>
+                                                <td>
+                                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                        <input class="form-check-input" type="checkbox" value="1"  />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="{{ $product->id}}">
+                                                        <!--begin::Thumbnail-->
+                                                        <a href="#" class="symbol symbol-50px">
+                                                            <span class="symbol-label" style="background-image:url('{{ $product->cover ? asset('storage/' . $product->cover->path) : asset('storage/uploads/category_default.jpg') }}');"></span>
+                                                        </a>
+                                                        <!--end::Thumbnail-->
 
-                     </tbody>
-            </table>
-            <!--end::Table-->
+                                                        <div class="ms-5">
+                                                            <!--begin::Title-->
+                                                            <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $product->name }}</a>
+                                                            <!--end::Title-->
+
+                                                            <!--begin::Price-->
+                                                            <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter="price">
+                                                            <span class="fw-bold text-success ms-3">{{ $product->base_price}}</span>
+                                                            </span></div>
+                                                            <!--end::Price-->
+
+                                                            <!--begin::SKU-->
+                                                            <div class="text-muted fs-7">SKU: {{ $product->sku }}</div>
+                                                            <!--end::SKU-->
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-end pe-5" data-order="0">
+                                                                                        {{-- <span class="badge badge-light-danger">Sold out</span> --}}
+                                                        <span class="fw-bold text-success ms-3">{{ number_format($product->stock, 2) }}</span>
+                                                </td>
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+                    </table>
+                    <!--end::Table-->
+                </div>
+            </div>
+            <!--end::Card header-->
         </div>
-    </div>
-    <!--end::Card header-->
-</div>
-<!--end::Order details-->
+        <!--end::Order details-->
 
 
 
@@ -734,6 +735,7 @@
                                 </td>
                             </tr>
                         </tbody>
+                        <button id="printSlip">Print Slip</button>
                     </table>
                     <div class="text-center invoice-bar">
                         <p>**VAT against this challan is payable through central registration. Thank you for your business!</p>
@@ -749,64 +751,6 @@
         </div>
     </div>
     <!-- /Print Receipt -->
-<script>
-
-// // Initialize select2 with search functionality
-// $(document).ready(function() {
-//     $('#kt_ecommerce_add_product_status_select').select2({
-//         placeholder: "Select an option", // Placeholder text
-//         allowClear: true, // Allow clearing the selection
-//         width: '100%' // Optional: make it full width
-//     });
-// });
-
-document.addEventListener('DOMContentLoaded', function () {
-
-    // Get the Print Bills button and bind the modal actions
-    const printBillsButton = document.querySelector('.btn-primary.fs-1');
-    const printConfirmationModal = new bootstrap.Modal(document.getElementById('printConfirmationModal'));
-    const printPreviewModal = new bootstrap.Modal(document.getElementById('printPreviewModal'));
-    const confirmPrintButton = document.getElementById('confirmPrint');
-    const printSlipButton = document.getElementById('printSlip');
-    const orderItems = document.getElementById('orderItems');
-
-    // Example order data (this would be dynamically generated in your app)
-    const items = [
-        { name: 'T-Bone Steak', quantity: 2, total: '$66.00' },
-        { name: 'Product Name', quantity: 1, total: '$100.00' },
-    ];
-
-    // When Print Bills button is clicked, show confirmation modal
-    printBillsButton.addEventListener('click', function () {
-        printConfirmationModal.show();
-    });
-
-    // If confirmed, show the print preview modal
-    confirmPrintButton.addEventListener('click', function () {
-        printConfirmationModal.hide();
-
-        // Populate the order items in the print preview modal
-        orderItems.innerHTML = '';
-        items.forEach(item => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${item.name}</td>
-                <td>${item.quantity}</td>
-                <td>${item.total}</td>
-            `;
-            orderItems.appendChild(row);
-        });
-
-        printPreviewModal.show();
-    });
-
-    // Simulate the printing process when the Print button in the preview modal is clicked
-    printSlipButton.addEventListener('click', function () {
-        window.print(); // Simulate print action
-        printPreviewModal.hide();
-    });
-});
-</script>
 
 
 <script>
