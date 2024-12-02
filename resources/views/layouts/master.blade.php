@@ -22,390 +22,258 @@
 
 
         <style>
-            * {
-                /* box-sizing: border-box;
-                margin: 0;
-                padding: 0; */
-            }
 
-            .fraction {
-                display: inline-flex;
-                flex-direction: column;
-                align-items: center;
-                font-family: Arial, sans-serif;
-                font-size: 10px;
-            }
-
-            .fraction .numerator {
-                border-bottom: 2px solid black;
-                padding: 0 5px;
-            }
-
-            .fraction .denominator {
-                padding-top: 5px;
-            }
-
-            tr.rt>th,
-            tr.rt>td {
-                text-align: center;
-            }
-
-            div.grade>span {
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: 16px;
-                font-weight: bold;
-            }
-
-            span.text-space-on-dots {
-                position: relative;
-                width: 500px;
-                border-bottom-style: dotted;
-            }
-
-            span.text-dot-space2 {
-                position: relative;
-                width: 300px;
-                border-bottom-style: dotted;
-            }
-
-            @media print {
-                div.print-body {
-                    background-color: white;
+                .modal-body {
+                    padding: 20px;
+                    background-color: #f8f9fa;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 }
 
-                @page {
-                    size: 940px;
-                    margin: 0px;
+                .icon-head {
+                    margin-bottom: 20px;
                 }
 
-                div.print-body {
-                    background-color: white;
+                .icon-head img {
+                    display: inline-block;
+                    border-radius: 5px;
                 }
 
-                html,
-                body {
-                    width: 940px;
+                .info {
+                    margin-bottom: 20px;
                 }
 
-                body {
-                    margin: 0;
+                .info h6 {
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin-bottom: 5px;
+                    color: #333;
                 }
 
-                nav {
-                    display: none;
+                .info p {
+                    font-size: 14px;
+                    color: #666;
+                    margin: 2px 0;
                 }
-            }
 
-            p.school-name1 {
-                font-family: 'Times New Roman', Times, serif;
-                font-size: 40px;
-                font-weight: 500;
-            }
+                .tax-invoice h6 {
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #333;
+                    margin-bottom: 15px;
+                }
 
-            p.school-name2 {
-                font-family: 'Times New Roman', Times, serif;
-                font-size: 30px;
-                font-weight: bolder;
-            }
+                .invoice-user-name {
+                    font-size: 14px;
+                    color: #555;
+                    margin-bottom: 5px;
+                }
 
-            div.school-logo {
-                width: 80px;
-                height: 60px;
-            }
+                .invoice-user-name span:first-child {
+                    font-weight: bold;
+                }
 
-            div.header-divider {
-                width: 100%;
-                height: 3px;
-                background-color: black;
-                margin-bottom: 3px;
-            }
+                .table-fit {
+                    margin-top: 20px;
+                    font-size: 14px;
+                    color: #555;
+                    width: 100%;
+                }
 
-            div.header-divider2 {
-                width: 100%;
-                height: 1px;
-                background-color: black;
-            }
+                .table-fit th,
+                .table-fit td {
+                    padding: 5px 10px;
+                }
 
-            span.result-details {
-                font-size: 16px;
-                font-family: 'Times New Roman', Times, serif;
-                font-weight: lighter;
-                font-style: italic;
-            }
+                .table-fit th {
+                    text-align: left;
+                    font-weight: bold;
+                    border-bottom: 2px solid #ddd;
+                }
 
-            span.rd1 {
-                position: relative;
-                width: 86.1%;
-                border-bottom-style: dotted;
-            }
+                .table-fit td {
+                    text-align: left;
+                    border-bottom: 1px solid #eee;
+                }
 
-            span.rd2 {
-                position: relative;
-                width: 30%;
-                border-bottom-style: dotted;
-            }
+                .table-fit .text-end {
+                    text-align: right;
+                }
 
-            span.rd3 {
-                position: relative;
-                width: 30%;
-                border-bottom-style: dotted;
-            }
+                .invoice-bar {
+                    margin-top: 30px;
+                }
 
-            span.rd4 {
-                position: relative;
-                width: 30%;
-                border-bottom-style: dotted;
-            }
+                .invoice-bar p {
+                    font-size: 12px;
+                    color: #666;
+                    margin: 5px 0;
+                }
 
-            span.rd5 {
-                position: relative;
-                width: 25%;
-                border-bottom-style: dotted;
-            }
+                .invoice-bar img {
+                    margin: 10px auto;
+                    display: block;
+                    max-width: 150px;
+                }
 
-            span.rd6 {
-                position: relative;
-                width: 28%;
-                border-bottom-style: dotted;
-            }
+                .invoice-bar .btn {
+                    margin-top: 10px;
+                    background-color: #007bff;
+                    color: #fff;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    text-transform: uppercase;
+                    font-size: 14px;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+                }
 
-            span.rd7 {
-                position: relative;
-                width: 17.2%;
-                border-bottom-style: dotted;
-            }
-
-            span.rd8 {
-                position: relative;
-                width: 12%;
-                border-bottom-style: dotted;
-            }
-
-            span.rd9 {
-                position: relative;
-                width: 11%;
-                border-bottom-style: dotted;
-            }
-
-            span.rd10 {
-                position: relative;
-                width: 11%;
-                border-bottom-style: dotted;
-            }
-
- .modal-body {
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
- }
-
-.icon-head {
-    margin-bottom: 20px;
-}
-
-.icon-head img {
-    display: inline-block;
-    border-radius: 5px;
-}
-
-.info {
-    margin-bottom: 20px;
-}
-
-.info h6 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.info p {
-    font-size: 14px;
-    color: #666;
-    margin: 2px 0;
-}
-
-.tax-invoice h6 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-.invoice-user-name {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 5px;
-}
-
-.invoice-user-name span:first-child {
-    font-weight: bold;
-}
-
-.table-fit {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #555;
-    width: 100%;
-}
-
-.table-fit th,
-.table-fit td {
-    padding: 5px 10px;
-}
-
-.table-fit th {
-    text-align: left;
-    font-weight: bold;
-    border-bottom: 2px solid #ddd;
-}
-
-.table-fit td {
-    text-align: left;
-    border-bottom: 1px solid #eee;
-}
-
-.table-fit .text-end {
-    text-align: right;
-}
-
-.invoice-bar {
-    margin-top: 30px;
-}
-
-.invoice-bar p {
-    font-size: 12px;
-    color: #666;
-    margin: 5px 0;
-}
-
-.invoice-bar img {
-    margin: 10px auto;
-    display: block;
-    max-width: 150px;
-}
-
-.invoice-bar .btn {
-    margin-top: 10px;
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    text-transform: uppercase;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.invoice-bar .btn:hover {
-    background-color: #0056b3;
-}
+                .invoice-bar .btn:hover {
+                    background-color: #0056b3;
+                }
 
 
-.table-fit {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #555;
-    width: 100%;
-}
+                .table-fit {
+                    margin-top: 20px;
+                    font-size: 14px;
+                    color: #555;
+                    width: 100%;
+                }
 
-.table-fit th,
-.table-fit td {
-    padding: 5px 10px;
-}
+                .table-fit th,
+                .table-fit td {
+                    padding: 5px 10px;
+                }
 
-.table-fit th {
-    text-align: left;
-    font-weight: bold;
-    border-bottom: 2px solid #ddd;
-}
+                .table-fit th {
+                    text-align: left;
+                    font-weight: bold;
+                    border-bottom: 2px solid #ddd;
+                }
 
-.table-fit tbody tr:not(:last-child) {
-    border-bottom: 1px dotted #aaa; /* Dotted line for item rows */
-}
+                .table-fit tbody tr:not(:last-child) {
+                    border-bottom: 1px dotted #aaa; /* Dotted line for item rows */
+                }
 
-.table-fit tbody tr:last-child td {
-    border: none; /* Remove border for the final subtotal row */
-}
+                .table-fit tbody tr:last-child td {
+                    border: none; /* Remove border for the final subtotal row */
+                }
 
-.table-fit .text-end {
-    text-align: right;
-}
+                .table-fit .text-end {
+                    text-align: right;
+                }
 
-.table-fit .subtotal-row {
-    border-top: 1px dotted #aaa; /* Dotted line separating items and subtotal */
-}
+                .table-fit .subtotal-row {
+                    border-top: 1px dotted #aaa; /* Dotted line separating items and subtotal */
+                }
 
- :root {
-    --background-light: #ffffff;
-    --background-dark: #1a1a1a;
-    --text-light: #000000;
-    --text-dark: #ffffff;
-    --secondary-text-light: #555555;
-    --secondary-text-dark: #bbbbbb;
-    --border-light: #ddd;
-    --border-dark: #444;
-}
+                :root {
+                    --background-light: #ffffff;
+                    --background-dark: #1a1a1a;
+                    --text-light: #000000;
+                    --text-dark: #ffffff;
+                    --secondary-text-light: #555555;
+                    --secondary-text-dark: #bbbbbb;
+                    --border-light: #ddd;
+                    --border-dark: #444;
+                }
 
-body.light-theme {
-    background-color: var(--background-light);
-    color: var(--text-light);
-}
+                body.light-theme {
+                    background-color: var(--background-light);
+                    color: var(--text-light);
+                }
 
-body.dark-theme {
-    background-color: var(--background-dark);
-    color: var(--text-dark);
-}
+                body.dark-theme {
+                    background-color: var(--background-dark);
+                    color: var(--text-dark);
+                }
 
-.table-fit {
-    margin-top: 20px;
-    font-size: 14px;
-    width: 100%;
-    border-collapse: collapse;
-}
+                .table-fit {
+                    margin-top: 20px;
+                    font-size: 14px;
+                    width: 100%;
+                    border-collapse: collapse;
+                }
 
-.table-fit th,
-.table-fit td {
-    padding: 5px 10px;
-    color: inherit;
-}
+                .table-fit th,
+                .table-fit td {
+                    padding: 5px 10px;
+                    color: inherit;
+                }
 
- .table-fit th {
-    font-weight: bold;
-    border-bottom: 2px solid var(--border-light);
-}
+                .table-fit th {
+                    font-weight: bold;
+                    border-bottom: 2px solid var(--border-light);
+                }
 
- body.dark-theme .table-fit th {
-    border-bottom: 2px solid var(--border-dark);
-}
+                body.dark-theme .table-fit th {
+                    border-bottom: 2px solid var(--border-dark);
+                }
 
-.table-fit tbody tr:not(:last-child) {
-    border-bottom: 1px dotted var(--border-light);
-}
+                .table-fit tbody tr:not(:last-child) {
+                    border-bottom: 1px dotted var(--border-light);
+                }
 
-body.dark-theme .table-fit tbody tr:not(:last-child) {
-    border-bottom: 1px dotted var(--border-dark);
-}
+                body.dark-theme .table-fit tbody tr:not(:last-child) {
+                    border-bottom: 1px dotted var(--border-dark);
+                }
 
-.table-fit .text-end {
-    text-align: right;
-}
+                .table-fit .text-end {
+                    text-align: right;
+                }
 
-.icon-head img, .invoice-bar img {
-    max-width: 100px;
-    height: auto;
-}
+                .icon-head img, .invoice-bar img {
+                    max-width: 100px;
+                    height: auto;
+                }
 
- Additional Styling for Secondary Text
- .info p, .invoice-bar p {
-    color: var(--secondary-text-light);
-}
+                Additional Styling for Secondary Text
+                .info p, .invoice-bar p {
+                    color: var(--secondary-text-light);
+                }
 
-body.dark-theme .info p,
-body.dark-theme .invoice-bar p {
-    color: var(--secondary-text-dark);
+                body.dark-theme .info p,
+                body.dark-theme .invoice-bar p {
+                    color: var(--secondary-text-dark);
+                }
+
+@media print {
+    /* Hide all unnecessary elements during print */
+    body * {
+        visibility: hidden;
+    }
+
+    /* Only show the receipt section */
+    #receiptContent, #receiptContent * {
+        visibility: visible;
+    }
+
+    /* Adjust the size and layout for printing */
+    #receiptContent {
+        width: 280px; /* Small receipt width */
+        font-size: 12px; /* Smaller font size */
+        line-height: 1.4; /* Adjust line height for better readability */
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Customize text elements to fit on the receipt */
+    #receiptContent .item {
+        font-size: 10px; /* Smaller text for items */
+    }
+
+    /* Reduce margins and padding for printing */
+    @page {
+        size: 80mm 160mm; /* A common receipt size */
+        margin: 0;
+    }
+
+    /* Optional: Add a border or box around the receipt for clarity */
+    #receiptContent {
+        border: 1px solid #000;
+        padding: 10px;
+    }
 }
 
         </style>
