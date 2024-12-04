@@ -329,6 +329,10 @@
              <?php echo $__env->make('layouts.pages-assets.css.users-list-css', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <?php endif; ?>
 
+        <?php if(Route::is('customer.*')): ?>
+             <?php echo $__env->make('layouts.pages-assets.css.users-list-css', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <?php endif; ?>
+
 
 
             <!--begin::Body-->
@@ -523,6 +527,11 @@
         <?php endif; ?>
 
         <?php if(Route::is('pos.*')): ?>
+             <?php echo $__env->make('layouts.pages-assets.js.pos-list-js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <?php endif; ?>
+
+
+        <?php if(Route::is('customer.*')): ?>
              <?php echo $__env->make('layouts.pages-assets.js.pos-list-js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <?php endif; ?>
 

@@ -6,4 +6,7 @@
 <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
      <link href="<?php echo e(asset('html/assets/assets/plugins/global/plugins.bundle.css')); ?>" rel="stylesheet" type="text/css"/>
      <link href="<?php echo e(asset('html/assets/assets/css/style.bundle.css')); ?>" rel="stylesheet" type="text/css"/>
- <!--end::Global Stylesheets Bundle--><?php /**PATH C:\xampp\htdocs\vitemart-ec\resources\views/layouts/pages-assets/css/users-list-css.blade.php ENDPATH**/ ?>
+
+     
+ <!--end::Global Stylesheets Bundle-->
+<?php /**PATH C:\xampp\htdocs\vitemart-ec\resources\views/layouts/pages-assets/css/users-list-css.blade.php ENDPATH**/ ?>

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sale;
 use App\Models\Order;
 use App\Models\Orders;
+use App\Models\Invoice;
 use App\Models\Product;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -62,15 +64,35 @@ class OrderController extends Controller
                     'status' => 'Pending',
                 ]);
 
-                foreach ($validated['items'] as $item) {
-                    $product = Product::findOrFail($item['productId']); // Retrieve product details
+                        $orderDetails = []; // Initialize an array to hold order details
 
-                    $order->items()->create([
-                        'product_id' => $item['productId'],
-                        'quantity' => $item['quantity'],
-                        'price' => $product->base_price, // Include the price field
-                        'total' => $product->base_price * $item['quantity'],
-                    ]);
+                        foreach ($validated['items'] as $item) {
+                            $product = Product::findOrFail($item['productId']); // Retrieve product details
+
+                            // Add the product details to the orderDetails array
+                            $orderDetails[] = [
+                                'product_name' => $product->name,
+                                'quantity' => $item['quantity'],
+                                'price' => $product->base_price,
+                                'total' => $product->base_price * $item['quantity'],
+                            ];
+
+                            $order->items()->create([
+                                'product_id' => $item['productId'],
+                                'quantity' => $item['quantity'],
+                                'price' => $product->base_price, // Include the price field
+                                'total' => $product->base_price * $item['quantity'],
+                            ]);
+
+                        // Create corresponding sales record
+                        Sale::create([
+                            'product_id' => $item['productId'],
+                            'order_id' => $order->id,
+                            'user_id' => auth()->id(),
+                            'quantity' => $item['quantity'],
+                            'price' => $product->base_price,
+                            'total' => $product->base_price * $item['quantity'],
+                        ]);
                 }
 
                 $order->payment()->create([
@@ -81,11 +103,19 @@ class OrderController extends Controller
                     'status' => 'Pending',
                 ]);
 
+                $invoice = Invoice::create([
+                    'invoice_no' => 'CS' . str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT),
+                    'order_id' => $order->id,
+                    'issued_at' => now(),
+                ]);
+
                 DB::commit();
 
                 return response()->json([
                     'message' => 'Order created successfully.',
                     'order_id' => $orderId,
+                    'invoice_id'=> $invoice,
+                    'items' => $orderDetails,
                     'total_amount' => $totalAmount,
                 ], 201);
              } catch (\Exception $e) {
