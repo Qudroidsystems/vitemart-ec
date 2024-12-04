@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sale;
 use App\Models\Order;
 use App\Models\Orders;
+use App\Models\Invoice;
 use App\Models\Product;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -34,7 +36,7 @@ class OrderController extends Controller
 
     public function store(Request $request)
         {
-            Log::info('Incoming request data', $request->all());
+            //Log::info('Incoming request data', $request->all());
 
             $validated = $request->validate([
                 'items' => 'required|array|min:1',
@@ -50,10 +52,10 @@ class OrderController extends Controller
                 $orderId = (string) Str::uuid();
                 $totalAmount = $this->calculateTotalAmount($validated['items']);
 
-                Log::info('Validation passed, proceeding with order creation.', [
-                    'validated_data' => $validated,
-                    'total_amount' => $totalAmount,
-                ]);
+                // Log::info('Validation passed, proceeding with order creation.', [
+                //     'validated_data' => $validated,
+                //     'total_amount' => $totalAmount,
+                // ]);
 
                 $order = Orders::create([
                     'genOrderId' => $orderId,
@@ -62,15 +64,35 @@ class OrderController extends Controller
                     'status' => 'Pending',
                 ]);
 
-                foreach ($validated['items'] as $item) {
-                    $product = Product::findOrFail($item['productId']); // Retrieve product details
+                        $orderDetails = []; // Initialize an array to hold order details
 
-                    $order->items()->create([
-                        'product_id' => $item['productId'],
-                        'quantity' => $item['quantity'],
-                        'price' => $product->base_price, // Include the price field
-                        'total' => $product->base_price * $item['quantity'],
-                    ]);
+                        foreach ($validated['items'] as $item) {
+                            $product = Product::findOrFail($item['productId']); // Retrieve product details
+
+                            // Add the product details to the orderDetails array
+                            $orderDetails[] = [
+                                'product_name' => $product->name,
+                                'quantity' => $item['quantity'],
+                                'price' => $product->base_price,
+                                'total' => $product->base_price * $item['quantity'],
+                            ];
+
+                            $order->items()->create([
+                                'product_id' => $item['productId'],
+                                'quantity' => $item['quantity'],
+                                'price' => $product->base_price, // Include the price field
+                                'total' => $product->base_price * $item['quantity'],
+                            ]);
+
+                        // Create corresponding sales record
+                        Sale::create([
+                            'product_id' => $item['productId'],
+                            'order_id' => $order->id,
+                            'user_id' => auth()->id(),
+                            'quantity' => $item['quantity'],
+                            'price' => $product->base_price,
+                            'total' => $product->base_price * $item['quantity'],
+                        ]);
                 }
 
                 $order->payment()->create([
@@ -81,20 +103,28 @@ class OrderController extends Controller
                     'status' => 'Pending',
                 ]);
 
+                $invoice = Invoice::create([
+                    'invoice_no' => 'CS' . str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT),
+                    'order_id' => $order->id,
+                    'issued_at' => now(),
+                ]);
+
                 DB::commit();
 
                 return response()->json([
                     'message' => 'Order created successfully.',
                     'order_id' => $orderId,
+                    'invoice_id'=> $invoice,
+                    'items' => $orderDetails,
                     'total_amount' => $totalAmount,
                 ], 201);
              } catch (\Exception $e) {
                 DB::rollBack();
 
-                Log::error('Failed to create order.', [
-                    'error_message' => $e->getMessage(),
-                    'stack_trace' => $e->getTraceAsString(),
-                ]);
+                // Log::error('Failed to create order.', [
+                //     'error_message' => $e->getMessage(),
+                //     'stack_trace' => $e->getTraceAsString(),
+                // ]);
 
                 return response()->json([
                     'error' => 'Failed to create order.',
@@ -120,26 +150,26 @@ class OrderController extends Controller
              }
 
              if (is_null($product->base_price)) {
-                 Log::error("Product price is null", [
-                     'product_id' => $item['productId'],
-                     'product_name' => $product->name ?? 'Unknown',
-                 ]);
-                 throw new \Exception("Product with ID {$item['productId']} has no price.");
+                //  Log::error("Product price is null", [
+                //      'product_id' => $item['productId'],
+                //      'product_name' => $product->name ?? 'Unknown',
+                //  ]);
+                //  throw new \Exception("Product with ID {$item['productId']} has no price.");
              }
 
              $itemTotal = $product->base_price * $item['quantity'];
              $total += $itemTotal;
 
              //Log the details for debugging
-             Log::info("Calculating total for item", [
-                 'product_id' => $item['productId'],
-                 'price' => $product->base_price,
-                 'quantity' => $item['quantity'],
-                 'item_total' => $itemTotal,
-             ]);
+            //  Log::info("Calculating total for item", [
+            //      'product_id' => $item['productId'],
+            //      'price' => $product->base_price,
+            //      'quantity' => $item['quantity'],
+            //      'item_total' => $itemTotal,
+            //  ]);
          }
 
-         Log::info("Total amount calculated: {$total}");
+         //Log::info("Total amount calculated: {$total}");
 
          return $total;
      }

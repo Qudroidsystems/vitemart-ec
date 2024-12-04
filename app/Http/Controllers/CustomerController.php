@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -12,7 +13,8 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::all();
-        return response()->json($customers);
+        //return response()->json($customers);
+        return view('customer.index')->with('customers',$customers);
     }
 
     /**
@@ -20,7 +22,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+       return view('customer.add');
     }
 
     /**
@@ -41,7 +43,8 @@ class CustomerController extends Controller
 
         $customer = Customer::create($validated);
 
-        return response()->json(['message' => 'Customer created successfully', 'customer' => $customer], 201);
+        //return response()->json(['message' => 'Customer created successfully', 'customer' => $customer], 201);
+        return redirect()->back()->with('success', 'Customer record created successfully!');
     }
 
     /**

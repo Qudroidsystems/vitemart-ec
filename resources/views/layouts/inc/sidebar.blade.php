@@ -777,7 +777,7 @@
 
                                <!--begin:Menu item-->
                     <div  data-kt-menu-trigger="click"  class="menu-item {{
-                        request()->is('pos*') 
+                        request()->is('pos*')
                         ? ' here show menu-accordion' : '' }}" >
                     <!--begin:Menu link-->
                     <span class="menu-link" >
@@ -1193,8 +1193,7 @@
 
                                 <!--begin:Menu item-->
                                 <div  data-kt-menu-trigger="click"  class="menu-item {{
-                                    request()->is('overview*') ||
-                                    request()->is('settings*')
+                                    request()->is('customer*') 
                                     ? ' here show menu-accordion' : '' }}" >
                                 <!--begin:Menu link-->
                                 <span class="menu-link" >
@@ -1216,8 +1215,8 @@
                                                 <!--begin:Menu item-->
                                                 <div  class="menu-item" >
                                                     <!--begin:Menu link-->
-                                                    <a class="menu-link  {{ request()->is('user.overview')
-                                                        ? ' active' : '' }}"  href="{{ route('user.overview',Auth::user()->id) }}" >
+                                                    <a class="menu-link  {{ request()->is('customer.*')
+                                                        ? ' active' : '' }}"  href="{{ route('customer.index') }}" >
                                                         <span  class="menu-bullet" >
                                                             <span class="bullet bullet-dot">
                                                                 </span>
