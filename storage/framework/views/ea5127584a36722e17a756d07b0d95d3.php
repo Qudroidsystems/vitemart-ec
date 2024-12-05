@@ -388,7 +388,7 @@
                         </thead>
                         <tbody class="fw-semibold text-gray-600">
                             <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <tr data-barcode="<?php echo e($product->sku); ?>">
+                            <tr data-barcode="<?php echo e($product->sku); ?>" data-kt-ecommerce-edit-order-id="<?php echo e($product->id); ?>">
                                                 <td>
                                                     <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                         <input class="form-check-input" type="checkbox" value="1"  />
@@ -492,7 +492,7 @@
                                 </div>
 
                                 <div class="text-center info text-center">
-                                    <h6>Dreamguys Technologies Pvt Ltd.,</h6>
+                                    <h6>Gozak Supermarket, Ondo.</h6>
                                     <p class="mb-0">Phone Number: +1 5656665656</p>
                                     <p class="mb-0">Email: <a href="https://dreamspos.dreamstechnologies.com/cdn-cgi/l/email-protection#f7928f969a879b92b7909a969e9bd994989a"><span class="__cf_email__" data-cfemail="cbaeb3aaa6bba7ae8baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a></p>
                                 </div>
@@ -588,7 +588,7 @@
                                 </div>
 
                                 <div class="text-center info text-center">
-                                    <h6>Dreamguys Technologies Pvt Ltd.,</h6>
+                                    <h6>Gozak Supermarket,Ondo,</h6>
                                     <p class="mb-0">Phone Number: +1 5656665656</p>
                                     <p class="mb-0">Email: <a href="https://dreamspos.dreamstechnologies.com/cdn-cgi/l/email-protection#f7928f969a879b92b7909a969e9bd994989a"><span class="__cf_email__" data-cfemail="cbaeb3aaa6bba7ae8baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a></p>
                                 </div>
@@ -672,49 +672,159 @@
         document.getElementById('barcodeInput').focus();
     });
 
+            //     document.addEventListener('DOMContentLoaded', function () {
+            //     class BarcodeScanner {
+            //         constructor() {
+            //             this.port = null;
+            //             this.reader = null;
+            //             this.writer = null;
+            //             this.keepReading = false;
+            //         }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const barcodeInput = document.getElementById('barcodeInput'); // Add a hidden input for scanner
-        let barcodeBuffer = ''; // Buffer to hold scanned characters
-        let timeout; // Timeout to determine end of scanning
+            //         async detectScanner() {
+            //             try {
+            //                 // Request port selection dialog
+            //                 this.port = await navigator.serial.requestPort({
+            //                     // Optional filters if you know specific vendor/product IDs
+            //                     filters: [
+            //                         // Example filter (replace with your scanner's actual IDs)
+            //                         // { usbVendorId: 0x05E0, usbProductId: 0x1200 }
+            //                     ]
+            //                 });
 
-        barcodeInput.addEventListener('input', (e) => {
-            clearTimeout(timeout); // Clear previous timeout
+            //                 await this.connectScanner();
+            //             } catch (error) {
+            //                 console.error('Scanner connection error:', error);
+            //                 this.showConnectionAlert('error', 'Failed to connect scanner');
+            //             }
+            //         }
 
-            // Add current character to the buffer
-            barcodeBuffer += e.target.value.trim();
-            e.target.value = ''; // Clear the input to allow continuous scanning
+            //         async connectScanner() {
+            //             try {
+            //                 // Open the port
+            //                 await this.port.open({
+            //                     baudRate: 9600 // Common scanner baud rate, adjust as needed
+            //                 });
 
-            // Set a timeout to process the barcode after a delay
-            timeout = setTimeout(() => {
-                const scannedBarcode = barcodeBuffer.trim(); // Final barcode value
-                barcodeBuffer = ''; // Reset buffer for the next scan
+            //                 this.keepReading = true;
+            //                 this.startReading();
 
-                // Find the product row by barcode
-                const productRow = document.querySelector(`#kt_ecommerce_edit_order_product_table tr[data-barcode="${scannedBarcode}"]`);
+            //                 this.showConnectionAlert('success', 'Barcode Scanner Connected');
+            //             } catch (error) {
+            //                 console.error('Connection failed:', error);
+            //                 this.showConnectionAlert('error', 'Scanner Connection Failed');
+            //             }
+            //         }
 
-                if (productRow) {
-                    const checkbox = productRow.querySelector('input[type="checkbox"]');
-                    if (!checkbox.checked) {
-                        checkbox.checked = true; // Check the checkbox
-                        checkbox.dispatchEvent(new Event('change')); // Trigger the change event
-                    }
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Item Not Found',
-                        text: `No item found for the scanned barcode: ${scannedBarcode}`,
-                    });
-                }
-            }, 300); // Adjust delay based on scanner speed
-        });
+            //         async startReading() {
+            //             while (this.port && this.keepReading) {
+            //                 try {
+            //                     const { value, done } = await this.port.readable.getReader().read();
+            //                     if (done) break;
 
-        // Ensure the input is always focused
-        document.addEventListener('click', () => {
-            barcodeInput.focus();
-        });
-});
+            //                     // Process the scanned barcode
+            //                     const barcode = new TextDecoder().decode(value);
+            //                     this.processBarcode(barcode);
+            //                 } catch (error) {
+            //                     console.error('Reading error:', error);
+            //                     break;
+            //                 }
+            //             }
+            //         }
 
+            //         processBarcode(barcode) {
+            //             // Handle the scanned barcode
+            //             console.log('Scanned Barcode:', barcode.trim());
+            //             // You can add your existing barcode processing logic here
+            //         }
+
+            //         async disconnectScanner() {
+            //             this.keepReading = false;
+
+            //             if (this.port) {
+            //                 try {
+            //                     await this.port.close();
+            //                     this.showConnectionAlert('warning', 'Barcode Scanner Disconnected');
+            //                 } catch (error) {
+            //                     console.error('Disconnection error:', error);
+            //                 }
+            //                 this.port = null;
+            //             }
+            //         }
+
+            //         showConnectionAlert(type, message) {
+            //             // Remove existing alerts
+            //             const existingAlert = document.getElementById('scannerConnectionAlert');
+            //             if (existingAlert) {
+            //                 existingAlert.remove();
+            //             }
+
+            //             // Create alert
+            //             const alertDiv = document.createElement('div');
+            //             alertDiv.id = 'scannerConnectionAlert';
+            //             alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            //             alertDiv.style.cssText = `
+            //                 z-index: 1060;
+            //                 top: 20px;
+            //                 left: 50%;
+            //                 transform: translateX(-50%);
+            //                 max-width: 400px;
+            //                 width: 90%;
+            //             `;
+
+            //             alertDiv.innerHTML = `
+            //                 <strong>Scanner Status:</strong> ${message}
+            //                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            //             `;
+
+            //             // Append to body
+            //             document.body.appendChild(alertDiv);
+
+            //             // Auto-dismiss after 5 seconds
+            //             setTimeout(() => {
+            //                 const bsAlert = bootstrap.Alert.getInstance(alertDiv);
+            //                 bsAlert?.close();
+            //             }, 5000);
+            //         }
+            //     }
+
+            //     // Initialize the barcode scanner
+            //     const scanner = new BarcodeScanner();
+
+            //     // Add connection button
+            //     const connectButton = document.createElement('button');
+            //     connectButton.textContent = 'Connect Barcode Scanner';
+            //     connectButton.className = 'btn btn-primary';
+            //     connectButton.addEventListener('click', () => scanner.detectScanner());
+
+            //     // Add disconnect button
+            //     const disconnectButton = document.createElement('button');
+            //     disconnectButton.textContent = 'Disconnect Scanner';
+            //     disconnectButton.className = 'btn btn-danger';
+            //     disconnectButton.addEventListener('click', () => scanner.disconnectScanner());
+
+            //     // Add buttons to the page
+            //     const buttonContainer = document.createElement('div');
+            //     buttonContainer.style.position = 'fixed';
+            //     buttonContainer.style.bottom = '20px';
+            //     buttonContainer.style.left = '50%';
+            //     buttonContainer.style.transform = 'translateX(-50%)';
+            //     buttonContainer.style.zIndex = '1060';
+            //     buttonContainer.appendChild(connectButton);
+            //     buttonContainer.appendChild(disconnectButton);
+            //     document.body.appendChild(buttonContainer);
+
+            //     // Listen for connection events
+            //     navigator.serial?.addEventListener('connect', (event) => {
+            //         console.log('Scanner connected:', event.port);
+            //         scanner.showConnectionAlert('success', 'New Scanner Connected');
+            //     });
+
+            //     navigator.serial?.addEventListener('disconnect', (event) => {
+            //         console.log('Scanner disconnected:', event.port);
+            //         scanner.showConnectionAlert('warning', 'Scanner Disconnected');
+            //     });
+            // });
 
 </script>
 <?php $__env->stopSection(); ?>
