@@ -304,11 +304,18 @@ var KTAppEcommerceSalesSaveOrder = function () {
                     const initialTotal = (initialQuantity * productPrice).toFixed(2);
 
                     newRow.innerHTML = `
-                            <td class="pe-0" style="font-size: 22px; padding: 8px;">${productName}</td>
-                            <td class="pe-0" style="font-size: 22px; padding: 8px;">
-                                <input type="text" id="quantityInput" value="${initialQuantity}" readonly class="form-control border-0 text-center px-0" style="font-size: 22px; width: 50px;">
+                            <td class="pe-0" style="font-size: 18px; padding: 8px;">${productName}
+                        
+                                <div class="fw-semibold fs-7">Price:<span>
+                                    <span class="fw-bold text-success ms-3">${formatMoney(productPrice)}</span>
+                                    </span>
+                                </div>
+                                                
                             </td>
-                            <td class="text-end" style="font-size: 22px; padding: 8px;">
+                            <td class="pe-0" style="font-size: 18px; padding: 8px;">
+                                <input type="text" id="quantityInput" value="${initialQuantity}" readonly class="form-control border-0 text-center px-0" style="font-size: 18px; width: 50px;">
+                            </td>
+                            <td class="text-end" style="font-size: 18px; padding: 8px;">
                                 <span data-kt-pos-element="item-total">${formatMoney(initialTotal)}</span>
                             </td>
                         `;
