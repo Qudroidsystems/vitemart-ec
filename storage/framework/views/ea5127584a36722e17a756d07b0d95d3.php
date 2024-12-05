@@ -358,9 +358,21 @@
                     <div class="separator"></div>
                     <!--end::Separator-->
 
-                    <!--begin::Search products-->
+
+                                <!-- Barcode Input -->
+                                <div class="form-group">
+                                    <label for="barcodeInput">Scan Barcode:</label>
+                                    <input type="text"  class="form-control" placeholder="Scan or Enter Barcode">
+                                </div>
+
+
+                                <input type="text" id="barcodeInput" style="position: absolute; opacity: 0;">
+
+
+                                <!--begin::Search products-->
                     <div class="d-flex align-items-center position-relative mb-n7 ">
-                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4"><span class="path1"></span><span class="path2"></span></i>                <input type="text" data-kt-ecommerce-edit-order-filter="search" class="form-control form-control-solid w-100 w-lg-50 ps-12" placeholder="Search Products" />
+                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4"><span class="path1"></span><span class="path2"></span></i>
+                                <input type="text" data-kt-ecommerce-edit-order-filter="search" id="barcodeScanner" class="form-control form-control-solid w-100 w-lg-50 ps-12" placeholder="Search Products" />
                     </div>
                     <!--end::Search products-->
 
@@ -371,11 +383,12 @@
                                 <th class="w-25px pe-2"></th>
                                 <th class="min-w-200px">Product</th>
                                 <th class="min-w-100px text-end pe-5">Qty Remaining</th>
+                                <th class="min-w-100px text-end pe-5">Category</th>
                             </tr>
                         </thead>
                         <tbody class="fw-semibold text-gray-600">
                             <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <tr>
+                            <tr data-barcode="<?php echo e($product->sku); ?>">
                                                 <td>
                                                     <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                         <input class="form-check-input" type="checkbox" value="1"  />
@@ -408,6 +421,10 @@
                                                 </td>
                                                 <td class="text-end pe-5" data-order="0">
                                                                                         
+                                                        <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
+                                                </td>
+                                                <td class="text-end pe-5" data-order="0">
+                                                    
                                                         <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
                                                 </td>
                                     </tr>
@@ -650,6 +667,55 @@
 <script>
     // Set the URL for the payments.store route in a JavaScript variable
     const paymentStoreUrl = '<?php echo e(route('orders.saveorders')); ?>';
+
+    document.addEventListener('click', () => {
+        document.getElementById('barcodeInput').focus();
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const barcodeInput = document.getElementById('barcodeInput'); // Add a hidden input for scanner
+    let barcodeBuffer = ''; // Buffer to hold scanned characters
+    let timeout; // Timeout to determine end of scanning
+
+    barcodeInput.addEventListener('input', (e) => {
+        clearTimeout(timeout); // Clear previous timeout
+
+        // Add current character to the buffer
+        barcodeBuffer += e.target.value.trim();
+        e.target.value = ''; // Clear the input to allow continuous scanning
+
+        // Set a timeout to process the barcode after a delay
+        timeout = setTimeout(() => {
+            const scannedBarcode = barcodeBuffer.trim(); // Final barcode value
+            barcodeBuffer = ''; // Reset buffer for the next scan
+
+            // Find the product row by barcode
+            const productRow = document.querySelector(`#kt_ecommerce_edit_order_product_table tr[data-barcode="${scannedBarcode}"]`);
+
+            if (productRow) {
+                const checkbox = productRow.querySelector('input[type="checkbox"]');
+                if (!checkbox.checked) {
+                    checkbox.checked = true; // Check the checkbox
+                    checkbox.dispatchEvent(new Event('change')); // Trigger the change event
+                }
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Item Not Found',
+                    text: `No item found for the scanned barcode: ${scannedBarcode}`,
+                });
+            }
+        }, 300); // Adjust delay based on scanner speed
+    });
+
+    // Ensure the input is always focused
+    document.addEventListener('click', () => {
+        barcodeInput.focus();
+    });
+});
+
+
 </script>
 <?php $__env->stopSection(); ?>
 

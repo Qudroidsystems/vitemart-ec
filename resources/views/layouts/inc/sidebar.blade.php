@@ -9,8 +9,8 @@
 <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
     <!--begin::Logo image-->
     <a href="../index.html">
-                    <img alt="Logo" src="{{ asset('html/assets/assets/media/logos/rsslogo.png') }}"
-                     class="h-65px app-sidebar-logo-default" style="margin-left: 70px"/>
+                    {{-- <img alt="Logo" src="{{ asset('html/assets/assets/media/logos/rsslogo.png') }}" --}}
+                     {{-- class="h-65px app-sidebar-logo-default" style="margin-left: 70px"/> --}}
     </a>
     <!--end::Logo image-->
 
@@ -1193,7 +1193,7 @@
 
                                 <!--begin:Menu item-->
                                 <div  data-kt-menu-trigger="click"  class="menu-item {{
-                                    request()->is('customer*') 
+                                    request()->is('customer*')
                                     ? ' here show menu-accordion' : '' }}" >
                                 <!--begin:Menu link-->
                                 <span class="menu-link" >
