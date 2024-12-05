@@ -674,46 +674,46 @@
 
 
     document.addEventListener('DOMContentLoaded', function () {
-    const barcodeInput = document.getElementById('barcodeInput'); // Add a hidden input for scanner
-    let barcodeBuffer = ''; // Buffer to hold scanned characters
-    let timeout; // Timeout to determine end of scanning
+            const barcodeInput = document.getElementById('barcodeInput'); // Add a hidden input for scanner
+            let barcodeBuffer = ''; // Buffer to hold scanned characters
+            let timeout; // Timeout to determine end of scanning
 
-    barcodeInput.addEventListener('input', (e) => {
-        clearTimeout(timeout); // Clear previous timeout
+            barcodeInput.addEventListener('input', (e) => {
+                clearTimeout(timeout); // Clear previous timeout
 
-        // Add current character to the buffer
-        barcodeBuffer += e.target.value.trim();
-        e.target.value = ''; // Clear the input to allow continuous scanning
+                // Add current character to the buffer
+                barcodeBuffer += e.target.value.trim();
+                e.target.value = ''; // Clear the input to allow continuous scanning
 
-        // Set a timeout to process the barcode after a delay
-        timeout = setTimeout(() => {
-            const scannedBarcode = barcodeBuffer.trim(); // Final barcode value
-            barcodeBuffer = ''; // Reset buffer for the next scan
+                // Set a timeout to process the barcode after a delay
+                timeout = setTimeout(() => {
+                    const scannedBarcode = barcodeBuffer.trim(); // Final barcode value
+                    barcodeBuffer = ''; // Reset buffer for the next scan
 
-            // Find the product row by barcode
-            const productRow = document.querySelector(`#kt_ecommerce_edit_order_product_table tr[data-barcode="${scannedBarcode}"]`);
+                    // Find the product row by barcode
+                    const productRow = document.querySelector(`#kt_ecommerce_edit_order_product_table tr[data-barcode="${scannedBarcode}"]`);
 
-            if (productRow) {
-                const checkbox = productRow.querySelector('input[type="checkbox"]');
-                if (!checkbox.checked) {
-                    checkbox.checked = true; // Check the checkbox
-                    checkbox.dispatchEvent(new Event('change')); // Trigger the change event
-                }
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Item Not Found',
-                    text: `No item found for the scanned barcode: ${scannedBarcode}`,
-                });
-            }
-        }, 300); // Adjust delay based on scanner speed
+                    if (productRow) {
+                        const checkbox = productRow.querySelector('input[type="checkbox"]');
+                        if (!checkbox.checked) {
+                            checkbox.checked = true; // Check the checkbox
+                            checkbox.dispatchEvent(new Event('change')); // Trigger the change event
+                        }
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Item Not Found',
+                            text: `No item found for the scanned barcode: ${scannedBarcode}`,
+                        });
+                    }
+                }, 300); // Adjust delay based on scanner speed
+            });
+
+            // Ensure the input is always focused
+            document.addEventListener('click', () => {
+                barcodeInput.focus();
+            });
     });
-
-    // Ensure the input is always focused
-    document.addEventListener('click', () => {
-        barcodeInput.focus();
-    });
-});
 
 
 </script>
