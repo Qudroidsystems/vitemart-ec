@@ -216,11 +216,155 @@
     <div class="card-header pt-5">
         <h3 class="card-title fw-bold text-gray-800 fs-2qx">Current Order</h3>
 
+<<<<<<< HEAD
         <!--begin::Toolbar-->
         <div class="card-toolbar">
             <button  class="btn btn-light-primary fs-4 fw-bold py-4">Clear All</button>
         </div>
         <!--end::Toolbar-->
+=======
+
+                                                    <!-- Barcode Input -->
+                                                    <div class="form-group">
+                                                        <label for="barcodeInput">Scan Barcode:</label>
+                                                        <input type="text"  class="form-control" placeholder="Scan or Enter Barcode">
+                                                    </div>
+
+
+                                                    <input type="text" id="barcodeInput" style="position: absolute; opacity: 0;">
+
+
+                                                    <!--begin::Search products-->
+                                        <div class="d-flex align-items-center position-relative mb-n7 ">
+                                            <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4"><span class="path1"></span><span class="path2"></span></i>
+                                                    <input type="text" data-kt-ecommerce-edit-order-filter="search" id="barcodeScanner" class="form-control form-control-solid w-100 w-lg-50 ps-12" placeholder="Search Products" />
+                                        </div>
+                                        <!--end::Search products-->
+
+                                        <!--begin::Table-->
+                                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_edit_order_product_table">
+                                            <thead>
+                                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                                    <th class="w-25px pe-2"></th>
+                                                    <th class="min-w-200px">Product</th>
+                                                    <th class="min-w-100px text-end pe-5">Qty Remaining</th>
+                                                    <th class="min-w-100px text-end pe-5">Category</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="fw-semibold text-gray-600">
+                                                <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <tr data-barcode="<?php echo e($product->sku); ?>" data-kt-ecommerce-edit-order-id="<?php echo e($product->id); ?>">
+                                                                    <td>
+                                                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                                            <input class="form-check-input" type="checkbox" value="1"  />
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="<?php echo e($product->id); ?>">
+                                                                            <!--begin::Thumbnail-->
+                                                                            <a href="#" class="symbol symbol-50px">
+                                                                                <span class="symbol-label" style="background-image:url('<?php echo e($product->cover ? asset('storage/' . $product->cover->path) : asset('storage/uploads/category_default.jpg')); ?>');"></span>
+                                                                            </a>
+                                                                            <!--end::Thumbnail-->
+
+                                                                            <div class="ms-5">
+                                                                                <!--begin::Title-->
+                                                                                <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold"><?php echo e($product->name); ?></a>
+                                                                                <!--end::Title-->
+
+                                                                                <!--begin::Price-->
+                                                                                <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter="price">
+                                                                                <span class="fw-bold text-success ms-3"><?php echo e($product->base_price); ?></span>
+                                                                                </span></div>
+                                                                                <!--end::Price-->
+
+                                                                                <!--begin::SKU-->
+                                                                                <div class="text-muted fs-7">SKU: <?php echo e($product->sku); ?></div>
+                                                                                <!--end::SKU-->
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="text-end pe-5" data-order="0">
+                                                                                                            
+                                                                            <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
+                                                                    </td>
+                                                                    <td class="text-end pe-5" data-order="0">
+                                                                        
+                                                                            <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
+                                                                    </td>
+                                                        </tr>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                                                </tbody>
+                                        </table>
+                                        <!--end::Table-->
+
+
+
+
+                                         <!--begin::Table-->
+                                         <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_edit_order_product_table">
+                                            <thead>
+                                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                                    <th class="w-25px pe-2"></th>
+                                                    <th class="min-w-200px">Product</th>
+                                                    <th class="min-w-100px text-end pe-5">Qty Remaining</th>
+                                                    <th class="min-w-100px text-end pe-5">Category</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="fw-semibold text-gray-600">
+                                          
+                                                <tr data-barcode="<?php echo e($product->sku); ?>" data-kt-ecommerce-edit-order-id="<?php echo e($product->id); ?>">
+                                                                    <td>
+                                                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                                            <input class="form-check-input" type="checkbox" value="1"  />
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="<?php echo e($product->id); ?>">
+                                                                            <!--begin::Thumbnail-->
+                                                                            <a href="#" class="symbol symbol-50px">
+                                                                                <span class="symbol-label" style="background-image:url('<?php echo e($product->cover ? asset('storage/' . $product->cover->path) : asset('storage/uploads/category_default.jpg')); ?>');"></span>
+                                                                            </a>
+                                                                            <!--end::Thumbnail-->
+
+                                                                            <div class="ms-5">
+                                                                                <!--begin::Title-->
+                                                                                <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold"><?php echo e($product->name); ?></a>
+                                                                                <!--end::Title-->
+
+                                                                                <!--begin::Price-->
+                                                                                <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter="price">
+                                                                                <span class="fw-bold text-success ms-3"><?php echo e($product->base_price); ?></span>
+                                                                                </span></div>
+                                                                                <!--end::Price-->
+
+                                                                                <!--begin::SKU-->
+                                                                                <div class="text-muted fs-7">SKU: <?php echo e($product->sku); ?></div>
+                                                                                <!--end::SKU-->
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="text-end pe-5" data-order="0">
+                                                                                                            
+                                                                            <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
+                                                                    </td>
+                                                                    <td class="text-end pe-5" data-order="0">
+                                                                        
+                                                                            <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
+                                                                    </td>
+                                                        </tr>
+
+
+                                                </tbody>
+                                        </table>
+                                        <!--end::Table-->
+                                    </div>
+                                </div>
+                                <!--end::Card header-->
+                            </div>
+                            <!--end::Order details-->
+>>>>>>> 3b7523764fd8e0bc512486516f2f796a69cdd2bc
     </div>
     <!--end::Header-->
 
