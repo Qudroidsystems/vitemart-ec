@@ -979,8 +979,8 @@ var KTAppEcommerceSalesSaveOrder = function () {
                 e.target.value = '';
 
                 // Show preloader
-                barcodePreloader.classList.remove('d-none');
-                barcodePreloader.classList.add('d-flex');
+                // barcodePreloader.classList.remove('d-none');
+                // barcodePreloader.classList.add('d-flex');
 
                 timeout = setTimeout(() => {
                     const scannedBarcode = barcodeBuffer.trim();
@@ -1012,8 +1012,8 @@ var KTAppEcommerceSalesSaveOrder = function () {
                     }
 
                     // Hide preloader
-                    barcodePreloader.classList.remove('d-flex');
-                    barcodePreloader.classList.add('d-none');
+                    // barcodePreloader.classList.remove('d-flex');
+                    // barcodePreloader.classList.add('d-none');
                 }, 300);
                 });
 
@@ -1042,28 +1042,28 @@ var KTAppEcommerceSalesSaveOrder = function () {
                     const initialQuantity = 1;
                     const initialTotal = (initialQuantity * productPrice).toFixed(2);
 
-                    newRow.innerHTML = `
-                        <td class="pe-0" style="font-size: 18px; padding: 8px;">
-                            ${productName}
-                            <div class="fw-semibold fs-7">Price:
-                                <span class="fw-bold text-success ms-3">${formatMoney(productPrice)}</span>
-                            </div>
-                        </td>
-                        <td class="pe-0" style="font-size: 18px; padding: 8px;">
-                            <input type="text" id="quantityInput" value="${initialQuantity}" readonly class="form-control border-0 text-center px-0 quantityInput" style="font-size: 18px; width: 50px;">
-                        </td>
-                        <td class="text-end" style="font-size: 18px; padding: 8px;">
-                            <span data-kt-pos-element="item-total">${formatMoney(initialTotal)}</span>
-                        </td>
-                        <td class="text-end">
-                            <button class="btn btn-sm btn-icon btn-light-danger remove-item" type="button">
-                                <i class="ki-duotone ki-cross fs-2">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                </i>
-                            </button>
-                        </td>
-                    `;
+                    // newRow.innerHTML = `
+                    //     <td class="pe-0" style="font-size: 18px; padding: 8px;">
+                    //         ${productName}
+                    //         <div class="fw-semibold fs-7">Price:
+                    //             <span class="fw-bold text-success ms-3">${formatMoney(productPrice)}</span>
+                    //         </div>
+                    //     </td>
+                    //     <td class="pe-0" style="font-size: 18px; padding: 8px;">
+                    //         <input type="text" id="quantityInput" value="${initialQuantity}" readonly class="form-control border-0 text-center px-0 quantityInput" style="font-size: 18px; width: 50px;">
+                    //     </td>
+                    //     <td class="text-end" style="font-size: 18px; padding: 8px;">
+                    //         <span data-kt-pos-element="item-total">${formatMoney(initialTotal)}</span>
+                    //     </td>
+                    //     <td class="text-end">
+                    //         <button class="btn btn-sm btn-icon btn-light-danger remove-item" type="button">
+                    //             <i class="ki-duotone ki-cross fs-2">
+                    //                 <span class="path1"></span>
+                    //                 <span class="path2"></span>
+                    //             </i>
+                    //         </button>
+                    //     </td>
+                    // `;
 
                     newRow.style.borderBottom = '2px solid green';
 
