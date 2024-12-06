@@ -235,7 +235,7 @@
                                                     <th class="min-w-100px text-end pe-5">Category</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="fw-semibold text-gray-600" id="itemselected">
+                                            <tbody class="fw-semibold text-gray-600">
                                                 @foreach($products as $product)
                                                 <tr data-barcode="{{ $product->sku }}" data-kt-ecommerce-edit-order-id="{{ $product->id}}">
                                                                     <td>
@@ -278,6 +278,67 @@
                                                                     </td>
                                                         </tr>
                                                     @endforeach
+
+                                                </tbody>
+                                        </table>
+                                        <!--end::Table-->
+
+
+
+
+                                         <!--begin::Table-->
+                                         <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_edit_order_product_table">
+                                            <thead>
+                                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                                    <th class="w-25px pe-2"></th>
+                                                    <th class="min-w-200px">Product</th>
+                                                    <th class="min-w-100px text-end pe-5">Qty Remaining</th>
+                                                    <th class="min-w-100px text-end pe-5">Category</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="fw-semibold text-gray-600">
+                                          
+                                                <tr data-barcode="{{ $product->sku }}" data-kt-ecommerce-edit-order-id="{{ $product->id}}">
+                                                                    <td>
+                                                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                                            <input class="form-check-input" type="checkbox" value="1"  />
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="{{ $product->id}}">
+                                                                            <!--begin::Thumbnail-->
+                                                                            <a href="#" class="symbol symbol-50px">
+                                                                                <span class="symbol-label" style="background-image:url('{{ $product->cover ? asset('storage/' . $product->cover->path) : asset('storage/uploads/category_default.jpg') }}');"></span>
+                                                                            </a>
+                                                                            <!--end::Thumbnail-->
+
+                                                                            <div class="ms-5">
+                                                                                <!--begin::Title-->
+                                                                                <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $product->name }}</a>
+                                                                                <!--end::Title-->
+
+                                                                                <!--begin::Price-->
+                                                                                <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter="price">
+                                                                                <span class="fw-bold text-success ms-3">{{ $product->base_price}}</span>
+                                                                                </span></div>
+                                                                                <!--end::Price-->
+
+                                                                                <!--begin::SKU-->
+                                                                                <div class="text-muted fs-7">SKU: {{ $product->sku }}</div>
+                                                                                <!--end::SKU-->
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="text-end pe-5" data-order="0">
+                                                                                                            {{-- <span class="badge badge-light-danger">Sold out</span> --}}
+                                                                            <span class="fw-bold text-success ms-3">{{ number_format($product->stock, 2) }}</span>
+                                                                    </td>
+                                                                    <td class="text-end pe-5" data-order="0">
+                                                                        {{-- <span class="badge badge-light-danger">Sold out</span> --}}
+                                                                            <span class="fw-bold text-success ms-3">{{ number_format($product->stock, 2) }}</span>
+                                                                    </td>
+                                                        </tr>
+
 
                                                 </tbody>
                                         </table>
