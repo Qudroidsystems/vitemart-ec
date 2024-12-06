@@ -188,261 +188,264 @@
         <div id="kt_app_content_container" class="app-container  container-xxl ">
             <!--begin::Form-->
  <div id="kt_ecommerce_edit_order_form" class="form d-flex flex-column flex-lg-row" data-kt-redirect="listing.html">
+
+
     <!--begin::Aside column-->
-    <div class="w-100 flex-lg-row-auto w-lg-500px mb-7 me-7 me-lg-10">
+    <div class="w-100 flex-lg-row-auto w-lg-700px mb-7 me-7 me-lg-10">
 
 
+                         <!--begin::Order details-->
+                            <div class="card card-flush py-4">
+
+                                <!--begin::Card body-->
+                                <div class="card-body pt-0">
+                                    <div class="d-flex flex-column gap-10">
 
 
-<!--begin::Pos order-->
-<div class="card card-flush bg-body " id="kt_pos_form">
-       <!--begin::Separator-->
-       <div class="separator"></div>
-       <!--end::Separator-->
-    <!--begin::Header-->
-    <h6 class="card-title fw-bold text-gray-800 fs-2qx">Choose Customer</h6>
-       <!--begin::Separator-->
-       <div class="separator"></div>
-       <!--end::Separator-->
-     <!--begin::Select2-->
-     <select name="status" class="form-select mb-2" data-control="select2" data-placeholder="Select an option" id="kt_ecommerce_add_product_status_select">
-        <option></option>
-        <option value="published" selected>Walk in Customer</option>
-        <option value="draft">Draft</option>
-        <option value="scheduled">Scheduled</option>
-        <option value="inactive">Inactive</option>
-    </select>
-    <!--end::Select2-->
-    <div class="card-header pt-5">
-        <h3 class="card-title fw-bold text-gray-800 fs-2qx">Current Order</h3>
-
-        <!--begin::Toolbar-->
-        <div class="card-toolbar">
-            <button  class="btn btn-light-primary fs-4 fw-bold py-4">Clear All</button>
-        </div>
-        <!--end::Toolbar-->
-    </div>
-    <!--end::Header-->
-
-    <!--begin::Body-->
-    <div class="card-body pt-0">
-        <!--begin::Table container-->
-        <div class="table-responsive mb-8">
-            <!--begin::Table-->
-            <table class="table align-middle gs-0 gy-4 my-0">
-                <!--begin::Table head-->
-                <thead>
-                    <tr>
-                        <th class="min-w-175px"></th>
-                        <th class="w-125px"></th>
-                        <th class="w-60px"></th>
-                    </tr>
-                </thead>
-                <!--end::Table head-->
-
-                <!--begin::Table body-->
-                <tbody id="itemselected">
+                                        <!--begin::Separator-->
+                                        <div class="separator"></div>
+                                        <!--end::Separator-->
 
 
-                </tbody>
-                <!--end::Table body-->
-            </table>
-            <!--end::Table-->
-        </div>
-        <!--end::Table container-->
+                                                    <!-- Barcode Input -->
+                                                    <div class="form-group">
+                                                        <label for="barcodeInput">Scan Barcode:</label>
+                                                        <input type="text"  class="form-control" placeholder="Scan or Enter Barcode">
+                                                    </div>
 
-        <!--begin::Summary-->
-        <div class="d-flex flex-stack bg-success rounded-3 p-6 mb-11">
-            <!--begin::Content-->
-            <div class="fs-6 fw-bold text-white">
-                <span class="d-block lh-1 mb-2">Subtotal</span>
-                <span class="d-block mb-2">Discounts</span>
-                <span class="d-block mb-9">Tax(%)</span>
-                <span class="d-block fs-2qx lh-1">Total</span>
-            </div>
-            <!--end::Content-->
 
-            <!--begin::Content-->
-            <div class="fs-6 fw-bold text-white text-end">
-                <span class="d-block lh-1 mb-2" data-kt-pos-element="total">₦0.00</span>
-                <span class="d-block mb-2" data-kt-pos-element="discount">-₦0.00</span>
-                <span class="d-block mb-9" data-kt-pos-element="tax">₦0.00</span>
-                <span class="d-block fs-2qx lh-1" data-kt-pos-element="grant-total">₦0.00</span>
-            </div>
-            <!--end::Content-->
-        </div>
-        <!--end::Summary-->
+                                                    <input type="text" id="barcodeInput" style="position: absolute; opacity: 0;">
 
-        <!--begin::Payment Method-->
-        <div class="m-0">
-            <!--begin::Title-->
-            <h1 class="fw-bold text-gray-800 mb-5">Payment Method</h1>
-            <!--end::Title-->
 
-            <!--begin::Radio group-->
-            <div class="d-flex flex-equal gap-5 gap-xxl-9 px-0 mb-12" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
-                                    <!--begin::Radio-->
-                    <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 " data-kt-button="true">
-                        <!--begin::Input-->
-                        <input class="btn-check" type="radio" name="paymentmethod" value="cash"/>
-                        <!--end::Input-->
+                                                    <!--begin::Search products-->
+                                        <div class="d-flex align-items-center position-relative mb-n7 ">
+                                            <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4"><span class="path1"></span><span class="path2"></span></i>
+                                                    <input type="text" data-kt-ecommerce-edit-order-filter="search" id="barcodeScanner" class="form-control form-control-solid w-100 w-lg-50 ps-12" placeholder="Search Products" />
+                                        </div>
+                                        <!--end::Search products-->
 
-                        <!--begin::Icon-->
-                        <i class="ki-duotone ki-dollar fs-2hx mb-2 pe-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>                        <!--end::Icon-->
+                                        <!--begin::Table-->
+                                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_edit_order_product_table">
+                                            <thead>
+                                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                                    <th class="w-25px pe-2"></th>
+                                                    <th class="min-w-200px">Product</th>
+                                                    <th class="min-w-100px text-end pe-5">Qty Remaining</th>
+                                                    <th class="min-w-100px text-end pe-5">Category</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="fw-semibold text-gray-600" id="itemselected">
+                                                <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <tr data-barcode="<?php echo e($product->sku); ?>" data-kt-ecommerce-edit-order-id="<?php echo e($product->id); ?>">
+                                                                    <td>
+                                                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                                            <input class="form-check-input" type="checkbox" value="1"  />
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="<?php echo e($product->id); ?>">
+                                                                            <!--begin::Thumbnail-->
+                                                                            <a href="#" class="symbol symbol-50px">
+                                                                                <span class="symbol-label" style="background-image:url('<?php echo e($product->cover ? asset('storage/' . $product->cover->path) : asset('storage/uploads/category_default.jpg')); ?>');"></span>
+                                                                            </a>
+                                                                            <!--end::Thumbnail-->
 
-                        <!--begin::Title-->
-                        <span class="fs-7 fw-bold d-block">Cash</span>
-                        <!--end::Title-->
-                    </label>
-                    <!--end::Radio-->
-                                    <!--begin::Radio-->
-                    <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 active" data-kt-button="true">
-                        <!--begin::Input-->
-                        <input class="btn-check" type="radio" name="paymentmethod" value="card"/>
-                        <!--end::Input-->
+                                                                            <div class="ms-5">
+                                                                                <!--begin::Title-->
+                                                                                <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold"><?php echo e($product->name); ?></a>
+                                                                                <!--end::Title-->
 
-                        <!--begin::Icon-->
-                        <i class="ki-duotone ki-credit-cart fs-2hx mb-2 pe-0"><span class="path1"></span><span class="path2"></span></i>                        <!--end::Icon-->
+                                                                                <!--begin::Price-->
+                                                                                <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter="price">
+                                                                                <span class="fw-bold text-success ms-3"><?php echo e($product->base_price); ?></span>
+                                                                                </span></div>
+                                                                                <!--end::Price-->
 
-                        <!--begin::Title-->
-                        <span class="fs-7 fw-bold d-block">Card</span>
-                        <!--end::Title-->
-                    </label>
-                    <!--end::Radio-->
-                                    <!--begin::Radio-->
-                    <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 " data-kt-button="true">
-                        <!--begin::Input-->
-                        <input class="btn-check" type="radio" name="paymentmethod" value="transfer"/>
-                        <!--end::Input-->
+                                                                                <!--begin::SKU-->
+                                                                                <div class="text-muted fs-7">SKU: <?php echo e($product->sku); ?></div>
+                                                                                <!--end::SKU-->
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="text-end pe-5" data-order="0">
+                                                                                                            
+                                                                            <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
+                                                                    </td>
+                                                                    <td class="text-end pe-5" data-order="0">
+                                                                        
+                                                                            <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
+                                                                    </td>
+                                                        </tr>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                        <!--begin::Icon-->
-                        <i class="ki-duotone ki-paypal fs-2hx mb-2 pe-0"><span class="path1"></span><span class="path2"></span></i>                        <!--end::Icon-->
-
-                        <!--begin::Title-->
-                        <span class="fs-7 fw-bold d-block">E-Wallet</span>
-                        <!--end::Title-->
-                    </label>
-                    <!--end::Radio-->
+                                                </tbody>
+                                        </table>
+                                        <!--end::Table-->
+                                    </div>
+                                </div>
+                                <!--end::Card header-->
                             </div>
-            <!--end::Radio group-->
-
-            <!--begin::Actions-->
-            <button class="btn btn-primary fs-1 w-100 py-4" >Print Bills</button>
-            <!--end::Actions-->
-
-        </div>
-        <!--end::Payment Method-->
+                            <!--end::Order details-->
     </div>
-    <!--end: Card Body-->
-</div>
-<!--end::Pos order-->
-</div>
     <!--end::Aside column-->
 
 
 
 
 
-    <!--begin::Main column-->
-    <div class="d-flex flex-column flex-lg-row-fluid gap-4 gap-lg-10">
-
-        <!--begin::Order details-->
-        <div class="card card-flush py-4">
-
-            <!--begin::Card body-->
-            <div class="card-body pt-0">
-                <div class="d-flex flex-column gap-10">
+        <!--begin::Main column-->
+        <div class="d-flex flex-column flex-lg-row-fluid gap-4 gap-lg-10">
 
 
+
+                <!--begin::Pos order-->
+                <div class="card card-flush bg-body " id="kt_pos_form">
                     <!--begin::Separator-->
                     <div class="separator"></div>
                     <!--end::Separator-->
+                    <!--begin::Header-->
+                    <h6 class="card-title fw-bold text-gray-800 fs-2qx">Choose Customer</h6>
+                    <!--begin::Separator-->
+                    <div class="separator"></div>
+                    <!--end::Separator-->
+                    <!--begin::Select2-->
+                    <select name="status" class="form-select mb-2" data-control="select2" data-placeholder="Select an option" id="kt_ecommerce_add_product_status_select">
+                        <option></option>
+                        <option value="published" selected>Walk in Customer</option>
+                        <option value="draft">Draft</option>
+                        <option value="scheduled">Scheduled</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                    <!--end::Select2-->
+                    <div class="card-header pt-5">
+                        <h3 class="card-title fw-bold text-gray-800 fs-2qx">Current Order</h3>
 
-
-                                <!-- Barcode Input -->
-                                <div class="form-group">
-                                    <label for="barcodeInput">Scan Barcode:</label>
-                                    <input type="text"  class="form-control" placeholder="Scan or Enter Barcode">
-                                </div>
-
-
-                                <input type="text" id="barcodeInput" style="position: absolute; opacity: 0;">
-
-
-                                <!--begin::Search products-->
-                    <div class="d-flex align-items-center position-relative mb-n7 ">
-                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4"><span class="path1"></span><span class="path2"></span></i>
-                                <input type="text" data-kt-ecommerce-edit-order-filter="search" id="barcodeScanner" class="form-control form-control-solid w-100 w-lg-50 ps-12" placeholder="Search Products" />
+                        <!--begin::Toolbar-->
+                        <div class="card-toolbar">
+                            <button  class="btn btn-light-primary fs-4 fw-bold py-4">Clear All</button>
+                        </div>
+                        <!--end::Toolbar-->
                     </div>
-                    <!--end::Search products-->
+                    <!--end::Header-->
 
-                    <!--begin::Table-->
-                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_edit_order_product_table">
-                        <thead>
-                            <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                                <th class="w-25px pe-2"></th>
-                                <th class="min-w-200px">Product</th>
-                                <th class="min-w-100px text-end pe-5">Qty Remaining</th>
-                                <th class="min-w-100px text-end pe-5">Category</th>
-                            </tr>
-                        </thead>
-                        <tbody class="fw-semibold text-gray-600">
-                            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <tr data-barcode="<?php echo e($product->sku); ?>" data-kt-ecommerce-edit-order-id="<?php echo e($product->id); ?>">
-                                                <td>
-                                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                        <input class="form-check-input" type="checkbox" value="1"  />
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="<?php echo e($product->id); ?>">
-                                                        <!--begin::Thumbnail-->
-                                                        <a href="#" class="symbol symbol-50px">
-                                                            <span class="symbol-label" style="background-image:url('<?php echo e($product->cover ? asset('storage/' . $product->cover->path) : asset('storage/uploads/category_default.jpg')); ?>');"></span>
-                                                        </a>
-                                                        <!--end::Thumbnail-->
-
-                                                        <div class="ms-5">
-                                                            <!--begin::Title-->
-                                                            <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold"><?php echo e($product->name); ?></a>
-                                                            <!--end::Title-->
-
-                                                            <!--begin::Price-->
-                                                            <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter="price">
-                                                            <span class="fw-bold text-success ms-3"><?php echo e($product->base_price); ?></span>
-                                                            </span></div>
-                                                            <!--end::Price-->
-
-                                                            <!--begin::SKU-->
-                                                            <div class="text-muted fs-7">SKU: <?php echo e($product->sku); ?></div>
-                                                            <!--end::SKU-->
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-end pe-5" data-order="0">
-                                                                                        
-                                                        <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
-                                                </td>
-                                                <td class="text-end pe-5" data-order="0">
-                                                    
-                                                        <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
-                                                </td>
+                    <!--begin::Body-->
+                    <div class="card-body pt-0">
+                        <!--begin::Table container-->
+                        <div class="table-responsive mb-8">
+                            <!--begin::Table-->
+                            <table class="table align-middle gs-0 gy-4 my-0">
+                                <!--begin::Table head-->
+                                <thead>
+                                    <tr>
+                                        <th class="min-w-175px"></th>
+                                        <th class="w-125px"></th>
+                                        <th class="w-60px"></th>
                                     </tr>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </thead>
+                                <!--end::Table head-->
 
-                            </tbody>
-                    </table>
-                    <!--end::Table-->
+                                <!--begin::Table body-->
+                                <tbody id="itemselected">
+
+
+                                </tbody>
+                                <!--end::Table body-->
+                            </table>
+                            <!--end::Table-->
+                        </div>
+                        <!--end::Table container-->
+
+                        <!--begin::Summary-->
+                        <div class="d-flex flex-stack bg-success rounded-3 p-6 mb-11">
+                            <!--begin::Content-->
+                            <div class="fs-6 fw-bold text-white">
+                                <span class="d-block lh-1 mb-2">Subtotal</span>
+                                <span class="d-block mb-2">Discounts</span>
+                                <span class="d-block mb-9">Tax(%)</span>
+                                <span class="d-block fs-2qx lh-1">Total</span>
+                            </div>
+                            <!--end::Content-->
+
+                            <!--begin::Content-->
+                            <div class="fs-6 fw-bold text-white text-end">
+                                <span class="d-block lh-1 mb-2" data-kt-pos-element="total">₦0.00</span>
+                                <span class="d-block mb-2" data-kt-pos-element="discount">-₦0.00</span>
+                                <span class="d-block mb-9" data-kt-pos-element="tax">₦0.00</span>
+                                <span class="d-block fs-2qx lh-1" data-kt-pos-element="grant-total">₦0.00</span>
+                            </div>
+                            <!--end::Content-->
+                        </div>
+                        <!--end::Summary-->
+
+                        <!--begin::Payment Method-->
+                        <div class="m-0">
+                            <!--begin::Title-->
+                            <h1 class="fw-bold text-gray-800 mb-5">Payment Method</h1>
+                            <!--end::Title-->
+
+                            <!--begin::Radio group-->
+                            <div class="d-flex flex-equal gap-5 gap-xxl-9 px-0 mb-12" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
+                                                    <!--begin::Radio-->
+                                    <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 " data-kt-button="true">
+                                        <!--begin::Input-->
+                                        <input class="btn-check" type="radio" name="paymentmethod" value="cash"/>
+                                        <!--end::Input-->
+
+                                        <!--begin::Icon-->
+                                        <i class="ki-duotone ki-dollar fs-2hx mb-2 pe-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>                        <!--end::Icon-->
+
+                                        <!--begin::Title-->
+                                        <span class="fs-7 fw-bold d-block">Cash</span>
+                                        <!--end::Title-->
+                                    </label>
+                                    <!--end::Radio-->
+                                                    <!--begin::Radio-->
+                                    <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 active" data-kt-button="true">
+                                        <!--begin::Input-->
+                                        <input class="btn-check" type="radio" name="paymentmethod" value="card"/>
+                                        <!--end::Input-->
+
+                                        <!--begin::Icon-->
+                                        <i class="ki-duotone ki-credit-cart fs-2hx mb-2 pe-0"><span class="path1"></span><span class="path2"></span></i>                        <!--end::Icon-->
+
+                                        <!--begin::Title-->
+                                        <span class="fs-7 fw-bold d-block">Card</span>
+                                        <!--end::Title-->
+                                    </label>
+                                    <!--end::Radio-->
+                                                    <!--begin::Radio-->
+                                    <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 " data-kt-button="true">
+                                        <!--begin::Input-->
+                                        <input class="btn-check" type="radio" name="paymentmethod" value="transfer"/>
+                                        <!--end::Input-->
+
+                                        <!--begin::Icon-->
+                                        <i class="ki-duotone ki-paypal fs-2hx mb-2 pe-0"><span class="path1"></span><span class="path2"></span></i>                        <!--end::Icon-->
+
+                                        <!--begin::Title-->
+                                        <span class="fs-7 fw-bold d-block">E-Wallet</span>
+                                        <!--end::Title-->
+                                    </label>
+                                    <!--end::Radio-->
+                                            </div>
+                            <!--end::Radio group-->
+
+                            <!--begin::Actions-->
+                            <button class="btn btn-primary fs-1 w-100 py-4" >Print Bills</button>
+                            <!--end::Actions-->
+
+                        </div>
+                        <!--end::Payment Method-->
+                    </div>
+                    <!--end: Card Body-->
                 </div>
-            </div>
-            <!--end::Card header-->
+                <!--end::Pos order-->
+
+
+
+
         </div>
-        <!--end::Order details-->
-
-
-
-    </div>
-    <!--end::Main column-->
+        <!--end::Main column-->
 </div>
 <!--end::Form-->
   </div>
