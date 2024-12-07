@@ -9,8 +9,8 @@
 
 <!--begin::Custom Javascript(used for this page only)-->
     <script src="<?php echo e(asset('html/assets/assets/js/custom/apps/ecommerce/sales/save-order.js')); ?>"></script>
-    <script src="<?php echo e(asset('html/assets/assets/js/custom/apps/ecommerce/sales/listing.js')); ?>"></script>
-    <script src="<?php echo e(asset('html/assets/assets/js/custom/apps/ecommerce/sales/listing2.js')); ?>"></script>
+    
+    
     <script src="<?php echo e(asset('html/assets/assets/js/custom/pages/general/pos.js')); ?>"></script>
     <script src="<?php echo e(asset('html/assets/assets/js/widgets.bundle.js')); ?>"></script>
     <script src="<?php echo e(asset('html/assets/assets/js/custom/widgets.js')); ?>"></script>

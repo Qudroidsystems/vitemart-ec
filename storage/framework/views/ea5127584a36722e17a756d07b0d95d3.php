@@ -58,123 +58,7 @@
         <!--end::Breadcrumb-->
     </div>
 <!--end::Page title-->
-<!--begin::Actions-->
-<div class="d-flex align-items-center gap-2 gap-lg-3">
-            <!--begin::Filter menu-->
-        <div class="m-0">
-            <!--begin::Menu toggle-->
-            <a href="#" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                <i class="ki-duotone ki-filter fs-6 text-muted me-1"><span class="path1"></span><span class="path2"></span></i>
-                Filter
-            </a>
-            <!--end::Menu toggle-->
 
-
-
-<!--begin::Menu 1-->
-<div class="menu menu-sub menu-sub-dropdown w-250px w-md-300px" data-kt-menu="true" id="kt_menu_6486985c279a4">
-    <!--begin::Header-->
-    <div class="px-7 py-5">
-        <div class="fs-5 text-dark fw-bold">Filter Options</div>
-    </div>
-    <!--end::Header-->
-
-    <!--begin::Menu separator-->
-    <div class="separator border-gray-200"></div>
-    <!--end::Menu separator-->
-
-    <!--begin::Form-->
-    <div class="px-7 py-5">
-        <!--begin::Input group-->
-        <div class="mb-10">
-            <!--begin::Label-->
-            <label class="form-label fw-semibold">Status:</label>
-            <!--end::Label-->
-
-            <!--begin::Input-->
-            <div>
-                <select class="form-select form-select-solid" data-kt-select2="true" data-placeholder="Select option" data-dropdown-parent="#kt_menu_6486985c279a4" data-allow-clear="true">
-                    <option></option>
-                    <option value="1">Approved</option>
-                    <option value="2">Pending</option>
-                    <option value="2">In Process</option>
-                    <option value="2">Rejected</option>
-                </select>
-            </div>
-            <!--end::Input-->
-        </div>
-        <!--end::Input group-->
-
-        <!--begin::Input group-->
-        <div class="mb-10">
-            <!--begin::Label-->
-            <label class="form-label fw-semibold">Member Type:</label>
-            <!--end::Label-->
-
-            <!--begin::Options-->
-            <div class="d-flex">
-                <!--begin::Options-->
-                <label class="form-check form-check-sm form-check-custom form-check-solid me-5">
-                    <input class="form-check-input" type="checkbox" value="1"/>
-                    <span class="form-check-label">
-                        Author
-                    </span>
-                </label>
-                <!--end::Options-->
-
-                <!--begin::Options-->
-                <label class="form-check form-check-sm form-check-custom form-check-solid">
-                    <input class="form-check-input" type="checkbox" value="2" checked="checked"/>
-                    <span class="form-check-label">
-                        Customer
-                    </span>
-                </label>
-                <!--end::Options-->
-            </div>
-            <!--end::Options-->
-        </div>
-        <!--end::Input group-->
-
-        <!--begin::Input group-->
-        <div class="mb-10">
-            <!--begin::Label-->
-            <label class="form-label fw-semibold">Notifications:</label>
-            <!--end::Label-->
-
-            <!--begin::Switch-->
-            <div class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="" name="notifications" checked />
-                <label class="form-check-label">
-                    Enabled
-                </label>
-            </div>
-            <!--end::Switch-->
-        </div>
-        <!--end::Input group-->
-
-        <!--begin::Actions-->
-        <div class="d-flex justify-content-end">
-            <button type="reset" class="btn btn-sm btn-light btn-active-light-primary me-2" data-kt-menu-dismiss="true">Reset</button>
-
-            <button type="submit" class="btn btn-sm btn-primary" data-kt-menu-dismiss="true">Apply</button>
-        </div>
-        <!--end::Actions-->
-    </div>
-    <!--end::Form-->
-</div>
-<!--end::Menu 1-->        </div>
-        <!--end::Filter menu-->
-
-
-    <!--begin::Secondary button-->
-        <!--end::Secondary button-->
-
-    <!--begin::Primary button-->
-            <a href="#" class="btn btn-sm fw-bold btn-primary"  data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">
-            Create        </a>
-        <!--end::Primary button-->
-</div>
-<!--end::Actions-->
         </div>
         <!--end::Toolbar container-->
     </div>
@@ -190,141 +74,158 @@
  <div id="kt_ecommerce_edit_order_form" class="form d-flex flex-column flex-lg-row" data-kt-redirect="listing.html">
 
 
-    <!--begin::Aside column-->
-    <div class="w-100 flex-lg-row-auto w-lg-700px mb-7 me-7 me-lg-10">
-
-
-                         <!--begin::Order details-->
-                            <div class="card card-flush py-4">
-
-                                <!--begin::Card body-->
-                                <div class="card-body pt-0">
-                                    <div class="d-flex flex-column gap-10">
-
-
-                                        <!--begin::Separator-->
-                                        <div class="separator"></div>
-                                        <!--end::Separator-->
-
-                                        <input
-                                        autocomplete="off"
-                                        type="text"
-                                        id="searchInput"
-                                        placeholder="Search or enter to show products"
-                                        class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        data-kt_ecommerce_edit_order_product_table-ajax-filter="search"
-                                         >
+       <!--begin::Aside column-->
+       <div class="w-100 flex-lg-row-auto w-lg-700px mb-7 me-7 me-lg-10">
 
 
 
 
+             <!--begin::Order details-->
+             <div class="card card-flush py-4">
 
-                                    <div id="productTableContainer" class="table-dropdown hidden">
-                                        <!--begin::Table-->
-                                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_edit_order_product_table-ajax">
-                                          <thead>
-                                              <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                                                  <th class="w-25px pe-2"></th>
-                                                  <th class="min-w-200px">Product Details</th>
-                                                  <th class="min-w-100px text-end pe-5">QANTITY</th>
-                                                  <th class="min-w-100px text-end pe-5"> CATEGORY</th>
-
-                                              </tr>
-                                          </thead>
-                                          <tbody class="fw-semibold text-gray-600" >
-                                                  <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                  <tr data-barcode="<?php echo e($product->sku); ?>" data-kt-ecommerce-edit-order-id-ajax="<?php echo e($product->id); ?>" >
-                                                                      <td>
-                                                                          <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                                              <input class="form-check-input" type="checkbox" value="1"  />
-                                                                          </div>
-                                                                      </td>
-                                                                      <td>
-                                                                          <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter-ajax="product" data-kt-ecommerce-edit-order-id-ajax="<?php echo e($product->id); ?>">
-                                                                              <!--begin::Thumbnail-->
-                                                                              <a href="#" class="symbol symbol-50px">
-                                                                                  <span class="symbol-label" style="background-image:url('<?php echo e($product->cover ? asset('storage/' . $product->cover->path) : asset('storage/uploads/category_default.jpg')); ?>');"></span>
-                                                                              </a>
-                                                                              <!--end::Thumbnail-->
-
-                                                                              <div class="ms-5">
-                                                                                  <!--begin::Title-->
-                                                                                  <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold"><?php echo e($product->name); ?></a>
-                                                                                  <!--end::Title-->
-
-                                                                                  <!--begin::Price-->
-                                                                                  <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter-ajax="price">
-                                                                                  <span class="fw-bold text-success ms-3"><?php echo e($product->base_price); ?></span>
-                                                                                  </span></div>
-                                                                                  <!--end::Price-->
-
-                                                                                  <!--begin::SKU-->
-                                                                                  <div class="text-muted fs-7">SKU: <?php echo e($product->sku); ?></div>
-                                                                                  <!--end::SKU-->
-
-                                                                              </div>
-                                                                          </div>
-                                                                      </td>
-                                                                      <td class="text-end pe-5" data-order="0">
-                                                                                                              
-                                                                              <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
-                                                                      </td>
-                                                                      <td class="text-end pe-5" data-order="0">
-                                                                          
-                                                                              <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
-                                                                      </td>
-
-                                                  </tr>
-                                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-                                          </tbody>
-                                      </table>
-                                      <!--end::Table-->
-                                  </div>
-
-                                                    <!-- Barcode Input -->
-                                                    <div class="form-group">
-                                                        <label for="barcodeInput">Scan Barcode:</label>
-                                                        <input type="text"  class="form-control" placeholder="Scan or Enter Barcode">
-                                                    </div>
+                <!--begin::Card body-->
+                <div class="card-body pt-0">
+                    <div class="d-flex flex-column gap-10">
 
 
-                                                    <input type="text" id="productTable" style="position: absolute; opacity: 0;">
+                        <!--begin::Separator-->
+                        <div class="separator"></div>
+                        <!--end::Separator-->
 
+                        <input
+                        autocomplete="off"
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search or enter to show products"
 
-                                                    <!--begin::Search products-->
-                                        <div class="d-flex align-items-center position-relative mb-n7 ">
-                                            <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4"><span class="path1"></span><span class="path2"></span></i>
-                                                    <input type="text" data-kt-ecommerce-edit-order-filter="search" id="barcodeInput" class="form-control form-control-solid w-100 w-lg-50 ps-12" placeholder="Search Products" />
-                                        </div>
-                                        <!--end::Search products-->
-
-                                        <!--begin::Table-->
-                                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_edit_order_product_table">
-                                                    <thead>
-                                                        <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                                                            <th class="w-25px pe-2"></th>
-                                                            <th class="min-w-200px">Product Details</th>
-                                                            <th class="min-w-100px text-end pe-5">QANTITY</th>
-                                                            <th class="min-w-100px text-end pe-5"> SUB-TOTAL</th>
-                                                            <th class="min-w-100px text-end pe-5">Actions</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="fw-semibold text-gray-600" id="itemselected">
+                        class="form-control mb-3 form-control-lg w-300"
+                        style="font-size: 1.25rem; padding: 15px; width: 100%;"
+                        data-kt_ecommerce_edit_order_product_table-ajax-filter="search"
+                         >
 
 
 
-                                                    </tbody>
-                                        </table>
-                                        <!--end::Table-->
 
 
+                    <div id="productTableContainer" class="table-dropdown hidden">
+                        <!--begin::Table-->
+                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_edit_order_product_table-ajax">
+                          <thead>
+                              <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                  <th class="w-25px pe-2"></th>
+                                  <th class="min-w-200px">Product Details</th>
+                                  <th class="min-w-100px text-end pe-5">QANTITY</th>
+                                  <th class="min-w-100px text-end pe-5"> CATEGORY</th>
+                                  <th>Status</th>
+                                  <th>Actions</th> <!-- Ensure you have 5 columns here -->
 
+                              </tr>
+                          </thead>
+                          <tbody class="fw-semibold text-gray-600" >
+                                  <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                  <tr data-barcode="<?php echo e($product->sku); ?>" data-kt-ecommerce-edit-order-id-ajax="<?php echo e($product->id); ?>" >
+                                                      <td>
+                                                          <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                              <input class="form-check-input" type="checkbox" value="1"  />
+                                                          </div>
+                                                      </td>
+                                                      <td>
+                                                          <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter-ajax="product" data-kt-ecommerce-edit-order-id-ajax="<?php echo e($product->id); ?>">
+                                                              <!--begin::Thumbnail-->
+                                                              <a href="#" class="symbol symbol-50px">
+                                                                  <span class="symbol-label" style="background-image:url('<?php echo e($product->cover ? asset('storage/' . $product->cover->path) : asset('storage/uploads/category_default.jpg')); ?>');"></span>
+                                                              </a>
+                                                              <!--end::Thumbnail-->
+
+                                                              <div class="ms-5">
+                                                                  <!--begin::Title-->
+                                                                  <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold"><?php echo e($product->name); ?></a>
+                                                                  <!--end::Title-->
+
+                                                                  <!--begin::Price-->
+                                                                  <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter-ajax="price">
+                                                                  <span class="fw-bold text-success ms-3"><?php echo e($product->base_price); ?></span>
+                                                                  </span></div>
+                                                                  <!--end::Price-->
+
+                                                                  <!--begin::SKU-->
+                                                                  <div class="text-muted fs-7">SKU: <?php echo e($product->sku); ?></div>
+                                                                  <!--end::SKU-->
+
+                                                              </div>
+                                                          </div>
+                                                      </td>
+                                                      <td class="text-end pe-5" data-order="0">
+                                                                                              
+                                                              <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
+                                                      </td>
+                                                      <td class="text-end pe-5" data-order="0">
+                                                          
+                                                              <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
+                                                      </td>
+                                                      <td class="text-end pe-5" data-order="0">
+                                                        
+                                                            <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
+                                                    </td>
+                                                    <td class="text-end pe-5" data-order="0">
+                                                        
+                                                            <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
+                                                    </td>
+
+                                  </tr>
+                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                          </tbody>
+                      </table>
+                      <!--end::Table-->
+                  </div>
+
+                                    <!-- Barcode Input -->
+                                    <div class="form-group">
+                                        <label for="barcodeInput">Scan Barcode:</label>
+                                        <input type="text"  class="form-control" placeholder="Scan or Enter Barcode">
                                     </div>
-                                </div>
-                                <!--end::Card header-->
-                            </div>
-                            <!--end::Order details-->
+
+
+                                    <input type="text" id="productTable" style="position: absolute; opacity: 0;">
+
+
+                                    <!--begin::Search products-->
+                        <div class="d-flex align-items-center position-relative mb-n7 ">
+                            <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4"><span class="path1"></span><span class="path2"></span></i>
+                                    <input type="text" data-kt-ecommerce-edit-order-filter="search" id="barcodeInput" class="form-control form-control-solid w-100 w-lg-50 ps-12" placeholder="Search Products" />
+                        </div>
+                        <!--end::Search products-->
+
+                        <!--begin::Table-->
+                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_edit_order_product_table">
+                                    <thead>
+                                        <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                            <th class="w-25px pe-2"></th>
+                                            <th class="min-w-200px">Product Details</th>
+                                            <th class="min-w-100px text-end pe-5">QANTITY</th>
+                                            <th class="min-w-100px text-end pe-5"> SUB-TOTAL</th>
+                                            <th class="min-w-100px text-end pe-5">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="fw-semibold text-gray-600" id="itemselected">
+
+
+
+                                    </tbody>
+                        </table>
+                        <!--end::Table-->
+
+
+
+                    </div>
+                </div>
+                <!--end::Card header-->
+            </div>
+            <!--end::Order details-->
+
+
+
     </div>
     <!--end::Aside column-->
 
@@ -337,143 +238,143 @@
 
 
 
-                <!--begin::Pos order-->
-                <div class="card card-flush bg-body " id="kt_pos_form">
+           <!--begin::Pos order-->
+           <div class="card card-flush bg-body " id="kt_pos_form">
 
 
-                    <div class="card-header pt-5">
+            <div class="card-header pt-5">
 
-                         <!--begin::Header-->
-                    <h6 class="card-title fw-bold text-gray-800 ">Choose Customer</h6>
-                    <!--begin::Separator-->
-                    <div class="separator"></div>
-                    <!--end::Separator-->
-                    <!--begin::Select2-->
-                    <select name="status" class="form-select mb-2" data-control="select2" data-placeholder="Select an option" id="kt_ecommerce_add_product_status_select">
-                        <option></option>
-                        <option value="published" selected>Walk in Customer</option>
-                        <option value="draft">Draft</option>
-                        <option value="scheduled">Scheduled</option>
-                        <option value="inactive">Inactive</option>
-                    </select>
-                    <!--end::Select2-->
-                        <h3 class="card-title fw-bold text-gray-800 fs-2qx">Current Order</h3>
+                 <!--begin::Header-->
+            <h6 class="card-title fw-bold text-gray-800 ">Choose Customer</h6>
+            <!--begin::Separator-->
+            <div class="separator"></div>
+            <!--end::Separator-->
+            <!--begin::Select2-->
+            <select name="status" class="form-select mb-2" data-control="select2" data-placeholder="Select an option" id="kt_ecommerce_add_product_status_select">
+                <option></option>
+                <option value="published" selected>Walk in Customer</option>
+                <option value="draft">Draft</option>
+                <option value="scheduled">Scheduled</option>
+                <option value="inactive">Inactive</option>
+            </select>
+            <!--end::Select2-->
+                <h3 class="card-title fw-bold text-gray-800 fs-2qx">Current Order</h3>
 
-                        <!--begin::Toolbar-->
-                        <div class="card-toolbar">
-                            <button  class="btn btn-light-primary fs-4 fw-bold py-4">Clear All</button>
-                        </div>
-                        <!--end::Toolbar-->
-                    </div>
-                    <!--end::Header-->
-
-                    <!--begin::Body-->
-                    <div class="card-body pt-0">
-                        <!--begin::Table container-->
-                        <div class="table-responsive mb-8">
-                            <!--begin::Table-->
-                            <table class="table align-middle gs-0 gy-4 my-0">
-                                <!--begin::Table head-->
-                                <thead>
-                                    <tr>
-                                        <th class="min-w-175px"></th>
-                                        <th class="w-125px"></th>
-                                        <th class="w-60px"></th>
-                                    </tr>
-                                </thead>
-                                <!--end::Table head-->
-
-
-                            </table>
-                            <!--end::Table-->
-                        </div>
-                        <!--end::Table container-->
-
-                        <!--begin::Summary-->
-                        <div class="d-flex flex-stack bg-success rounded-3 p-6 mb-11">
-                            <!--begin::Content-->
-                            <div class="fs-6 fw-bold text-white">
-                                <span class="d-block lh-1 mb-2">Subtotal</span>
-                                <span class="d-block mb-2">Discounts</span>
-                                <span class="d-block mb-9">Tax(%)</span>
-                                <span class="d-block fs-2qx lh-1">Total</span>
-                            </div>
-                            <!--end::Content-->
-
-                            <!--begin::Content-->
-                            <div class="fs-6 fw-bold text-white text-end">
-                                <span class="d-block lh-1 mb-2" data-kt-pos-element="total">₦0.00</span>
-                                <span class="d-block mb-2" data-kt-pos-element="discount">-₦0.00</span>
-                                <span class="d-block mb-9" data-kt-pos-element="tax">₦0.00</span>
-                                <span class="d-block fs-2qx lh-1" data-kt-pos-element="grant-total">₦0.00</span>
-                            </div>
-                            <!--end::Content-->
-                        </div>
-                        <!--end::Summary-->
-
-                        <!--begin::Payment Method-->
-                        <div class="m-0">
-                            <!--begin::Title-->
-                            <h1 class="fw-bold text-gray-800 mb-5">Payment Method</h1>
-                            <!--end::Title-->
-
-                            <!--begin::Radio group-->
-                            <div class="d-flex flex-equal gap-5 gap-xxl-9 px-0 mb-12" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
-                                                    <!--begin::Radio-->
-                                    <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 " data-kt-button="true">
-                                        <!--begin::Input-->
-                                        <input class="btn-check" type="radio" name="paymentmethod" value="cash"/>
-                                        <!--end::Input-->
-
-                                        <!--begin::Icon-->
-                                        <i class="ki-duotone ki-dollar fs-2hx mb-2 pe-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>                        <!--end::Icon-->
-
-                                        <!--begin::Title-->
-                                        <span class="fs-7 fw-bold d-block">Cash</span>
-                                        <!--end::Title-->
-                                    </label>
-                                    <!--end::Radio-->
-                                                    <!--begin::Radio-->
-                                    <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 active" data-kt-button="true">
-                                        <!--begin::Input-->
-                                        <input class="btn-check" type="radio" name="paymentmethod" value="card"/>
-                                        <!--end::Input-->
-
-                                        <!--begin::Icon-->
-                                        <i class="ki-duotone ki-credit-cart fs-2hx mb-2 pe-0"><span class="path1"></span><span class="path2"></span></i>                        <!--end::Icon-->
-
-                                        <!--begin::Title-->
-                                        <span class="fs-7 fw-bold d-block">Card</span>
-                                        <!--end::Title-->
-                                    </label>
-                                    <!--end::Radio-->
-                                                    <!--begin::Radio-->
-                                    <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 " data-kt-button="true">
-                                        <!--begin::Input-->
-                                        <input class="btn-check" type="radio" name="paymentmethod" value="transfer"/>
-                                        <!--end::Input-->
-
-                                        <!--begin::Icon-->
-                                        <i class="ki-duotone ki-paypal fs-2hx mb-2 pe-0"><span class="path1"></span><span class="path2"></span></i>                        <!--end::Icon-->
-
-                                        <!--begin::Title-->
-                                        <span class="fs-7 fw-bold d-block">E-Wallet</span>
-                                        <!--end::Title-->
-                                    </label>
-                                    <!--end::Radio-->
-                                            </div>
-                            <!--end::Radio group-->
-
-                            <!--begin::Actions-->
-                            <button class="btn btn-primary fs-1 w-100 py-4" >Print Bills</button>
-                            <!--end::Actions-->
-
-                        </div>
-                        <!--end::Payment Method-->
-                    </div>
-                    <!--end: Card Body-->
+                <!--begin::Toolbar-->
+                <div class="card-toolbar">
+                    <button  class="btn btn-light-primary fs-4 fw-bold py-4">Clear All</button>
                 </div>
-                <!--end::Pos order-->
+                <!--end::Toolbar-->
+            </div>
+            <!--end::Header-->
+
+            <!--begin::Body-->
+            <div class="card-body pt-0">
+                <!--begin::Table container-->
+                <div class="table-responsive mb-8">
+                    <!--begin::Table-->
+                    <table class="table align-middle gs-0 gy-4 my-0">
+                        <!--begin::Table head-->
+                        <thead>
+                            <tr>
+                                <th class="min-w-175px"></th>
+                                <th class="w-125px"></th>
+                                <th class="w-60px"></th>
+                            </tr>
+                        </thead>
+                        <!--end::Table head-->
+
+
+                    </table>
+                    <!--end::Table-->
+                </div>
+                <!--end::Table container-->
+
+                <!--begin::Summary-->
+                <div class="d-flex flex-stack bg-success rounded-3 p-6 mb-11">
+                    <!--begin::Content-->
+                    <div class="fs-6 fw-bold text-white">
+                        <span class="d-block lh-1 mb-2">Subtotal</span>
+                        <span class="d-block mb-2">Discounts</span>
+                        <span class="d-block mb-9">Tax(%)</span>
+                        <span class="d-block fs-2qx lh-1">Total</span>
+                    </div>
+                    <!--end::Content-->
+
+                    <!--begin::Content-->
+                    <div class="fs-6 fw-bold text-white text-end">
+                        <span class="d-block lh-1 mb-2" data-kt-pos-element="total">₦0.00</span>
+                        <span class="d-block mb-2" data-kt-pos-element="discount">-₦0.00</span>
+                        <span class="d-block mb-9" data-kt-pos-element="tax">₦0.00</span>
+                        <span class="d-block fs-2qx lh-1" data-kt-pos-element="grant-total">₦0.00</span>
+                    </div>
+                    <!--end::Content-->
+                </div>
+                <!--end::Summary-->
+
+                <!--begin::Payment Method-->
+                <div class="m-0">
+                    <!--begin::Title-->
+                    <h1 class="fw-bold text-gray-800 mb-5">Payment Method</h1>
+                    <!--end::Title-->
+
+                    <!--begin::Radio group-->
+                    <div class="d-flex flex-equal gap-5 gap-xxl-9 px-0 mb-12" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
+                                            <!--begin::Radio-->
+                            <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 " data-kt-button="true">
+                                <!--begin::Input-->
+                                <input class="btn-check" type="radio" name="paymentmethod" value="cash"/>
+                                <!--end::Input-->
+
+                                <!--begin::Icon-->
+                                <i class="ki-duotone ki-dollar fs-2hx mb-2 pe-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>                        <!--end::Icon-->
+
+                                <!--begin::Title-->
+                                <span class="fs-7 fw-bold d-block">Cash</span>
+                                <!--end::Title-->
+                            </label>
+                            <!--end::Radio-->
+                                            <!--begin::Radio-->
+                            <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 active" data-kt-button="true">
+                                <!--begin::Input-->
+                                <input class="btn-check" type="radio" name="paymentmethod" value="card"/>
+                                <!--end::Input-->
+
+                                <!--begin::Icon-->
+                                <i class="ki-duotone ki-credit-cart fs-2hx mb-2 pe-0"><span class="path1"></span><span class="path2"></span></i>                        <!--end::Icon-->
+
+                                <!--begin::Title-->
+                                <span class="fs-7 fw-bold d-block">Card</span>
+                                <!--end::Title-->
+                            </label>
+                            <!--end::Radio-->
+                                            <!--begin::Radio-->
+                            <label class="btn bg-light btn-color-gray-600 btn-active-text-gray-800 border border-3 border-gray-100 border-active-primary btn-active-light-primary w-100 px-4 " data-kt-button="true">
+                                <!--begin::Input-->
+                                <input class="btn-check" type="radio" name="paymentmethod" value="transfer"/>
+                                <!--end::Input-->
+
+                                <!--begin::Icon-->
+                                <i class="ki-duotone ki-paypal fs-2hx mb-2 pe-0"><span class="path1"></span><span class="path2"></span></i>                        <!--end::Icon-->
+
+                                <!--begin::Title-->
+                                <span class="fs-7 fw-bold d-block">E-Wallet</span>
+                                <!--end::Title-->
+                            </label>
+                            <!--end::Radio-->
+                                    </div>
+                    <!--end::Radio group-->
+
+                    <!--begin::Actions-->
+                    <button class="btn btn-primary fs-1 w-100 py-4" >Print Bills</button>
+                    <!--end::Actions-->
+
+                </div>
+                <!--end::Payment Method-->
+            </div>
+            <!--end: Card Body-->
+        </div>
+        <!--end::Pos order-->
 
 
 
@@ -508,7 +409,7 @@
 
 
 
-
+<
 
     <!-- Print Receipt -->
     <div class="modal fade modal-default" id="print-receipt" aria-labelledby="print-receipt" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -531,7 +432,7 @@
                                 <div class="text-center info text-center">
                                     <h6>Gozak Supermarket, Ondo.</h6>
                                     <p class="mb-0">Phone Number: +1 5656665656</p>
-                                    <p class="mb-0">Email: <a href="https://dreamspos.dreamstechnologies.com/cdn-cgi/l/email-protection#f7928f969a879b92b7909a969e9bd994989a"><span class="_cf_email_" data-cfemail="cbaeb3aaa6bba7ae8baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a></p>
+                                    <p class="mb-0">Email: <a href="https://dreamspos.dreamstechnologies.com/cdn-cgi/l/email-protection#f7928f969a879b92b7909a969e9bd994989a"><span class="__cf_email__" data-cfemail="cbaeb3aaa6bba7ae8baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a></p>
                                 </div>
                                 <div class="tax-invoice">
                                     <h6 class="text-center">Invoice Receipt </h6>
@@ -627,7 +528,7 @@
                                 <div class="text-center info text-center">
                                     <h6>Gozak Supermarket,Ondo,</h6>
                                     <p class="mb-0">Phone Number: +1 5656665656</p>
-                                    <p class="mb-0">Email: <a href="https://dreamspos.dreamstechnologies.com/cdn-cgi/l/email-protection#f7928f969a879b92b7909a969e9bd994989a"><span class="_cf_email_" data-cfemail="cbaeb3aaa6bba7ae8baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a></p>
+                                    <p class="mb-0">Email: <a href="https://dreamspos.dreamstechnologies.com/cdn-cgi/l/email-protection#f7928f969a879b92b7909a969e9bd994989a"><span class="__cf_email__" data-cfemail="cbaeb3aaa6bba7ae8baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a></p>
                                 </div>
                                 <div class="tax-invoice">
                                     <h6 class="text-center">Invoice Receipt </h6>
@@ -701,95 +602,130 @@
     <!-- /Print Receipt -->
 
 
-<script>
-    // Set the URL for the payments.store route in a JavaScript variable
-    const paymentStoreUrl = '<?php echo e(route('orders.saveorders')); ?>';
-
-    // document.addEventListener('click', () => {
-    //     document.getElementById('barcodeInput').focus();
-    // });
-
-
-
-    document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchInput');
-            const productTableContainer = document.getElementById('productTableContainer');
-            const selectAllCheckbox = document.getElementById('selectAllCheckbox');
-            const productCheckboxes = document.querySelectorAll('.product-checkbox');
-
-            // Function to hide table
-            function hideTable() {
-                productTableContainer.classList.remove('show');
-                productTableContainer.classList.add('hide');
-
-                setTimeout(() => {
-                    productTableContainer.classList.add('hidden');
-                }, 500);
-            }
-
-            // Function to focus and select input
-            function focusAndSelectInput() {
-                searchInput.focus();
-                searchInput.select();
-            }
-
-            // Ensure table is hidden on page load
-            hideTable();
-
-            // Toggle table visibility based on input
-            searchInput.addEventListener('input', function() {
-                if (this.value.trim().length > 0) {
-                    // Show table only when there are characters
-                    productTableContainer.classList.remove('hidden', 'hide');
-                    productTableContainer.classList.add('show');
-                } else {
-                    // Hide table when input is empty
-                    hideTable();
+    <script>
+        // Set the URL for the payments.store route in a JavaScript variable
+        const paymentStoreUrl = '<?php echo e(route('orders.saveorders')); ?>';
+    
+        // document.addEventListener('click', () => {
+        //     document.getElementById('searchInput').focus();
+        // });
+    
+    
+    
+        document.addEventListener('DOMContentLoaded', function() {
+                const searchInput = document.getElementById('searchInput');
+                const productTableContainer = document.getElementById('productTableContainer');
+                const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+                const productCheckboxes = document.querySelectorAll('.product-checkbox');
+    
+                // Function to hide table
+                function hideTable() {
+                    productTableContainer.classList.remove('show');
+                    productTableContainer.classList.add('hide');
+    
+                    setTimeout(() => {
+                        productTableContainer.classList.add('hidden');
+                    }, 500);
                 }
-            });
-
-            // Handle Enter key press to clear input and hide table
-            searchInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    this.value = '';
-                    hideTable();
-                    e.preventDefault();
+    
+                // Function to focus and select input
+                function focusAndSelectInput() {
+                    searchInput.focus();
+                    searchInput.select();
                 }
-            });
-
-            // Select all checkboxes
-            selectAllCheckbox.addEventListener('change', function() {
-                productCheckboxes.forEach(checkbox => {
-                    checkbox.checked = this.checked;
-                });
-
-                // Clear input and hide table immediately
-                searchInput.value = '';
+    
+                // Ensure table is hidden on page load
                 hideTable();
-                focusAndSelectInput();
-            });
-
-            // Individual product checkbox event
-            productCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    // Clear input and hide table immediately when checkbox is checked
-                    if (this.checked) {
-                        searchInput.value = '';
+    
+                // Toggle table visibility based on input
+                searchInput.addEventListener('input', function() {
+                    if (this.value.trim().length > 0) {
+                        // Show table only when there are characters
+                        productTableContainer.classList.remove('hidden', 'hide');
+                        productTableContainer.classList.add('show');
+                    } else {
+                        // Hide table when input is empty
                         hideTable();
-                        focusAndSelectInput();
                     }
                 });
+    
+                // Handle Enter key press to clear input and hide table
+                searchInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        this.value = '';
+                        hideTable();
+                        e.preventDefault();
+                    }
+                });
+    
+                // Select all checkboxes
+                selectAllCheckbox.addEventListener('change', function() {
+                    productCheckboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
+    
+                    // Clear input and hide table immediately
+                    searchInput.value = '';
+                    hideTable();
+                    focusAndSelectInput();
+                });
+    
+                // Individual product checkbox event
+                productCheckboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        // Clear input and hide table immediately when checkbox is checked
+                        if (this.checked) {
+                            searchInput.value = '';
+                            hideTable();
+                            focusAndSelectInput();
+                        }
+                    });
+                });
+    
+                // Prevent table from hiding when interacting with it
+                productTableContainer.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
             });
-
-            // Prevent table from hiding when interacting with it
-            productTableContainer.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-        });
-
-</script>
-
-
+    
+    
+    
+    
+            document.addEventListener('DOMContentLoaded', () => {
+                    // Select the table element
+                    const table = document.getElementById('kt_ecommerce_edit_order_product_table-ajax');
+                    const filterSearch = document.querySelector('[data-kt_ecommerce_edit_order_product_table-ajax-filter="search"]');
+                    const productTableContainer = document.getElementById('productTableContainer');
+    
+                    // Initialize DataTable
+                    const datatable = $(table).DataTable({
+                        info: false,
+                        order: [],
+                        pageLength: 10,
+                        columnDefs: [
+                            { orderable: false, targets: 0 }, // Disable ordering on column 0 (checkbox)
+                            { orderable: false, targets: 5 }, // Disable ordering on column 7 (actions)
+                        ],
+                    });
+    
+                    // Add event listener to search input
+                    filterSearch.addEventListener('input', (e) => {
+                        const query = e.target.value.trim();
+    
+                        if (query.length > 0) {
+                            // Show the table container
+                            productTableContainer.classList.remove('hidden');
+    
+                            // Filter the table using the search query
+                            datatable.search(query).draw();
+                        } else {
+                            // Hide the table container when input is empty
+                            productTableContainer.classList.add('hidden');
+                        }
+                    });
+    });
+    
+    </script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\vitemart-ec\resources\views/pos/index.blade.php ENDPATH**/ ?>

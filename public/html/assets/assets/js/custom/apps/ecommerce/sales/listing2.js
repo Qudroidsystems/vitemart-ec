@@ -2,65 +2,123 @@
 
 // Class definition
 var KTAppEcommerceSalesListing = function () {
-    
-    // Shared variables
-    var table;
-    var datatable;
-    var flatpickr;
-    var minDate, maxDate;
 
-    // Private functions
-    var initDatatable = function () {
-        // Init datatable --- more info on datatables: https://datatables.net/manual/
-        datatable = $(table).DataTable({
-            "info": false,
-            'order': [],
-            'pageLength': 10,
-            'columnDefs': [
-                { orderable: false, targets: 0 }, // Disable ordering on column 0 (checkbox)
-                { orderable: false, targets: 7 }, // Disable ordering on column 7 (actions)
-            ]
-        });
+    // // Shared variables
+    // var table;
+    // var datatable;
+    // var flatpickr;
+    // var minDate, maxDate;
 
-        // Re-init functions on datatable re-draws
-        datatable.on('draw', function () {
-            handleDeleteRows();
-        });
-    }
+    // // Private functions
+    // var initDatatable = function () {
+    //     // Init datatable --- more info on datatables: https://datatables.net/manual/
+    //     datatable = $(table).DataTable({
+    //         "info": false,
+    //         'order': [],
+    //         'pageLength': 10,
+    //         'columnDefs': [
+    //             { orderable: false, targets: 0 }, // Disable ordering on column 0 (checkbox)
+    //             { orderable: false, targets: 7 }, // Disable ordering on column 7 (actions)
+    //         ]
+    //     });
 
-    // Init flatpickr --- more info :https://flatpickr.js.org/getting-started/
-    var initFlatpickr = () => {
-        const element = document.querySelector('#kt_ecommerce_sales_flatpickr');
-        flatpickr = $(element).flatpickr({
-            altInput: true,
-            altFormat: "d/m/Y",
-            dateFormat: "Y-m-d",
-            mode: "range",
-            onChange: function (selectedDates, dateStr, instance) {
-                handleFlatpickr(selectedDates, dateStr, instance);
-            },
-        });
-    }
+    //     // Re-init functions on datatable re-draws
+    //     datatable.on('draw', function () {
+    //         handleDeleteRows();
+    //     });
+    // }
 
-    // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
-    var handleSearchDatatable = () => {
-        const filterSearch = document.querySelector('[kt_ecommerce_edit_order_product_table-ajax-filter="search"]');
-        filterSearch.addEventListener('keyup', function (e) {
-            datatable.search(e.target.value).draw();
-        });
-    }
+    // // Init flatpickr --- more info :https://flatpickr.js.org/getting-started/
+    // var initFlatpickr = () => {
+    //     const element = document.querySelector('#kt_ecommerce_sales_flatpickr');
+    //     flatpickr = $(element).flatpickr({
+    //         altInput: true,
+    //         altFormat: "d/m/Y",
+    //         dateFormat: "Y-m-d",
+    //         mode: "range",
+    //         onChange: function (selectedDates, dateStr, instance) {
+    //             handleFlatpickr(selectedDates, dateStr, instance);
+    //         },
+    //     });
+    // }
 
-    // Handle status filter dropdown
-    var handleStatusFilter = () => {
-        const filterStatus = document.querySelector('[kt_ecommerce_edit_order_product_table-ajax-filter="status"]');
-        $(filterStatus).on('change', e => {
-            let value = e.target.value;
-            if (value === 'all') {
-                value = '';
-            }
-            datatable.column(3).search(value).draw();
-        });
-    }
+    // // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
+    // var handleSearchDatatable = () => {
+    //     const filterSearch = document.querySelector('[kt_ecommerce_edit_order_product_table-ajax-filter="search"]');
+    //     filterSearch.addEventListener('keyup', function (e) {
+    //         datatable.search(e.target.value).draw();
+    //     });
+    // }
+
+    // // Handle status filter dropdown
+    // var handleStatusFilter = () => {
+    //     const filterStatus = document.querySelector('[kt_ecommerce_edit_order_product_table-ajax-filter="status"]');
+    //     $(filterStatus).on('change', e => {
+    //         let value = e.target.value;
+    //         if (value === 'all') {
+    //             value = '';
+    //         }
+    //         datatable.column(3).search(value).draw();
+    //     });
+    // }
+
+
+
+    // Initialize DataTable
+const initDatatable = () => {
+    table = document.getElementById('kt_ecommerce_edit_order_product_table-ajax');
+
+    datatable = $(table).DataTable({
+        info: false,
+        order: [],
+        pageLength: 10,
+        columnDefs: [
+            { orderable: false, targets: 0 }, // Disable ordering on column 0 (checkbox)
+            { orderable: false, targets: 7 }, // Disable ordering on column 7 (actions)
+        ],
+    });
+
+    // Re-init functions on table re-draws
+    datatable.on('draw', () => {
+        console.log('Table redrawn'); // Example: handle additional logic here
+    });
+};
+
+// Handle search input for DataTable
+const handleSearchDatatable = () => {
+    const filterSearch = document.querySelector('[data-kt_ecommerce_edit_order_product_table-ajax-filter="search"]');
+    const productTableContainer = document.getElementById('productTableContainer');
+
+    filterSearch.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+
+        // Check if input is not empty
+        if (query.length > 0) {
+            // Show the table container
+            productTableContainer.classList.remove('hidden');
+
+            // Filter DataTable rows
+            datatable.search(query).draw();
+        } else {
+            // Hide the table container when input is empty
+            productTableContainer.classList.add('hidden');
+        }
+    });
+};
+
+// Initialize flatpickr (if needed)
+const initFlatpickr = () => {
+    const element = document.querySelector('#kt_ecommerce_sales_flatpickr');
+    flatpickr = $(element).flatpickr({
+        altInput: true,
+        altFormat: 'd/m/Y',
+        dateFormat: 'Y-m-d',
+        mode: 'range',
+    });
+};
+
+
+
 
     // Handle flatpickr --- more info: https://flatpickr.js.org/events/
     var handleFlatpickr = (selectedDates, dateStr, instance) => {

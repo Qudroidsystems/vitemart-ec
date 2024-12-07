@@ -9,23 +9,23 @@ var KTAppEcommerceSalesListing = function () {
     var minDate, maxDate;
 
     // Private functions
-    var initDatatable = function () {
-        // Init datatable --- more info on datatables: https://datatables.net/manual/
-        datatable = $(table).DataTable({
-            "info": false,
-            'order': [],
-            'pageLength': 10,
-            'columnDefs': [
-                { orderable: false, targets: 0 }, // Disable ordering on column 0 (checkbox)
-                { orderable: false, targets: 7 }, // Disable ordering on column 7 (actions)
-            ]
-        });
+    // var initDatatable = function () {
+    //     // Init datatable --- more info on datatables: https://datatables.net/manual/
+    //     datatable = $(table).DataTable({
+    //         "info": false,
+    //         'order': [],
+    //         'pageLength': 10,
+    //         'columnDefs': [
+    //             { orderable: false, targets: 0 }, // Disable ordering on column 0 (checkbox)
+    //             { orderable: false, targets: 7 }, // Disable ordering on column 7 (actions)
+    //         ]
+    //     });
 
-        // Re-init functions on datatable re-draws
-        datatable.on('draw', function () {
-            handleDeleteRows();
-        });
-    }
+    //     // Re-init functions on datatable re-draws
+    //     datatable.on('draw', function () {
+    //         handleDeleteRows();
+    //     });
+    // }
 
     // Init flatpickr --- more info :https://flatpickr.js.org/getting-started/
     var initFlatpickr = () => {
@@ -42,52 +42,52 @@ var KTAppEcommerceSalesListing = function () {
     }
 
     // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
-    var handleSearchDatatable = () => {
-        const filterSearch = document.querySelector('[data-kt-ecommerce-order-filter="search"]');
-        filterSearch.addEventListener('keyup', function (e) {
-            datatable.search(e.target.value).draw();
-        });
-    }
+    // var handleSearchDatatable = () => {
+    //     const filterSearch = document.querySelector('[data-kt-ecommerce-order-filter="search"]');
+    //     filterSearch.addEventListener('keyup', function (e) {
+    //         datatable.search(e.target.value).draw();
+    //     });
+    // }
 
     // Handle status filter dropdown
-    var handleStatusFilter = () => {
-        const filterStatus = document.querySelector('[data-kt-ecommerce-order-filter="status"]');
-        $(filterStatus).on('change', e => {
-            let value = e.target.value;
-            if (value === 'all') {
-                value = '';
-            }
-            datatable.column(3).search(value).draw();
-        });
-    }
+    // var handleStatusFilter = () => {
+    //     const filterStatus = document.querySelector('[data-kt-ecommerce-order-filter="status"]');
+    //     $(filterStatus).on('change', e => {
+    //         let value = e.target.value;
+    //         if (value === 'all') {
+    //             value = '';
+    //         }
+    //         datatable.column(3).search(value).draw();
+    //     });
+    // }
 
     // Handle flatpickr --- more info: https://flatpickr.js.org/events/
-    var handleFlatpickr = (selectedDates, dateStr, instance) => {
-        minDate = selectedDates[0] ? new Date(selectedDates[0]) : null;
-        maxDate = selectedDates[1] ? new Date(selectedDates[1]) : null;
+    // var handleFlatpickr = (selectedDates, dateStr, instance) => {
+    //     minDate = selectedDates[0] ? new Date(selectedDates[0]) : null;
+    //     maxDate = selectedDates[1] ? new Date(selectedDates[1]) : null;
 
-        // Datatable date filter --- more info: https://datatables.net/extensions/datetime/examples/integration/datatables.html
-        // Custom filtering function which will search data in column four between two values
-        $.fn.dataTable.ext.search.push(
-            function (settings, data, dataIndex) {
-                var min = minDate;
-                var max = maxDate;
-                var dateAdded = new Date(moment($(data[5]).text(), 'DD/MM/YYYY'));
-                var dateModified = new Date(moment($(data[6]).text(), 'DD/MM/YYYY'));
+    //     // Datatable date filter --- more info: https://datatables.net/extensions/datetime/examples/integration/datatables.html
+    //     // Custom filtering function which will search data in column four between two values
+    //     $.fn.dataTable.ext.search.push(
+    //         function (settings, data, dataIndex) {
+    //             var min = minDate;
+    //             var max = maxDate;
+    //             var dateAdded = new Date(moment($(data[5]).text(), 'DD/MM/YYYY'));
+    //             var dateModified = new Date(moment($(data[6]).text(), 'DD/MM/YYYY'));
 
-                if (
-                    (min === null && max === null) ||
-                    (min === null && max >= dateModified) ||
-                    (min <= dateAdded && max === null) ||
-                    (min <= dateAdded && max >= dateModified)
-                ) {
-                    return true;
-                }
-                return false;
-            }
-        );
-        datatable.draw();
-    }
+    //             if (
+    //                 (min === null && max === null) ||
+    //                 (min === null && max >= dateModified) ||
+    //                 (min <= dateAdded && max === null) ||
+    //                 (min <= dateAdded && max >= dateModified)
+    //             ) {
+    //                 return true;
+    //             }
+    //             return false;
+    //         }
+    //     );
+    //     datatable.draw();
+    // }
 
     // Handle clear flatpickr
     var handleClearFlatpickr = () => {
@@ -165,11 +165,11 @@ var KTAppEcommerceSalesListing = function () {
                 return;
             }
 
-            initDatatable();
+           // initDatatable();
             initFlatpickr();
-            handleSearchDatatable();
-            handleStatusFilter();
-            handleDeleteRows();
+           // handleSearchDatatable();
+           // handleStatusFilter();
+           // handleDeleteRows();
             handleClearFlatpickr();
         }
     };

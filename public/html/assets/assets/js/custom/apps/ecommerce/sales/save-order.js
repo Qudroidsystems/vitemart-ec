@@ -109,7 +109,7 @@ var KTAppEcommerceSalesSaveOrder = function () {
                 const updateQuantityBtn = document.getElementById('updateQuantityBtn');
                 const clearAllButton = document.querySelector('.btn-light-primary');
                 const checkboxes = document.querySelectorAll('[type="checkbox"]');
-                const barcodeInput = document.getElementById('barcodeInput');
+                const barcodeInput = document.getElementById('searchInput');
 
                 let selectedProductRow = null;
                 let orderItems = [];
@@ -316,6 +316,154 @@ var KTAppEcommerceSalesSaveOrder = function () {
                             }, 5000);
                         };
 
+
+                        // Create a preloader element
+const barcodePreloader = document.createElement('div');
+barcodePreloader.id = 'barcodePreloader';
+barcodePreloader.classList.add('position-absolute', 'd-none', 'align-items-center', 'justify-content-center');
+barcodePreloader.style.cssText = 'top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050; width: 50px; height: 50px;';
+barcodePreloader.innerHTML = `
+    <div class="spinner-border text-primary" role="status" style="width: 30px; height: 30px;">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+`;
+document.body.appendChild(barcodePreloader); // Add preloader to the body or relevant container
+
+// Add event listener to show alert when barcode input is focused
+barcodeInput.addEventListener('focus', createBarcodeAlert);
+
+// Optional: Programmatic trigger for testing
+document.addEventListener('click', (event) => {
+    // If clicked anywhere, focus the input to trigger the alert
+    if (event.target !== barcodeInput) {
+        barcodeInput.focus();
+    }
+});
+
+// Ensure the barcode input always regains focus after other interactions
+document.addEventListener('click', (e) => {
+    if (e.target && e.target.id === 'quantityInput') {
+        const quantityInput = e.target;
+        quantityInput.focus();
+        quantityInput.addEventListener('blur', () => {
+            barcodeInput.focus();
+        }, { once: true });
+    } else {
+        barcodeInput.focus();
+    }
+});
+
+// Handle direct blur events on the barcode input to refocus
+barcodeInput.addEventListener('blur', () => {
+    setTimeout(() => {
+        if (
+            document.activeElement.tagName !== 'INPUT' ||
+            document.activeElement.id !== 'quantityInput'
+        ) {
+            barcodeInput.focus();
+        }
+    }, 100);
+});
+
+// Handle both barcode scanning and manual search
+const handleSearchOrScan = () => {
+    barcodeInput.addEventListener('input', (e) => {
+        clearTimeout(timeout);
+
+        // Collect typed characters and keep the input field value visible
+        barcodeBuffer = e.target.value.trim();
+
+        // Show preloader only if scanning a barcode
+        barcodePreloader.classList.remove('d-none');
+        barcodePreloader.classList.add('d-flex');
+
+        timeout = setTimeout(() => {
+            const inputValue = barcodeBuffer.trim();
+            barcodeBuffer = ''; // Clear buffer for the next input
+
+            if (inputValue) {
+                if (e.inputType === "insertText" || e.key === "Enter") {
+                    // Handle manual search by filtering the table
+                    searchTable(inputValue);
+                }
+            }
+
+            // Hide preloader after the scan or manual search
+            barcodePreloader.classList.remove('d-flex');
+            barcodePreloader.classList.add('d-none');
+        }, 300); // Debounce delay
+    });
+
+    // Detect 'Enter' key to trigger barcode scanning logic (for barcode)
+    barcodeInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Prevent form submission or default behavior
+            const scannedBarcode = barcodeBuffer.trim();
+            if (scannedBarcode) {
+                processBarcode(scannedBarcode);
+            }
+            barcodeBuffer = ''; // Clear buffer after processing
+        }
+    });
+};
+
+// Function to search the table for manual input
+const searchTable = (query) => {
+    const rows = document.querySelectorAll('#kt_ecommerce_edit_order_product_table-ajax tbody tr');
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let matched = false;
+
+        cells.forEach(cell => {
+            if (cell.textContent.toLowerCase().includes(query.toLowerCase())) {
+                matched = true;
+            }
+        });
+
+        if (matched) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+};
+
+// Function to process scanned barcode when "Enter" key is pressed
+const processBarcode = (barcode) => {
+    const productRow = document.querySelector(`#kt_ecommerce_edit_order_product_table-ajax tr[data-barcode="${barcode}"]`);
+
+    if (productRow) {
+        const existingSelectedRow = document.querySelector(`#itemselected tr[data-kt-ecommerce-edit-order-id-ajax="${productRow.getAttribute('data-kt-ecommerce-edit-order-id-ajax')}"]`);
+
+        if (existingSelectedRow) {
+            selectedProductRow = existingSelectedRow;
+            const currentQuantity = parseInt(existingSelectedRow.querySelector('#quantityInput').value, 10) || 1;
+            modalQuantityInput.value = currentQuantity + 1;
+            updateQuantity();
+        } else {
+            const checkbox = productRow.querySelector('input[type="checkbox"]');
+            if (!checkbox.checked) {
+                checkbox.checked = true;
+                checkbox.dispatchEvent(new Event('change'));
+            }
+        }
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Item Not Found',
+            text: `No item found for the scanned barcode: ${barcode}`,
+        });
+    }
+};
+
+// Initialize the search or barcode scan functionality
+handleSearchOrScan();
+
+
+
+
+
+
                         //     //Add event listener to show alert when barcode input is focused
                         //  barcodeInput.addEventListener('focus', createBarcodeAlert);
 
@@ -363,69 +511,72 @@ var KTAppEcommerceSalesSaveOrder = function () {
                         //         }, 100);
                         //     });
 
-                // Create a compact preloader element
-                const preloaderHtml = `
-                <div id="barcodePreloader" class="position-absolute d-none align-items-center justify-content-center"
-                    style="top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050; width: 50px; height: 50px;">
-                    <div class="spinner-border text-primary" role="status" style="width: 30px; height: 30px;">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-                `;
 
-                barcodeInput.closest('.position-relative, .input-group')?.insertAdjacentHTML('beforeend', preloaderHtml) ||
-                barcodeInput.parentElement.insertAdjacentHTML('beforeend', preloaderHtml);
-                const barcodePreloader = document.getElementById('barcodePreloader');
+
+
+                // // Create a compact preloader element
+                // const preloaderHtml = `
+                // <div id="barcodePreloader" class="position-absolute d-none align-items-center justify-content-center"
+                //     style="top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050; width: 50px; height: 50px;">
+                //     <div class="spinner-border text-primary" role="status" style="width: 30px; height: 30px;">
+                //         <span class="visually-hidden">Loading...</span>
+                //     </div>
+                // </div>
+                // `;
+
+                // barcodeInput.closest('.position-relative, .input-group')?.insertAdjacentHTML('beforeend', preloaderHtml) ||
+                // barcodeInput.parentElement.insertAdjacentHTML('beforeend', preloaderHtml);
+                // const barcodePreloader = document.getElementById('barcodePreloader');
 
                 // Modify barcode scanning logic to include preloader
-             barcodeInput.addEventListener('input', (e) => {
-                clearTimeout(timeout);
-                barcodeBuffer += e.target.value.trim();
-                e.target.value = '';
+            //  barcodeInput.addEventListener('input', (e) => {
+            //     clearTimeout(timeout);
+            //     barcodeBuffer += e.target.value.trim();
+            //     e.target.value = '';
 
-                // Show preloader
-                barcodePreloader.classList.remove('d-none');
-                barcodePreloader.classList.add('d-flex');
+            //     // Show preloader
+            //     barcodePreloader.classList.remove('d-none');
+            //     barcodePreloader.classList.add('d-flex');
 
-                timeout = setTimeout(() => {
-                    const scannedBarcode = barcodeBuffer.trim();
-                    barcodeBuffer = '';
+            //     timeout = setTimeout(() => {
+            //         const scannedBarcode = barcodeBuffer.trim();
+            //         barcodeBuffer = '';
 
-                    const productRow = document.querySelector(`#kt_ecommerce_edit_order_product_table-ajax tr[data-barcode="${scannedBarcode}"]`);
+            //         const productRow = document.querySelector(`#kt_ecommerce_edit_order_product_table-ajax tr[data-barcode="${scannedBarcode}"]`);
 
-                    if (productRow) {
-                        const existingSelectedRow = document.querySelector(`#itemselected tr[data-kt-ecommerce-edit-order-id-ajax="${productRow.getAttribute('data-kt-ecommerce-edit-order-id-ajax')}"]`);
+            //         if (productRow) {
+            //             const existingSelectedRow = document.querySelector(`#itemselected tr[data-kt-ecommerce-edit-order-id-ajax="${productRow.getAttribute('data-kt-ecommerce-edit-order-id-ajax')}"]`);
 
-                        if (existingSelectedRow) {
-                            selectedProductRow = existingSelectedRow;
-                            const currentQuantity = parseInt(existingSelectedRow.querySelector('#quantityInput').value, 10) || 1;
-                            modalQuantityInput.value = currentQuantity + 1;
-                            updateQuantity();
-                        } else {
-                            const checkbox = productRow.querySelector('input[type="checkbox"]');
-                            if (!checkbox.checked) {
-                                checkbox.checked = true;
-                                checkbox.dispatchEvent(new Event('change'));
-                            }
-                        }
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Item Not Found',
-                            text: `No item found for the scanned barcode: ${scannedBarcode}`,
-                        });
-                    }
+            //             if (existingSelectedRow) {
+            //                 selectedProductRow = existingSelectedRow;
+            //                 const currentQuantity = parseInt(existingSelectedRow.querySelector('#quantityInput').value, 10) || 1;
+            //                 modalQuantityInput.value = currentQuantity + 1;
+            //                 updateQuantity();
+            //             } else {
+            //                 const checkbox = productRow.querySelector('input[type="checkbox"]');
+            //                 if (!checkbox.checked) {
+            //                     checkbox.checked = true;
+            //                     checkbox.dispatchEvent(new Event('change'));
+            //                 }
+            //             }
+            //         } else {
+            //             Swal.fire({
+            //                 icon: 'error',
+            //                 title: 'Item Not Found',
+            //                 text: `No item found for the scanned barcode: ${scannedBarcode}`,
+            //             });
+            //         }
 
-                    // Hide preloader
-                    barcodePreloader.classList.remove('d-flex');
-                    barcodePreloader.classList.add('d-none');
-                }, 300);
-                });
+            //         // Hide preloader
+            //         barcodePreloader.classList.remove('d-flex');
+            //         barcodePreloader.classList.add('d-none');
+            //     }, 300);
+            //     });
 
 
 
-                             // Checkbox Handling
-                              checkboxes.forEach((checkbox) => {
+        // Checkbox Handling
+        checkboxes.forEach((checkbox) => {
             checkbox.addEventListener('change', (e) => {
                 const parent = checkbox.closest('tr');
                 const productId = parent.querySelector('[data-kt-ecommerce-edit-order-id-ajax]').getAttribute('data-kt-ecommerce-edit-order-id-ajax');
