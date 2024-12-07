@@ -206,6 +206,81 @@
                                         <div class="separator"></div>
                                         <!--end::Separator-->
 
+                                        <input
+                                        autocomplete="off"
+                                        type="text"
+                                        id="searchInput"
+                                        placeholder="Search or enter to show products"
+                                        class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        data-kt_ecommerce_edit_order_product_table-ajax-filter="search"
+                                         >
+
+
+
+
+
+                                    <div id="productTableContainer" class="table-dropdown hidden">
+                                        <!--begin::Table-->
+                                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_edit_order_product_table-ajax">
+                                          <thead>
+                                              <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                                  <th class="w-25px pe-2"></th>
+                                                  <th class="min-w-200px">Product Details</th>
+                                                  <th class="min-w-100px text-end pe-5">QANTITY</th>
+                                                  <th class="min-w-100px text-end pe-5"> CATEGORY</th>
+
+                                              </tr>
+                                          </thead>
+                                          <tbody class="fw-semibold text-gray-600" >
+                                                  <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                  <tr data-barcode="<?php echo e($product->sku); ?>" data-kt-ecommerce-edit-order-id-ajax="<?php echo e($product->id); ?>" >
+                                                                      <td>
+                                                                          <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                                              <input class="form-check-input" type="checkbox" value="1"  />
+                                                                          </div>
+                                                                      </td>
+                                                                      <td>
+                                                                          <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter-ajax="product" data-kt-ecommerce-edit-order-id-ajax="<?php echo e($product->id); ?>">
+                                                                              <!--begin::Thumbnail-->
+                                                                              <a href="#" class="symbol symbol-50px">
+                                                                                  <span class="symbol-label" style="background-image:url('<?php echo e($product->cover ? asset('storage/' . $product->cover->path) : asset('storage/uploads/category_default.jpg')); ?>');"></span>
+                                                                              </a>
+                                                                              <!--end::Thumbnail-->
+
+                                                                              <div class="ms-5">
+                                                                                  <!--begin::Title-->
+                                                                                  <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold"><?php echo e($product->name); ?></a>
+                                                                                  <!--end::Title-->
+
+                                                                                  <!--begin::Price-->
+                                                                                  <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter-ajax="price">
+                                                                                  <span class="fw-bold text-success ms-3"><?php echo e($product->base_price); ?></span>
+                                                                                  </span></div>
+                                                                                  <!--end::Price-->
+
+                                                                                  <!--begin::SKU-->
+                                                                                  <div class="text-muted fs-7">SKU: <?php echo e($product->sku); ?></div>
+                                                                                  <!--end::SKU-->
+
+                                                                              </div>
+                                                                          </div>
+                                                                      </td>
+                                                                      <td class="text-end pe-5" data-order="0">
+                                                                                                              
+                                                                              <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
+                                                                      </td>
+                                                                      <td class="text-end pe-5" data-order="0">
+                                                                          
+                                                                              <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
+                                                                      </td>
+
+                                                  </tr>
+                                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                                          </tbody>
+                                      </table>
+                                      <!--end::Table-->
+                                  </div>
 
                                                     <!-- Barcode Input -->
                                                     <div class="form-group">
@@ -214,134 +289,37 @@
                                                     </div>
 
 
-                                                    <input type="text" id="barcodeInput" style="position: absolute; opacity: 0;">
+                                                    <input type="text" id="productTable" style="position: absolute; opacity: 0;">
 
 
                                                     <!--begin::Search products-->
                                         <div class="d-flex align-items-center position-relative mb-n7 ">
                                             <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4"><span class="path1"></span><span class="path2"></span></i>
-                                                    <input type="text" data-kt-ecommerce-edit-order-filter="search" id="barcodeScanner" class="form-control form-control-solid w-100 w-lg-50 ps-12" placeholder="Search Products" />
+                                                    <input type="text" data-kt-ecommerce-edit-order-filter="search" id="barcodeInput" class="form-control form-control-solid w-100 w-lg-50 ps-12" placeholder="Search Products" />
                                         </div>
                                         <!--end::Search products-->
 
                                         <!--begin::Table-->
                                         <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_edit_order_product_table">
-                                            <thead>
-                                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                                                    <th class="w-25px pe-2"></th>
-                                                    <th class="min-w-200px">Product</th>
-                                                    <th class="min-w-100px text-end pe-5">Qty Remaining</th>
-                                                    <th class="min-w-100px text-end pe-5">Category</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="fw-semibold text-gray-600">
-                                                <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <tr data-barcode="<?php echo e($product->sku); ?>" data-kt-ecommerce-edit-order-id="<?php echo e($product->id); ?>">
-                                                                    <td>
-                                                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                                            <input class="form-check-input" type="checkbox" value="1"  />
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="<?php echo e($product->id); ?>">
-                                                                            <!--begin::Thumbnail-->
-                                                                            <a href="#" class="symbol symbol-50px">
-                                                                                <span class="symbol-label" style="background-image:url('<?php echo e($product->cover ? asset('storage/' . $product->cover->path) : asset('storage/uploads/category_default.jpg')); ?>');"></span>
-                                                                            </a>
-                                                                            <!--end::Thumbnail-->
-
-                                                                            <div class="ms-5">
-                                                                                <!--begin::Title-->
-                                                                                <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold"><?php echo e($product->name); ?></a>
-                                                                                <!--end::Title-->
-
-                                                                                <!--begin::Price-->
-                                                                                <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter="price">
-                                                                                <span class="fw-bold text-success ms-3"><?php echo e($product->base_price); ?></span>
-                                                                                </span></div>
-                                                                                <!--end::Price-->
-
-                                                                                <!--begin::SKU-->
-                                                                                <div class="text-muted fs-7">SKU: <?php echo e($product->sku); ?></div>
-                                                                                <!--end::SKU-->
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="text-end pe-5" data-order="0">
-                                                                                                            
-                                                                            <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
-                                                                    </td>
-                                                                    <td class="text-end pe-5" data-order="0">
-                                                                        
-                                                                            <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
-                                                                    </td>
+                                                    <thead>
+                                                        <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                                            <th class="w-25px pe-2"></th>
+                                                            <th class="min-w-200px">Product Details</th>
+                                                            <th class="min-w-100px text-end pe-5">QANTITY</th>
+                                                            <th class="min-w-100px text-end pe-5"> SUB-TOTAL</th>
+                                                            <th class="min-w-100px text-end pe-5">Actions</th>
                                                         </tr>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </thead>
+                                                    <tbody class="fw-semibold text-gray-600" id="itemselected">
 
-                                                </tbody>
+
+
+                                                    </tbody>
                                         </table>
                                         <!--end::Table-->
 
 
 
-
-                                         <!--begin::Table-->
-                                         <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_edit_order_product_table">
-                                            <thead>
-                                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                                                    <th class="w-25px pe-2"></th>
-                                                    <th class="min-w-200px">Product</th>
-                                                    <th class="min-w-100px text-end pe-5">Qty Remaining</th>
-                                                    <th class="min-w-100px text-end pe-5">Category</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="fw-semibold text-gray-600">
-                                          
-                                                <tr data-barcode="<?php echo e($product->sku); ?>" data-kt-ecommerce-edit-order-id="<?php echo e($product->id); ?>">
-                                                                    <td>
-                                                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                                            <input class="form-check-input" type="checkbox" value="1"  />
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="<?php echo e($product->id); ?>">
-                                                                            <!--begin::Thumbnail-->
-                                                                            <a href="#" class="symbol symbol-50px">
-                                                                                <span class="symbol-label" style="background-image:url('<?php echo e($product->cover ? asset('storage/' . $product->cover->path) : asset('storage/uploads/category_default.jpg')); ?>');"></span>
-                                                                            </a>
-                                                                            <!--end::Thumbnail-->
-
-                                                                            <div class="ms-5">
-                                                                                <!--begin::Title-->
-                                                                                <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold"><?php echo e($product->name); ?></a>
-                                                                                <!--end::Title-->
-
-                                                                                <!--begin::Price-->
-                                                                                <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter="price">
-                                                                                <span class="fw-bold text-success ms-3"><?php echo e($product->base_price); ?></span>
-                                                                                </span></div>
-                                                                                <!--end::Price-->
-
-                                                                                <!--begin::SKU-->
-                                                                                <div class="text-muted fs-7">SKU: <?php echo e($product->sku); ?></div>
-                                                                                <!--end::SKU-->
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="text-end pe-5" data-order="0">
-                                                                                                            
-                                                                            <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
-                                                                    </td>
-                                                                    <td class="text-end pe-5" data-order="0">
-                                                                        
-                                                                            <span class="fw-bold text-success ms-3"><?php echo e(number_format($product->stock, 2)); ?></span>
-                                                                    </td>
-                                                        </tr>
-
-
-                                                </tbody>
-                                        </table>
-                                        <!--end::Table-->
                                     </div>
                                 </div>
                                 <!--end::Card header-->
@@ -361,11 +339,12 @@
 
                 <!--begin::Pos order-->
                 <div class="card card-flush bg-body " id="kt_pos_form">
-                    <!--begin::Separator-->
-                    <div class="separator"></div>
-                    <!--end::Separator-->
-                    <!--begin::Header-->
-                    <h6 class="card-title fw-bold text-gray-800 fs-2qx">Choose Customer</h6>
+
+
+                    <div class="card-header pt-5">
+
+                         <!--begin::Header-->
+                    <h6 class="card-title fw-bold text-gray-800 ">Choose Customer</h6>
                     <!--begin::Separator-->
                     <div class="separator"></div>
                     <!--end::Separator-->
@@ -378,7 +357,6 @@
                         <option value="inactive">Inactive</option>
                     </select>
                     <!--end::Select2-->
-                    <div class="card-header pt-5">
                         <h3 class="card-title fw-bold text-gray-800 fs-2qx">Current Order</h3>
 
                         <!--begin::Toolbar-->
@@ -405,12 +383,7 @@
                                 </thead>
                                 <!--end::Table head-->
 
-                                <!--begin::Table body-->
-                                <tbody id="itemselected">
 
-
-                                </tbody>
-                                <!--end::Table body-->
                             </table>
                             <!--end::Table-->
                         </div>
@@ -535,7 +508,7 @@
 
 
 
-<
+
 
     <!-- Print Receipt -->
     <div class="modal fade modal-default" id="print-receipt" aria-labelledby="print-receipt" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -558,7 +531,7 @@
                                 <div class="text-center info text-center">
                                     <h6>Gozak Supermarket, Ondo.</h6>
                                     <p class="mb-0">Phone Number: +1 5656665656</p>
-                                    <p class="mb-0">Email: <a href="https://dreamspos.dreamstechnologies.com/cdn-cgi/l/email-protection#f7928f969a879b92b7909a969e9bd994989a"><span class="__cf_email__" data-cfemail="cbaeb3aaa6bba7ae8baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a></p>
+                                    <p class="mb-0">Email: <a href="https://dreamspos.dreamstechnologies.com/cdn-cgi/l/email-protection#f7928f969a879b92b7909a969e9bd994989a"><span class="_cf_email_" data-cfemail="cbaeb3aaa6bba7ae8baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a></p>
                                 </div>
                                 <div class="tax-invoice">
                                     <h6 class="text-center">Invoice Receipt </h6>
@@ -654,7 +627,7 @@
                                 <div class="text-center info text-center">
                                     <h6>Gozak Supermarket,Ondo,</h6>
                                     <p class="mb-0">Phone Number: +1 5656665656</p>
-                                    <p class="mb-0">Email: <a href="https://dreamspos.dreamstechnologies.com/cdn-cgi/l/email-protection#f7928f969a879b92b7909a969e9bd994989a"><span class="__cf_email__" data-cfemail="cbaeb3aaa6bba7ae8baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a></p>
+                                    <p class="mb-0">Email: <a href="https://dreamspos.dreamstechnologies.com/cdn-cgi/l/email-protection#f7928f969a879b92b7909a969e9bd994989a"><span class="_cf_email_" data-cfemail="cbaeb3aaa6bba7ae8baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a></p>
                                 </div>
                                 <div class="tax-invoice">
                                     <h6 class="text-center">Invoice Receipt </h6>
@@ -732,165 +705,91 @@
     // Set the URL for the payments.store route in a JavaScript variable
     const paymentStoreUrl = '<?php echo e(route('orders.saveorders')); ?>';
 
-    document.addEventListener('click', () => {
-        document.getElementById('barcodeInput').focus();
-    });
+    // document.addEventListener('click', () => {
+    //     document.getElementById('barcodeInput').focus();
+    // });
 
-            //     document.addEventListener('DOMContentLoaded', function () {
-            //     class BarcodeScanner {
-            //         constructor() {
-            //             this.port = null;
-            //             this.reader = null;
-            //             this.writer = null;
-            //             this.keepReading = false;
-            //         }
 
-            //         async detectScanner() {
-            //             try {
-            //                 // Request port selection dialog
-            //                 this.port = await navigator.serial.requestPort({
-            //                     // Optional filters if you know specific vendor/product IDs
-            //                     filters: [
-            //                         // Example filter (replace with your scanner's actual IDs)
-            //                         // { usbVendorId: 0x05E0, usbProductId: 0x1200 }
-            //                     ]
-            //                 });
 
-            //                 await this.connectScanner();
-            //             } catch (error) {
-            //                 console.error('Scanner connection error:', error);
-            //                 this.showConnectionAlert('error', 'Failed to connect scanner');
-            //             }
-            //         }
+    document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const productTableContainer = document.getElementById('productTableContainer');
+            const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+            const productCheckboxes = document.querySelectorAll('.product-checkbox');
 
-            //         async connectScanner() {
-            //             try {
-            //                 // Open the port
-            //                 await this.port.open({
-            //                     baudRate: 9600 // Common scanner baud rate, adjust as needed
-            //                 });
+            // Function to hide table
+            function hideTable() {
+                productTableContainer.classList.remove('show');
+                productTableContainer.classList.add('hide');
 
-            //                 this.keepReading = true;
-            //                 this.startReading();
+                setTimeout(() => {
+                    productTableContainer.classList.add('hidden');
+                }, 500);
+            }
 
-            //                 this.showConnectionAlert('success', 'Barcode Scanner Connected');
-            //             } catch (error) {
-            //                 console.error('Connection failed:', error);
-            //                 this.showConnectionAlert('error', 'Scanner Connection Failed');
-            //             }
-            //         }
+            // Function to focus and select input
+            function focusAndSelectInput() {
+                searchInput.focus();
+                searchInput.select();
+            }
 
-            //         async startReading() {
-            //             while (this.port && this.keepReading) {
-            //                 try {
-            //                     const { value, done } = await this.port.readable.getReader().read();
-            //                     if (done) break;
+            // Ensure table is hidden on page load
+            hideTable();
 
-            //                     // Process the scanned barcode
-            //                     const barcode = new TextDecoder().decode(value);
-            //                     this.processBarcode(barcode);
-            //                 } catch (error) {
-            //                     console.error('Reading error:', error);
-            //                     break;
-            //                 }
-            //             }
-            //         }
+            // Toggle table visibility based on input
+            searchInput.addEventListener('input', function() {
+                if (this.value.trim().length > 0) {
+                    // Show table only when there are characters
+                    productTableContainer.classList.remove('hidden', 'hide');
+                    productTableContainer.classList.add('show');
+                } else {
+                    // Hide table when input is empty
+                    hideTable();
+                }
+            });
 
-            //         processBarcode(barcode) {
-            //             // Handle the scanned barcode
-            //             console.log('Scanned Barcode:', barcode.trim());
-            //             // You can add your existing barcode processing logic here
-            //         }
+            // Handle Enter key press to clear input and hide table
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    this.value = '';
+                    hideTable();
+                    e.preventDefault();
+                }
+            });
 
-            //         async disconnectScanner() {
-            //             this.keepReading = false;
+            // Select all checkboxes
+            selectAllCheckbox.addEventListener('change', function() {
+                productCheckboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
 
-            //             if (this.port) {
-            //                 try {
-            //                     await this.port.close();
-            //                     this.showConnectionAlert('warning', 'Barcode Scanner Disconnected');
-            //                 } catch (error) {
-            //                     console.error('Disconnection error:', error);
-            //                 }
-            //                 this.port = null;
-            //             }
-            //         }
+                // Clear input and hide table immediately
+                searchInput.value = '';
+                hideTable();
+                focusAndSelectInput();
+            });
 
-            //         showConnectionAlert(type, message) {
-            //             // Remove existing alerts
-            //             const existingAlert = document.getElementById('scannerConnectionAlert');
-            //             if (existingAlert) {
-            //                 existingAlert.remove();
-            //             }
+            // Individual product checkbox event
+            productCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    // Clear input and hide table immediately when checkbox is checked
+                    if (this.checked) {
+                        searchInput.value = '';
+                        hideTable();
+                        focusAndSelectInput();
+                    }
+                });
+            });
 
-            //             // Create alert
-            //             const alertDiv = document.createElement('div');
-            //             alertDiv.id = 'scannerConnectionAlert';
-            //             alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-            //             alertDiv.style.cssText = `
-            //                 z-index: 1060;
-            //                 top: 20px;
-            //                 left: 50%;
-            //                 transform: translateX(-50%);
-            //                 max-width: 400px;
-            //                 width: 90%;
-            //             `;
-
-            //             alertDiv.innerHTML = `
-            //                 <strong>Scanner Status:</strong> ${message}
-            //                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            //             `;
-
-            //             // Append to body
-            //             document.body.appendChild(alertDiv);
-
-            //             // Auto-dismiss after 5 seconds
-            //             setTimeout(() => {
-            //                 const bsAlert = bootstrap.Alert.getInstance(alertDiv);
-            //                 bsAlert?.close();
-            //             }, 5000);
-            //         }
-            //     }
-
-            //     // Initialize the barcode scanner
-            //     const scanner = new BarcodeScanner();
-
-            //     // Add connection button
-            //     const connectButton = document.createElement('button');
-            //     connectButton.textContent = 'Connect Barcode Scanner';
-            //     connectButton.className = 'btn btn-primary';
-            //     connectButton.addEventListener('click', () => scanner.detectScanner());
-
-            //     // Add disconnect button
-            //     const disconnectButton = document.createElement('button');
-            //     disconnectButton.textContent = 'Disconnect Scanner';
-            //     disconnectButton.className = 'btn btn-danger';
-            //     disconnectButton.addEventListener('click', () => scanner.disconnectScanner());
-
-            //     // Add buttons to the page
-            //     const buttonContainer = document.createElement('div');
-            //     buttonContainer.style.position = 'fixed';
-            //     buttonContainer.style.bottom = '20px';
-            //     buttonContainer.style.left = '50%';
-            //     buttonContainer.style.transform = 'translateX(-50%)';
-            //     buttonContainer.style.zIndex = '1060';
-            //     buttonContainer.appendChild(connectButton);
-            //     buttonContainer.appendChild(disconnectButton);
-            //     document.body.appendChild(buttonContainer);
-
-            //     // Listen for connection events
-            //     navigator.serial?.addEventListener('connect', (event) => {
-            //         console.log('Scanner connected:', event.port);
-            //         scanner.showConnectionAlert('success', 'New Scanner Connected');
-            //     });
-
-            //     navigator.serial?.addEventListener('disconnect', (event) => {
-            //         console.log('Scanner disconnected:', event.port);
-            //         scanner.showConnectionAlert('warning', 'Scanner Disconnected');
-            //     });
-            // });
+            // Prevent table from hiding when interacting with it
+            productTableContainer.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
 
 </script>
+
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\vitemart-ec\resources\views/pos/index.blade.php ENDPATH**/ ?>
