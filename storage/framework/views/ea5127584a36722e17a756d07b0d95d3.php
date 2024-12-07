@@ -209,15 +209,11 @@
                                         <input
                                         autocomplete="off"
                                         type="text"
-                                        id="barcodeInput"
+                                        id="searchInput"
                                         placeholder="Search or enter to show products"
-
-                                        class="form-control mb-3 custom-search-input"
-                                        style="font-size: 1.25rem; padding: 15px; width: 100%;"
-
-
-                                        data-kt-ecommerce-edit-order-ajax-filter="search"
-                                        >
+                                        class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        data-kt_ecommerce_edit_order_product_table-ajax-filter="search"
+                                         >
 
 
 
@@ -716,7 +712,7 @@
 
 
     document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('barcodeInput');
+            const searchInput = document.getElementById('searchInput');
             const productTableContainer = document.getElementById('productTableContainer');
             const selectAllCheckbox = document.getElementById('selectAllCheckbox');
             const productCheckboxes = document.querySelectorAll('.product-checkbox');

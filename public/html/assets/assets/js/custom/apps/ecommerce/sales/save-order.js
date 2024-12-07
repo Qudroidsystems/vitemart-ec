@@ -89,56 +89,55 @@ var KTAppEcommerceSalesSaveOrder = function () {
 
 
     document.addEventListener('DOMContentLoaded', function () {
+        // Utility Functions
+        const formatMoney = (amount) => {
+            const number = parseFloat(amount);
+            if (isNaN(number)) return '₦0.00';
+            return '₦' + number.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        };
 
-                            // Utility Functions
-                            const formatMoney = (amount) => {
-                                const number = parseFloat(amount);
-                                if (isNaN(number)) return '₦0.00';
-                                return '₦' + number.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                            };
+        const generateOrderId = () => 'ORD-' + new Date().getTime();
 
-                            const generateOrderId = () => 'ORD-' + new Date().getTime();
+                // DOM Elements
+                const printBillsButton = document.querySelector('.btn-primary.fs-1');
+                const printPreviewModal = new bootstrap.Modal(document.getElementById('print-receipt'));
+                const printSlipButton = document.getElementById('printSlip');
+                const orderItemsTable = document.getElementById('orderItems');
+                const itemSelectedTable = document.getElementById('itemselected');
+                const quantityModal = document.getElementById('quantityModal');
+                const modalQuantityInput = document.getElementById('modalQuantityInput');
+                const updateQuantityBtn = document.getElementById('updateQuantityBtn');
+                const clearAllButton = document.querySelector('.btn-light-primary');
+                const checkboxes = document.querySelectorAll('[type="checkbox"]');
+                const barcodeInput = document.getElementById('barcodeInput');
 
-                            // DOM Elements
-                            const printBillsButton = document.querySelector('.btn-primary.fs-1');
-                            const printPreviewModal = new bootstrap.Modal(document.getElementById('print-receipt'));
-                            const printSlipButton = document.getElementById('printSlip');
-                            const orderItemsTable = document.getElementById('orderItems');
-                            const itemSelectedTable = document.getElementById('itemselected');
-                            const quantityModal = document.getElementById('quantityModal');
-                            const modalQuantityInput = document.getElementById('modalQuantityInput');
-                            const updateQuantityBtn = document.getElementById('updateQuantityBtn');
-                            const clearAllButton = document.querySelector('.btn-light-primary');
-                            const checkboxes = document.querySelectorAll('[type="checkbox"]');
-                           // const barcodeInput = document.getElementById('barcodeInput');
+                let selectedProductRow = null;
+                let orderItems = [];
+                let orderId = generateOrderId();
+                let barcodeBuffer = '';
+                let timeout;
 
-                            let selectedProductRow = null;
-                            let orderItems = [];
-                            let orderId = generateOrderId();
-                            // let barcodeBuffer = '';
-                            // let timeout;
+                // Disable Print Bills Button Initially
+                if (printBillsButton) {
+                    printBillsButton.disabled = true;
+                }
 
-                            // Disable Print Bills Button Initially
-                            if (printBillsButton) {
-                                printBillsButton.disabled = true;
-                            }
+                const updatePrintBillsButtonState = () => {
+                    printBillsButton.disabled = orderItems.length === 0;
+                };
 
-                            const updatePrintBillsButtonState = () => {
-                                printBillsButton.disabled = orderItems.length === 0;
-                            };
+                const calculateTotals = () => {
+                    const items = Array.from(itemSelectedTable.querySelectorAll('[data-kt-pos-element="item-total"]'));
+                    let total = 0;
 
-                            const calculateTotals = () => {
-                                const items = Array.from(itemSelectedTable.querySelectorAll('[data-kt-pos-element="item-total"]'));
-                                let total = 0;
+                    items.forEach((item) => {
+                        total += parseFloat(item.innerHTML.replace('₦', '').replace(/,/g, ''));
+                    });
 
-                                items.forEach((item) => {
-                                    total += parseFloat(item.innerHTML.replace('₦', '').replace(/,/g, ''));
-                                });
-
-                                const grandTotal = total;
-                                document.querySelector('[data-kt-pos-element="total"]').innerHTML = formatMoney(total);
-                                document.querySelector('[data-kt-pos-element="grant-total"]').innerHTML = formatMoney(grandTotal);
-                            };
+                    const grandTotal = total;
+                    document.querySelector('[data-kt-pos-element="total"]').innerHTML = formatMoney(total);
+                    document.querySelector('[data-kt-pos-element="grant-total"]').innerHTML = formatMoney(grandTotal);
+                };
 
 
 
@@ -317,355 +316,222 @@ var KTAppEcommerceSalesSaveOrder = function () {
                             }, 5000);
                         };
 
-                //             //Add event listener to show alert when barcode input is focused
-                //         barcodeInput.addEventListener('focus', createBarcodeAlert);
+                        //     //Add event listener to show alert when barcode input is focused
+                        //  barcodeInput.addEventListener('focus', createBarcodeAlert);
 
-                //             // Optional: Programmatic trigger for testing
-                //             document.addEventListener('click', (event) => {
-                //                 // If clicked anywhere, focus the input to trigger the alert
-                //                 if (event.target !== barcodeInput) {
-                //                     barcodeInput.focus();
-                //                 }
-                //             });
+                        //             // Optional: Programmatic trigger for testing
+                        //             document.addEventListener('click', (event) => {
+                        //                 // If clicked anywhere, focus the input to trigger the alert
+                        //                 if (event.target !== barcodeInput) {
+                        //                     barcodeInput.focus();
+                        //                 }
+                        //     });
 
-                //             //Ensure the barcode input always regains focus after other interactions
-                //             document.addEventListener('click', (e) => {
-                //                 // Check if the clicked element is a quantity input field
-                //                 if (e.target && e.target.id === 'quantityInput') {
-                //                     const quantityInput = e.target;
+                        //     //Ensure the barcode input always regains focus after other interactions
+                        //     document.addEventListener('click', (e) => {
+                        //         // Check if the clicked element is a quantity input field
+                        //         if (e.target && e.target.id === 'quantityInput') {
+                        //             const quantityInput = e.target;
 
-                //                     // Keep focus on the quantity input field
-                //                     quantityInput.focus();
+                        //             // Keep focus on the quantity input field
+                        //             quantityInput.focus();
 
-                //                     // Listen for blur on the quantity input field
-                //                     quantityInput.addEventListener(
-                //                         'blur',
-                //                         () => {
-                //                             // After losing focus, return to the barcode input field
-                //                             barcodeInput.focus();
-                //                         },
-                //                         { once: true } // Ensure this blur handler runs only once
-                //                     );
-                //                 } else {
-                //                     // For all other clicks, focus on the barcode input
-                //                     barcodeInput.focus();
-                //                 }
-                //             });
+                        //             // Listen for blur on the quantity input field
+                        //             quantityInput.addEventListener(
+                        //                 'blur',
+                        //                 () => {
+                        //                     // After losing focus, return to the barcode input field
+                        //                     barcodeInput.focus();
+                        //                 },
+                        //                 { once: true } // Ensure this blur handler runs only once
+                        //             );
+                        //         } else {
+                        //             // For all other clicks, focus on the barcode input
+                        //             barcodeInput.focus();
+                        //         }
+                        //     });
 
-                //             // Handle direct blur events on the barcode input to refocus
-                //             barcodeInput.addEventListener('blur', () => {
-                //                 setTimeout(() => {
-                //                     if (
-                //                         document.activeElement.tagName !== 'INPUT' ||
-                //                         document.activeElement.id !== 'quantityInput'
-                //                     ) {
-                //                         barcodeInput.focus();
-                //                     }
-                //                 }, 100);
-                //             });
+                        //     // Handle direct blur events on the barcode input to refocus
+                        //     barcodeInput.addEventListener('blur', () => {
+                        //         setTimeout(() => {
+                        //             if (
+                        //                 document.activeElement.tagName !== 'INPUT' ||
+                        //                 document.activeElement.id !== 'quantityInput'
+                        //             ) {
+                        //                 barcodeInput.focus();
+                        //             }
+                        //         }, 100);
+                        //     });
 
-                // // Create a compact preloader element
-                // const preloaderHtml = `
-                // <div id="barcodePreloader" class="position-absolute d-none align-items-center justify-content-center"
-                //     style="top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050; width: 50px; height: 50px;">
-                //     <div class="spinner-border text-primary" role="status" style="width: 30px; height: 30px;">
-                //         <span class="visually-hidden">Loading...</span>
-                //     </div>
-                // </div>
-                // `;
+                // Create a compact preloader element
+                const preloaderHtml = `
+                <div id="barcodePreloader" class="position-absolute d-none align-items-center justify-content-center"
+                    style="top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050; width: 50px; height: 50px;">
+                    <div class="spinner-border text-primary" role="status" style="width: 30px; height: 30px;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                `;
 
-                // barcodeInput.closest('.position-relative, .input-group')?.insertAdjacentHTML('beforeend', preloaderHtml) ||
-                // barcodeInput.parentElement.insertAdjacentHTML('beforeend', preloaderHtml);
-                // const barcodePreloader = document.getElementById('barcodePreloader');
+                barcodeInput.closest('.position-relative, .input-group')?.insertAdjacentHTML('beforeend', preloaderHtml) ||
+                barcodeInput.parentElement.insertAdjacentHTML('beforeend', preloaderHtml);
+                const barcodePreloader = document.getElementById('barcodePreloader');
 
-                //             // Modify barcode scanning logic to include preloader
-                //             barcodeInput.addEventListener('input', (e) => {
-                //             clearTimeout(timeout);
-                //             barcodeBuffer += e.target.value.trim();
-                //             e.target.value = '';
+                // Modify barcode scanning logic to include preloader
+             barcodeInput.addEventListener('input', (e) => {
+                clearTimeout(timeout);
+                barcodeBuffer += e.target.value.trim();
+                e.target.value = '';
 
-                //             // Show preloader
-                //             barcodePreloader.classList.remove('d-none');
-                //             barcodePreloader.classList.add('d-flex');
+                // Show preloader
+                barcodePreloader.classList.remove('d-none');
+                barcodePreloader.classList.add('d-flex');
 
-                //             timeout = setTimeout(() => {
-                //                 const scannedBarcode = barcodeBuffer.trim();
-                //                 barcodeBuffer = '';
+                timeout = setTimeout(() => {
+                    const scannedBarcode = barcodeBuffer.trim();
+                    barcodeBuffer = '';
 
-                //                 const productRow = document.querySelector(`#kt_ecommerce_edit_order_product_table-ajax tr[data-barcode="${scannedBarcode}"]`);
+                    const productRow = document.querySelector(`#kt_ecommerce_edit_order_product_table-ajax tr[data-barcode="${scannedBarcode}"]`);
 
-                //                 if (productRow) {
-                //                     const existingSelectedRow = document.querySelector(`#itemselected tr[data-kt-ecommerce-edit-order-id-ajax="${productRow.getAttribute('data-kt-ecommerce-edit-order-id-ajax')}"]`);
+                    if (productRow) {
+                        const existingSelectedRow = document.querySelector(`#itemselected tr[data-kt-ecommerce-edit-order-id-ajax="${productRow.getAttribute('data-kt-ecommerce-edit-order-id-ajax')}"]`);
 
-                //                     if (existingSelectedRow) {
-                //                         selectedProductRow = existingSelectedRow;
-                //                         const currentQuantity = parseInt(existingSelectedRow.querySelector('#quantityInput').value, 10) || 1;
-                //                         modalQuantityInput.value = currentQuantity + 1;
-                //                         updateQuantity();
-                //                     } else {
-                //                         const checkbox = productRow.querySelector('input[type="checkbox"]');
-                //                         if (!checkbox.checked) {
-                //                             checkbox.checked = true;
-                //                             checkbox.dispatchEvent(new Event('change'));
-                //                         }
-                //                     }
-                //                 } else {
-                //                     Swal.fire({
-                //                         icon: 'error',
-                //                         title: 'Item Not Found',
-                //                         text: `No item found for the scanned barcode: ${scannedBarcode}`,
-                //                     });
-                //                 }
+                        if (existingSelectedRow) {
+                            selectedProductRow = existingSelectedRow;
+                            const currentQuantity = parseInt(existingSelectedRow.querySelector('#quantityInput').value, 10) || 1;
+                            modalQuantityInput.value = currentQuantity + 1;
+                            updateQuantity();
+                        } else {
+                            const checkbox = productRow.querySelector('input[type="checkbox"]');
+                            if (!checkbox.checked) {
+                                checkbox.checked = true;
+                                checkbox.dispatchEvent(new Event('change'));
+                            }
+                        }
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Item Not Found',
+                            text: `No item found for the scanned barcode: ${scannedBarcode}`,
+                        });
+                    }
 
-                //                 // Hide preloader
-                //                 barcodePreloader.classList.remove('d-flex');
-                //                 barcodePreloader.classList.add('d-none');
-                //             }, 100);
-                //             });
-
-
-
-                // Variables
-const barcodeInput = document.getElementById('barcodeInput');
-let barcodeBuffer = '';
-let timeout;
-
-// Create a compact preloader element
-const preloaderHtml = `
-<div id="barcodePreloader" class="position-absolute d-none align-items-center justify-content-center"
-    style="top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050; width: 50px; height: 50px;">
-    <div class="spinner-border text-primary" role="status" style="width: 30px; height: 30px;">
-        <span class="visually-hidden">Loading...</span>
-    </div>
-</div>`;
-barcodeInput.closest('.position-relative, .input-group')?.insertAdjacentHTML('beforeend', preloaderHtml) ||
-    barcodeInput.parentElement.insertAdjacentHTML('beforeend', preloaderHtml);
-const barcodePreloader = document.getElementById('barcodePreloader');
-
-// Event listener for barcode input
-barcodeInput.addEventListener('input', (e) => {
-    clearTimeout(timeout);
-
-    const inputText = e.target.value.trim();
-
-    // Show preloader while processing input
-    barcodePreloader.classList.remove('d-none');
-    barcodePreloader.classList.add('d-flex');
-
-    // Delay to distinguish between barcode scanning and manual typing
-    timeout = setTimeout(() => {
-        if (inputText.length > 0) {
-            if (isBarcodeInput(inputText)) {
-                // Handle barcode scanning
-                handleBarcodeScan(inputText);
-            } else {
-                // Handle manual search
-                handleManualSearch(inputText);
-            }
-        }
-
-        // Hide preloader
-        barcodePreloader.classList.remove('d-flex');
-        barcodePreloader.classList.add('d-none');
-    }, 300); // Adjust delay as necessary
-});
-
-// Utility function to determine if input is a barcode
-function isBarcodeInput(input) {
-    return input.length >= 8 && /^\d+$/.test(input); // Example: barcodes are numeric and >= 8 characters
-}
-
-// Handle barcode scanning
-function handleBarcodeScan(scannedBarcode) {
-    console.log('Barcode scanned:', scannedBarcode);
-
-    const productRow = document.querySelector(`#kt_ecommerce_edit_order_product_table-ajax tr[data-barcode="${scannedBarcode}"]`);
-
-    if (productRow) {
-        const existingSelectedRow = document.querySelector(`#itemselected tr[data-kt-ecommerce-edit-order-id-ajax="${productRow.getAttribute('data-kt-ecommerce-edit-order-id-ajax')}"]`);
-
-        if (existingSelectedRow) {
-            selectedProductRow = existingSelectedRow;
-            const currentQuantity = parseInt(existingSelectedRow.querySelector('#quantityInput').value, 10) || 1;
-            modalQuantityInput.value = currentQuantity + 1;
-            updateQuantity();
-        } else {
-            const checkbox = productRow.querySelector('input[type="checkbox"]');
-            if (!checkbox.checked) {
-                checkbox.checked = true;
-                checkbox.dispatchEvent(new Event('change'));
-            }
-        }
-    } else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Item Not Found',
-            text: `No item found for the scanned barcode: ${scannedBarcode}`,
-        });
-    }
-
-    // Clear input after barcode scanning
-    barcodeInput.value = '';
-}
-
-// Handle manual search
-function handleManualSearch(query) {
-    console.log('Search query:', query);
-
-    // Example: Filter table rows based on the query
-    const rows = document.querySelectorAll('#kt_ecommerce_edit_order_product_table-ajax tr');
-    rows.forEach((row) => {
-        const productName = row.querySelector('.product-name-column')?.textContent || '';
-        if (productName.toLowerCase().includes(query.toLowerCase())) {
-            row.style.display = ''; // Show matching row
-        } else {
-            row.style.display = 'none'; // Hide non-matching row
-        }
-    });
-}
-
-// Handle barcode input focus to ensure consistent focus
-barcodeInput.addEventListener('blur', () => {
-    setTimeout(() => {
-        if (
-            document.activeElement.tagName !== 'INPUT' ||
-            document.activeElement.id !== 'quantityInput'
-        ) {
-            barcodeInput.focus();
-        }
-    }, 100);
-});
-
-// Handle quantity input focus behavior
-document.addEventListener('click', (e) => {
-    if (e.target && e.target.id === 'quantityInput') {
-        const quantityInput = e.target;
-
-        // Keep focus on the quantity input field
-        quantityInput.focus();
-
-        // Return focus to barcode input on blur
-        quantityInput.addEventListener(
-            'blur',
-            () => {
-                barcodeInput.focus();
-            },
-            { once: true }
-        );
-    }
-});
+                    // Hide preloader
+                    barcodePreloader.classList.remove('d-flex');
+                    barcodePreloader.classList.add('d-none');
+                }, 300);
+                });
 
 
 
-                                    // Checkbox Handling
-                                    checkboxes.forEach((checkbox) => {
-                                        checkbox.addEventListener('change', (e) => {
-                                            const parent = checkbox.closest('tr');
-                                            const productId = parent.querySelector('[data-kt-ecommerce-edit-order-id-ajax]').getAttribute('data-kt-ecommerce-edit-order-id-ajax');
-                                            const productName = parent.querySelector('.text-gray-800').innerText;
-                                            const productPrice = parseFloat(parent.querySelector('[data-kt-ecommerce-edit-order-filter-ajax="price"]').innerText.replace('₦', '').replace(/,/g, ''));
-                                            const productBarcode = parent.getAttribute('data-barcode');
+                             // Checkbox Handling
+                              checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', (e) => {
+                const parent = checkbox.closest('tr');
+                const productId = parent.querySelector('[data-kt-ecommerce-edit-order-id-ajax]').getAttribute('data-kt-ecommerce-edit-order-id-ajax');
+                const productName = parent.querySelector('.text-gray-800').innerText;
+                const productPrice = parseFloat(parent.querySelector('[data-kt-ecommerce-edit-order-filter-ajax="price"]').innerText.replace('₦', '').replace(/,/g, ''));
+                const productBarcode = parent.getAttribute('data-barcode');
 
-                                            if (e.target.checked) {
-                                                const newRow = document.createElement('tr');
-                                                newRow.setAttribute('data-kt-pos-element', 'item');
-                                                newRow.setAttribute('data-kt-pos-item-price', productPrice);
-                                                newRow.setAttribute('data-kt-ecommerce-edit-order-id-ajax', productId);
-                                                newRow.setAttribute('data-barcode', productBarcode);
+                if (e.target.checked) {
+                    const newRow = document.createElement('tr');
+                    newRow.setAttribute('data-kt-pos-element', 'item');
+                    newRow.setAttribute('data-kt-pos-item-price', productPrice);
+                    newRow.setAttribute('data-kt-ecommerce-edit-order-id-ajax', productId);
+                    newRow.setAttribute('data-barcode', productBarcode);
 
-                                                // Adding the new attributes for product name and product price
-                                                newRow.setAttribute('data-product-name', productName); // Assuming `productName` is available
-                                                newRow.setAttribute('data-product-price', productPrice); // Assuming `productPrice` is available
+                    // Adding the new attributes for product name and product price
+                    newRow.setAttribute('data-product-name', productName); // Assuming `productName` is available
+                    newRow.setAttribute('data-product-price', productPrice); // Assuming `productPrice` is available
 
 
-                                                const initialQuantity = 1;
-                                                const initialTotal = (initialQuantity * productPrice).toFixed(2);
+                    const initialQuantity = 1;
+                    const initialTotal = (initialQuantity * productPrice).toFixed(2);
 
 
 
 
-                                                newRow.innerHTML = `
-                                                                <td>
-                                                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                                        <input class="form-check-input" type="checkbox" value="1" />
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="">
+                    newRow.innerHTML = `
+                                    <td>
+                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="checkbox" value="1" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="">
 
-                                                                        <!-- Title and Details -->
-                                                                        <div class="ms-5">
-                                                                            <!-- Title -->
-                                                                            <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold"> ${productName}</a>
-                                                                            <!-- Price -->
-                                                                            <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter="price">
-                                                                            <span class="fw-bold text-success ms-3">${formatMoney(productPrice)}</span>
-                                                                            </span></div>
-                                                                            <!-- SKU -->
-                                                                            <div class="text-muted fs-7">SKU:sku</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="text-end pe-5" data-order="0">
-                                                                    <input type="text" id="quantityInput" value="${initialQuantity}" readonly class="form-control border-0 text-center px-0 quantityInput" style="font-size: 18px; width: 50px;">
-                                                                </td>
-                                                                <td class="text-end pe-5" data-order="0">
+                                            <!-- Title and Details -->
+                                            <div class="ms-5">
+                                                <!-- Title -->
+                                                <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold"> ${productName}</a>
+                                                <!-- Price -->
+                                                <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter="price">
+                                                <span class="fw-bold text-success ms-3">${formatMoney(productPrice)}</span>
+                                                </span></div>
+                                                <!-- SKU -->
+                                                <div class="text-muted fs-7">SKU:sku</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-end pe-5" data-order="0">
+                                        <input type="text" id="quantityInput" value="${initialQuantity}" readonly class="form-control border-0 text-center px-0 quantityInput" style="font-size: 18px; width: 50px;">
+                                    </td>
+                                    <td class="text-end pe-5" data-order="0">
 
-                                                                    <span class="fw-bold text-success ms-3" data-kt-pos-element="item-total">${formatMoney(initialTotal)}</span>
-                                                                </td>
-                                                                <td class="text-end">
-                                                                    <button class="btn btn-sm btn-icon btn-light-danger remove-item" type="button">
-                                                                        <i class="ki-duotone ki-cross fs-2">
-                                                                            <span class="path1"></span>
-                                                                            <span class="path2"></span>
-                                                                        </i>
-                                                                    </button>
-                                                                    </td>
+                                         <span class="fw-bold text-success ms-3" data-kt-pos-element="item-total">${formatMoney(initialTotal)}</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <button class="btn btn-sm btn-icon btn-light-danger remove-item" type="button">
+                                            <i class="ki-duotone ki-cross fs-2">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                            </i>
+                                        </button>
+                                        </td>
 
-                                                            `;
+                                `;
 
 
-                                                            newRow.style.borderBottom = '1px solid green';
+                                 newRow.style.borderBottom = '1px solid green';
 
-                                                            // Add event listener for removal
-                                                            const removeButton = newRow.querySelector('.remove-item');
-                                                                        if (removeButton) {
-                                                                            removeButton.addEventListener('click', () => {
-                                                                                newRow.remove();
-                                                                                const correspondingCheckbox = document.querySelector(`[data-kt-ecommerce-edit-order-id="${productId}"]`)
-                                                                                    .closest('tr')
-                                                                                    .querySelector('input[type="checkbox"]');
-                                                                                if (correspondingCheckbox) {
-                                                                                    correspondingCheckbox.checked = false;
-                                                                                }
+                                 // Add event listener for removal
+                                 const removeButton = newRow.querySelector('.remove-item');
+                                            if (removeButton) {
+                                                removeButton.addEventListener('click', () => {
+                                                    newRow.remove();
+                                                    const correspondingCheckbox = document.querySelector(`[data-kt-ecommerce-edit-order-id="${productId}"]`)
+                                                        .closest('tr')
+                                                        .querySelector('input[type="checkbox"]');
+                                                    if (correspondingCheckbox) {
+                                                        correspondingCheckbox.checked = false;
+                                                    }
 
-                                                                                // Remove from orderItems array
-                                                                                orderItems = orderItems.filter(item => item.productId !== productId);
-                                                                                calculateTotals();
-                                                                                updatePrintBillsButtonState();
-                                                                            });
-                                                                        }
+                                                    // Remove from orderItems array
+                                                    orderItems = orderItems.filter(item => item.productId !== productId);
+                                                    calculateTotals();
+                                                    updatePrintBillsButtonState();
+                                                });
+                                            }
 
-                                                                        // Append new row to the selected items table
-                                                                        itemSelectedTable.appendChild(newRow);
+                                            // Append new row to the selected items table
+                                            itemSelectedTable.appendChild(newRow);
 
-                                                                        // Add to order items array
-                                                                        orderItems.push({ productId, productName, productPrice, quantity: initialQuantity, total: initialTotal });
+                                            // Add to order items array
+                                            orderItems.push({ productId, productName, productPrice, quantity: initialQuantity, total: initialTotal });
 
-                                                                        // Quantity input click handler
-                                                                        newRow.querySelector('#quantityInput').addEventListener('click', handleQuantityClick);
-                                                                    } else {
-                                                                        // Remove existing row if unchecked
-                                                                        const row = itemSelectedTable.querySelector(`[data-kt-pos-item-price="${productPrice}"]`);
-                                                                        if (row) row.remove();
-                                                                        orderItems = orderItems.filter(item => item.productId !== productId);
-                                                                    }
+                                            // Quantity input click handler
+                                            newRow.querySelector('#quantityInput').addEventListener('click', handleQuantityClick);
+                                        } else {
+                                            // Remove existing row if unchecked
+                                            const row = itemSelectedTable.querySelector(`[data-kt-pos-item-price="${productPrice}"]`);
+                                            if (row) row.remove();
+                                            orderItems = orderItems.filter(item => item.productId !== productId);
+                                        }
 
-                                                                    calculateTotals();
-                                                                    updatePrintBillsButtonState();
-                                                                });
-                                                            });
-
+                                        calculateTotals();
+                                        updatePrintBillsButtonState();
+                                    });
+                                });
                                         // Clear All Button
                                         clearAllButton.addEventListener('click', () => {
                                             itemSelectedTable.innerHTML = '';
