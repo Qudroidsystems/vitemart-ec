@@ -238,45 +238,86 @@
                     color: var(--secondary-text-dark);
                 }
 
-@media print {
-    /* Hide all unnecessary elements during print */
-    body * {
-        visibility: hidden;
-    }
+                @media print {
+                    /* Hide all unnecessary elements during print */
+                    body * {
+                        visibility: hidden;
+                    }
 
-    /* Only show the receipt section */
-    #receiptContent, #receiptContent * {
-        visibility: visible;
-    }
+                    /* Only show the receipt section */
+                    #receiptContent, #receiptContent * {
+                        visibility: visible;
+                    }
 
-    /* Adjust the size and layout for printing */
-    #receiptContent {
-        width: 280px; /* Small receipt width */
-        font-size: 12px; /* Smaller font size */
-        line-height: 1.4; /* Adjust line height for better readability */
-        margin: 0;
-        padding: 0;
-    }
+                    /* Adjust the size and layout for printing */
+                    #receiptContent {
+                        width: 280px; /* Small receipt width */
+                        font-size: 12px; /* Smaller font size */
+                        line-height: 1.4; /* Adjust line height for better readability */
+                        margin: 0;
+                        padding: 0;
+                    }
 
-    /* Customize text elements to fit on the receipt */
-    #receiptContent .item {
-        font-size: 10px; /* Smaller text for items */
-    }
+                    /* Customize text elements to fit on the receipt */
+                    #receiptContent .item {
+                        font-size: 10px; /* Smaller text for items */
+                    }
 
-    /* Reduce margins and padding for printing */
-    @page {
-        size: 80mm 160mm; /* A common receipt size */
-        margin: 0;
-    }
+                    /* Reduce margins and padding for printing */
+                    @page {
+                        size: 80mm 160mm; /* A common receipt size */
+                        margin: 0;
+                    }
 
-    /* Optional: Add a border or box around the receipt for clarity */
-    #receiptContent {
-        border: 1px solid #000;
-        padding: 10px;
-    }
-}
+                    /* Optional: Add a border or box around the receipt for clarity */
+                    #receiptContent {
+                        border: 1px solid #000;
+                        padding: 10px;
+                    }
+                }
+
+
+                @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                max-height: 1000px;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                max-height: 1000px;
+            }
+            to {
+                opacity: 0;
+                max-height: 0;
+            }
+        }
+
+        .table-dropdown {
+            overflow: hidden;
+        }
+
+        .table-dropdown.show {
+            animation: slideDown 0.5s ease-out forwards;
+        }
+
+        .table-dropdown.hide {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+
 
         </style>
+
+
+
 
         <?php if(Route::is('dashboard')): ?>
              <?php echo $__env->make('layouts.pages-assets.css.dashboard-css', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
