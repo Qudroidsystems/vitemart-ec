@@ -595,38 +595,38 @@
     <script>
         // Set the URL for the payments.store route in a JavaScript variable
         const paymentStoreUrl = '<?php echo e(route('orders.saveorders')); ?>';
-    
-        // document.addEventListener('click', () => {
-        //     document.getElementById('searchInput').focus();
-        // });
-    
-    
-    
+
+        document.addEventListener('click', () => {
+            document.getElementById('searchInput').focus();
+        });
+
+
+
         document.addEventListener('DOMContentLoaded', function() {
                 const searchInput = document.getElementById('searchInput');
                 const productTableContainer = document.getElementById('productTableContainer');
                 const selectAllCheckbox = document.getElementById('selectAllCheckbox');
                 const productCheckboxes = document.querySelectorAll('.product-checkbox');
-    
+
                 // Function to hide table
                 function hideTable() {
                     productTableContainer.classList.remove('show');
                     productTableContainer.classList.add('hide');
-    
+
                     setTimeout(() => {
                         productTableContainer.classList.add('hidden');
                     }, 500);
                 }
-    
+
                 // Function to focus and select input
                 function focusAndSelectInput() {
                     searchInput.focus();
                     searchInput.select();
                 }
-    
+
                 // Ensure table is hidden on page load
                 hideTable();
-    
+
                 // Toggle table visibility based on input
                 searchInput.addEventListener('input', function() {
                     if (this.value.trim().length > 0) {
@@ -638,7 +638,7 @@
                         hideTable();
                     }
                 });
-    
+
                 // Handle Enter key press to clear input and hide table
                 searchInput.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter') {
@@ -647,19 +647,19 @@
                         e.preventDefault();
                     }
                 });
-    
+
                 // Select all checkboxes
                 selectAllCheckbox.addEventListener('change', function() {
                     productCheckboxes.forEach(checkbox => {
                         checkbox.checked = this.checked;
                     });
-    
+
                     // Clear input and hide table immediately
                     searchInput.value = '';
                     hideTable();
                     focusAndSelectInput();
                 });
-    
+
                 // Individual product checkbox event
                 productCheckboxes.forEach(checkbox => {
                     checkbox.addEventListener('change', function() {
@@ -671,22 +671,22 @@
                         }
                     });
                 });
-    
+
                 // Prevent table from hiding when interacting with it
                 productTableContainer.addEventListener('click', function(e) {
                     e.stopPropagation();
                 });
             });
-    
-    
-    
-    
+
+
+
+
             document.addEventListener('DOMContentLoaded', () => {
                     // Select the table element
                     const table = document.getElementById('kt_ecommerce_edit_order_product_table-ajax');
                     const filterSearch = document.querySelector('[data-kt_ecommerce_edit_order_product_table-ajax-filter="search"]');
                     const productTableContainer = document.getElementById('productTableContainer');
-    
+
                     // Initialize DataTable
                     const datatable = $(table).DataTable({
                         info: false,
@@ -697,15 +697,15 @@
                             { orderable: false, targets: 5 }, // Disable ordering on column 7 (actions)
                         ],
                     });
-    
+
                     // Add event listener to search input
                     filterSearch.addEventListener('input', (e) => {
                         const query = e.target.value.trim();
-    
+
                         if (query.length > 0) {
                             // Show the table container
                             productTableContainer.classList.remove('hidden');
-    
+
                             // Filter the table using the search query
                             datatable.search(query).draw();
                         } else {
@@ -714,7 +714,7 @@
                         }
                     });
     });
-    
+
     </script>
 <?php $__env->stopSection(); ?>
 
