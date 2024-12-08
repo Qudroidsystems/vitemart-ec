@@ -555,7 +555,7 @@ var KTAppEcommerceSalesSaveOrder = function () {
                                      // Remove the item from the orderItems array
                                      orderItems = orderItems.filter(item => item.productId !== productId);
 
-                                     // Recalculate totals and update the Print Bills button state
+
                                      calculateTotals();
                                      updatePrintBillsButtonState();
                                  });
