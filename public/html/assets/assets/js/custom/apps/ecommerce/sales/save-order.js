@@ -436,7 +436,7 @@ var KTAppEcommerceSalesSaveOrder = function () {
 
                                     if (productRow) {
                                         const existingSelectedRow = document.querySelector(`#itemselected tr[data-kt-ecommerce-edit-order-id-ajax="${productRow.getAttribute('data-kt-ecommerce-edit-order-id-ajax')}"]`);
-
+                                        console.log(productRow);
                                         if (existingSelectedRow) {
                                             selectedProductRow = existingSelectedRow;
                                             const currentQuantity = parseInt(existingSelectedRow.querySelector('#quantityInput').value, 10) || 1;
@@ -465,8 +465,8 @@ var KTAppEcommerceSalesSaveOrder = function () {
 
 
 
-                             // Checkbox Handling
-                              checkboxes.forEach((checkbox) => {
+        // Checkbox Handling
+        checkboxes.forEach((checkbox) => {
             checkbox.addEventListener('change', (e) => {
                 const parent = checkbox.closest('tr');
                 const productId = parent.querySelector('[data-kt-ecommerce-edit-order-id-ajax]').getAttribute('data-kt-ecommerce-edit-order-id-ajax');
@@ -495,11 +495,11 @@ var KTAppEcommerceSalesSaveOrder = function () {
                     newRow.innerHTML = `
                                     <td>
                                         <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                            <input class="form-check-input" type="checkbox" value="1" />
+                                            <input class="form-check-input" type="checkbox" value="${productId}" />
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="">
+                                        <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="${productId}">
 
                                             <!-- Title and Details -->
                                             <div class="ms-5">
@@ -533,32 +533,68 @@ var KTAppEcommerceSalesSaveOrder = function () {
                                 `;
 
 
-                                 newRow.style.borderBottom = '1px solid green';
+                                 //newRow.style.borderBottom = '1px solid green';
 
                                  const removeButton = newRow.querySelector('.remove-item');
-                                 removeButton.addEventListener('click', () => {
-                                     // Remove the row
-                                     newRow.remove();
+                                //  removeButton.addEventListener('click', () => {
+                                //      // Remove the row
+                                //      newRow.remove();
 
-                                     // Uncheck the corresponding checkbox in the product table
-                                    //  const correspondingCheckbox = document.querySelector(
-                                    //      `#kt_ecommerce_edit_order_product_table-ajax tr[data-product-id="${productId}"] input[type="checkbox"]`
-                                    //  );
+                                //      // Uncheck the corresponding checkbox in the product table
+                                //     //  const correspondingCheckbox = document.querySelector(
+                                //     //      `#kt_ecommerce_edit_order_product_table-ajax tr[data-product-id="${productId}"] input[type="checkbox"]`
+                                //     //  );
 
-                                      const correspondingCheckbox = document.querySelector(`[data-kt-ecommerce-edit-order-id-ajax="${productId}"]`)
-                                                        .closest('tr')
-                                                        .querySelector('input[type="checkbox"]');
-                                     if (correspondingCheckbox) {
-                                         correspondingCheckbox.checked = false;
-                                     }
+                                //       const correspondingCheckbox = document.querySelector(`[data-kt-ecommerce-edit-order-id-ajax="${productId}"]`)
+                                //                         .closest('tr')
+                                //                         .querySelector('input[type="checkbox"]');
+                                //     console.log(correspondingCheckbox);
+                                //      if (correspondingCheckbox) {
+                                //          correspondingCheckbox.checked = false;
+                                //      } else {
+                                //         console.error(`Product row not found for Product ID: ${productId}`);
+                                //     }
 
-                                     // Remove the item from the orderItems array
-                                     orderItems = orderItems.filter(item => item.productId !== productId);
+                                //      // Remove the item from the orderItems array
+                                //      orderItems = orderItems.filter(item => item.productId !== productId);
 
 
-                                     calculateTotals();
-                                     updatePrintBillsButtonState();
-                                 });
+                                //      calculateTotals();
+                                //      updatePrintBillsButtonState();
+                                //  });
+
+
+                                removeButton.addEventListener('click', () => {
+                                    console.log('Removing Product ID:', productId);
+
+                                    // Remove the row
+                                    newRow.remove();
+
+                                    // Locate the corresponding checkbox by barcode
+                                    const productRow = document.querySelector(
+                                        `#kt_ecommerce_edit_order_product_table-ajax tr[data-barcode="${newRow.getAttribute('data-barcode')}"]`
+                                    );
+
+                                    if (productRow) {
+                                        const correspondingCheckbox = productRow.querySelector('input[type="checkbox"]');
+                                        if (correspondingCheckbox) {
+                                            correspondingCheckbox.checked = false;
+                                            console.log('Checkbox unchecked for barcode:', newRow.getAttribute('data-barcode'));
+                                        } else {
+                                            console.error('Checkbox not found for barcode:', newRow.getAttribute('data-barcode'));
+                                        }
+                                    } else {
+                                        console.error('Product row not found for barcode:', newRow.getAttribute('data-barcode'));
+                                    }
+
+                                    // Update the order items array
+                                    orderItems = orderItems.filter(item => item.productId !== productId);
+
+                                    // Recalculate totals and update UI
+                                    calculateTotals();
+                                    updatePrintBillsButtonState();
+                                });
+
 
                                             // Append new row to the selected items table
                                             itemSelectedTable.appendChild(newRow);
@@ -617,7 +653,7 @@ var KTAppEcommerceSalesSaveOrder = function () {
                                         printPreviewModal._element.addEventListener('shown.bs.modal', function () {
                                             clearItems();
                                         });
-                                    });
+        });
 
 
     // Submit form handler

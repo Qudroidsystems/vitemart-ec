@@ -124,7 +124,7 @@
                           </thead>
                           <tbody class="fw-semibold text-gray-600" >
                                   @foreach($products as $product)
-                                  <tr data-barcode="{{ $product->sku }}" data-kt-ecommerce-edit-order-id-ajax="{{ $product->id}}" >
+                                  <tr data-barcode="{{ $product->sku }}" data-product-id="{{ $product->id}}" data-kt-ecommerce-edit-order-id-ajax="{{ $product->id}}" >
                                                       <td>
                                                           <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                               <input class="form-check-input" type="checkbox" value="1"  />

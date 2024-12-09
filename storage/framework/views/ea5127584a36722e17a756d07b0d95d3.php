@@ -123,7 +123,7 @@
                           </thead>
                           <tbody class="fw-semibold text-gray-600" >
                                   <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                  <tr data-barcode="<?php echo e($product->sku); ?>" data-kt-ecommerce-edit-order-id-ajax="<?php echo e($product->id); ?>" >
+                                  <tr data-barcode="<?php echo e($product->sku); ?>" data-product-id="<?php echo e($product->id); ?>" data-kt-ecommerce-edit-order-id-ajax="<?php echo e($product->id); ?>" >
                                                       <td>
                                                           <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                               <input class="form-check-input" type="checkbox" value="1"  />
