@@ -25,6 +25,41 @@ class ProductController extends Controller
         return view('product.index', compact('products'));
     }
 
+
+     /**
+     * Search or fetch products based on query or barcode.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search(Request $request)
+    {
+        // Validate the input
+        $request->validate([
+            'query' => 'nullable|string',
+            'barcode' => 'nullable|string',
+        ]);
+
+        $query = $request->get('query');
+        $barcode = $request->get('barcode');
+
+        // Fetch products based on query or barcode
+        $products = Product::query()
+            ->when($barcode, function ($query, $barcode) {
+                return $query->where('sku', $barcode);
+            })
+            ->when($query, function ($query, $search) {
+                return $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('sku', 'like', '%' . $search . '%');
+            })
+            ->get();
+
+        // Return JSON response
+        return response()->json([
+            'status' => 'success',
+            'data' => $products,
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -183,6 +218,8 @@ class ProductController extends Controller
     {
         //
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
