@@ -367,47 +367,133 @@ var KTAppEcommerceSalesSaveOrder = function () {
                                     }, 100);
                                 });
 
-                                // Handle both barcode scanning and manual search
+                                // // Handle both barcode scanning and manual search
+                                // const handleSearchOrScan = () => {
+                                //     barcodeInput.addEventListener('input', (e) => {
+                                //         clearTimeout(timeout);
+
+                                //         // Collect typed characters and keep the input field value visible
+                                //         barcodeBuffer = e.target.value.trim();
+
+                                //         // Show preloader only if scanning a barcode
+                                //         barcodePreloader.classList.remove('d-none');
+                                //         barcodePreloader.classList.add('d-flex');
+
+                                //         timeout = setTimeout(() => {
+                                //             const inputValue = barcodeBuffer.trim();
+                                //             barcodeBuffer = ''; // Clear buffer for the next input
+
+                                //             if (inputValue) {
+                                //                 if (e.inputType === "insertText" || e.key === "Enter") {
+                                //                     // Handle manual search by filtering the table
+                                //                     searchTable(inputValue);
+                                //                 }
+                                //             }
+
+                                //             // Hide preloader after the scan or manual search
+                                //             barcodePreloader.classList.remove('d-flex');
+                                //             barcodePreloader.classList.add('d-none');
+                                //         }, 300); // Debounce delay
+                                //     });
+
+
+
+
+                                //     // Detect 'Enter' key to trigger barcode scanning logic (for barcode)
+                                //     barcodeInput.addEventListener('keydown', (e) => {
+                                //         if (e.key === 'Enter') {
+                                //             e.preventDefault(); // Prevent form submission or default behavior
+                                //             const scannedBarcode = barcodeBuffer.trim();
+                                //             if (scannedBarcode) {
+                                //                 processBarcode(scannedBarcode);
+                                //             }
+                                //             barcodeBuffer = ''; // Clear buffer after processing
+                                //         }
+                                //     });
+                                // };
+
+
                                 const handleSearchOrScan = () => {
                                     barcodeInput.addEventListener('input', (e) => {
                                         clearTimeout(timeout);
 
-                                        // Collect typed characters and keep the input field value visible
                                         barcodeBuffer = e.target.value.trim();
 
-                                        // Show preloader only if scanning a barcode
                                         barcodePreloader.classList.remove('d-none');
                                         barcodePreloader.classList.add('d-flex');
 
                                         timeout = setTimeout(() => {
                                             const inputValue = barcodeBuffer.trim();
-                                            barcodeBuffer = ''; // Clear buffer for the next input
+                                            barcodeBuffer = '';
 
                                             if (inputValue) {
-                                                if (e.inputType === "insertText" || e.key === "Enter") {
-                                                    // Handle manual search by filtering the table
-                                                    searchTable(inputValue);
-                                                }
-                                            }
+                                                fetch(`${productSearchQuery}?query=${inputValue}`)
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        barcodePreloader.classList.remove('d-flex');
+                                                        barcodePreloader.classList.add('d-none');
 
-                                            // Hide preloader after the scan or manual search
-                                            barcodePreloader.classList.remove('d-flex');
-                                            barcodePreloader.classList.add('d-none');
-                                        }, 300); // Debounce delay
-                                    });
-
-                                    // Detect 'Enter' key to trigger barcode scanning logic (for barcode)
-                                    barcodeInput.addEventListener('keydown', (e) => {
-                                        if (e.key === 'Enter') {
-                                            e.preventDefault(); // Prevent form submission or default behavior
-                                            const scannedBarcode = barcodeBuffer.trim();
-                                            if (scannedBarcode) {
-                                                processBarcode(scannedBarcode);
+                                                        if (data.status === 'success') {
+                                                            populateTable(data.data);
+                                                        } else {
+                                                            Swal.fire({
+                                                                icon: 'error',
+                                                                title: 'Error',
+                                                                text: 'No products found.',
+                                                            });
+                                                        }
+                                                    })
+                                                    .catch(error => {
+                                                        console.error('Error fetching products:', error);
+                                                        barcodePreloader.classList.remove('d-flex');
+                                                        barcodePreloader.classList.add('d-none');
+                                                    });
+                                            } else {
+                                                barcodePreloader.classList.remove('d-flex');
+                                                barcodePreloader.classList.add('d-none');
                                             }
-                                            barcodeBuffer = ''; // Clear buffer after processing
-                                        }
+                                        }, 300);
                                     });
                                 };
+
+                                const populateTable = (products) => {
+                                    const tbody = document.querySelector('#kt_ecommerce_edit_order_product_table-ajax tbody');
+                                    tbody.innerHTML = ''; // Clear the table
+
+                                    products.forEach(product => {
+                                        const row = document.createElement('tr');
+                                        row.setAttribute('data-barcode', product.sku);
+                                        row.setAttribute('data-product-id', product.id);
+                                        row.setAttribute('data-kt-ecommerce-edit-order-id-ajax', product.id);
+
+                                        row.innerHTML = `
+                                            <td>
+                                                <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                    <input class="form-check-input" type="checkbox" value="1" />
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter-ajax="product" data-kt-ecommerce-edit-order-id-ajax="${product.id}">
+                                                    <a href="#" class="symbol symbol-50px">
+                                                        <span class="symbol-label" style="background-image:url('${product.cover ? product.cover.path : '/storage/uploads/category_default.jpg'}');"></span>
+                                                    </a>
+                                                    <div class="ms-5">
+                                                        <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold">${product.name}</a>
+                                                        <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter-ajax="price">${product.base_price}</span></div>
+                                                        <div class="text-muted fs-7">SKU: ${product.sku}</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-end pe-5"><span class="fw-bold text-success ms-3">${Number(product.stock).toFixed(2)}</span></td>
+                                        `;
+
+                                        tbody.appendChild(row);
+                                    });
+                                };
+
+                                // // Initialize
+                                // handleSearchOrScan();
+
 
                                 // Function to search the table for manual input
                                 const searchTable = (query) => {
@@ -435,7 +521,7 @@ var KTAppEcommerceSalesSaveOrder = function () {
                                     const productRow = document.querySelector(`#kt_ecommerce_edit_order_product_table-ajax tr[data-barcode="${barcode}"]`);
 
                                     if (productRow) {
-                                        const existingSelectedRow = document.querySelector(`#itemselected tr[data-kt-ecommerce-edit-order-id-ajax="${productRow.getAttribute('data-kt-ecommerce-edit-order-id-ajax')}"]`);
+                                        const existingSelectedRow = document.querySelector(`#itemselected  tr[data-kt-ecommerce-edit-order-id="${productRow.getAttribute('data-kt-ecommerce-edit-order-id-ajax')}"]`);
                                         console.log(productRow);
                                         if (existingSelectedRow) {
                                             selectedProductRow = existingSelectedRow;
@@ -465,6 +551,158 @@ var KTAppEcommerceSalesSaveOrder = function () {
 
 
 
+        // // Checkbox Handling
+        // checkboxes.forEach((checkbox) => {
+        //     checkbox.addEventListener('change', (e) => {
+        //         const parent = checkbox.closest('tr');
+        //         const productId = parent.querySelector('[data-kt-ecommerce-edit-order-id-ajax]').getAttribute('data-kt-ecommerce-edit-order-id-ajax');
+        //         const productName = parent.querySelector('.text-gray-800').innerText;
+        //         const productPrice = parseFloat(parent.querySelector('[data-kt-ecommerce-edit-order-filter-ajax="price"]').innerText.replace('₦', '').replace(/,/g, ''));
+        //         const productBarcode = parent.getAttribute('data-barcode');
+
+        //         if (e.target.checked) {
+        //             const newRow = document.createElement('tr');
+        //             newRow.setAttribute('data-kt-pos-element', 'item');
+        //             newRow.setAttribute('data-kt-pos-item-price', productPrice);
+        //             newRow.setAttribute('data-kt-ecommerce-edit-order-id', productId);
+        //             newRow.setAttribute('data-barcode', productBarcode);
+
+        //             // Adding the new attributes for product name and product price
+        //             newRow.setAttribute('data-product-name', productName); // Assuming `productName` is available
+        //             newRow.setAttribute('data-product-price', productPrice); // Assuming `productPrice` is available
+
+
+        //             const initialQuantity = 1;
+        //             const initialTotal = (initialQuantity * productPrice).toFixed(2);
+
+
+
+
+        //             newRow.innerHTML = `
+        //                             <td>
+        //                                 <div class="form-check form-check-sm form-check-custom form-check-solid">
+        //                                     <input class="form-check-input" type="checkbox" value="${productId}" />
+        //                                 </div>
+        //                             </td>
+        //                             <td>
+        //                                 <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="${productId}">
+
+        //                                     <!-- Title and Details -->
+        //                                     <div class="ms-5">
+        //                                         <!-- Title -->
+        //                                         <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold"> ${productName}</a>
+        //                                         <!-- Price -->
+        //                                         <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter="price">
+        //                                         <span class="fw-bold text-success ms-3">${formatMoney(productPrice)}</span>
+        //                                         </span></div>
+        //                                         <!-- SKU -->
+        //                                         <div class="text-muted fs-7">SKU:sku</div>
+        //                                     </div>
+        //                                 </div>
+        //                             </td>
+        //                             <td class="text-end pe-5" data-order="0">
+        //                                 <input type="text" id="quantityInput" value="${initialQuantity}" readonly class="form-control border-0 text-center px-0 quantityInput" style="font-size: 18px; width: 50px;">
+        //                             </td>
+        //                             <td class="text-end pe-5" data-order="0">
+
+        //                                  <span class="fw-bold text-success ms-3" data-kt-pos-element="item-total">${formatMoney(initialTotal)}</span>
+        //                             </td>
+        //                             <td class="text-end">
+        //                                 <button class="btn btn-sm btn-icon btn-light-danger remove-item" type="button">
+        //                                     <i class="ki-duotone ki-cross fs-2">
+        //                                         <span class="path1"></span>
+        //                                         <span class="path2"></span>
+        //                                     </i>
+        //                                 </button>
+        //                                 </td>
+
+        //                         `;
+
+
+        //                          //newRow.style.borderBottom = '1px solid green';
+
+        //                          const removeButton = newRow.querySelector('.remove-item');
+        //                         //  removeButton.addEventListener('click', () => {
+        //                         //      // Remove the row
+        //                         //      newRow.remove();
+
+        //                         //      // Uncheck the corresponding checkbox in the product table
+        //                         //     //  const correspondingCheckbox = document.querySelector(
+        //                         //     //      `#kt_ecommerce_edit_order_product_table-ajax tr[data-product-id="${productId}"] input[type="checkbox"]`
+        //                         //     //  );
+
+        //                         //       const correspondingCheckbox = document.querySelector(`[data-kt-ecommerce-edit-order-id-ajax="${productId}"]`)
+        //                         //                         .closest('tr')
+        //                         //                         .querySelector('input[type="checkbox"]');
+        //                         //     console.log(correspondingCheckbox);
+        //                         //      if (correspondingCheckbox) {
+        //                         //          correspondingCheckbox.checked = false;
+        //                         //      } else {
+        //                         //         console.error(`Product row not found for Product ID: ${productId}`);
+        //                         //     }
+
+        //                         //      // Remove the item from the orderItems array
+        //                         //      orderItems = orderItems.filter(item => item.productId !== productId);
+
+
+        //                         //      calculateTotals();
+        //                         //      updatePrintBillsButtonState();
+        //                         //  });
+
+
+        //                         removeButton.addEventListener('click', () => {
+        //                             console.log('Removing Product ID:', productId);
+
+        //                             // Remove the row
+        //                             newRow.remove();
+
+        //                             // Locate the corresponding checkbox by barcode
+        //                             const productRow = document.querySelector(
+        //                                 `#kt_ecommerce_edit_order_product_table-ajax tr[data-barcode="${newRow.getAttribute('data-barcode')}"]`
+        //                             );
+
+        //                             if (productRow) {
+        //                                 const correspondingCheckbox = productRow.querySelector('input[type="checkbox"]');
+        //                                 if (correspondingCheckbox) {
+        //                                     correspondingCheckbox.checked = false;
+        //                                     console.log('Checkbox unchecked for barcode:', newRow.getAttribute('data-barcode'));
+        //                                 } else {
+        //                                     console.error('Checkbox not found for barcode:', newRow.getAttribute('data-barcode'));
+        //                                 }
+        //                             } else {
+        //                                 console.error('Product row not found for barcode:', newRow.getAttribute('data-barcode'));
+        //                             }
+
+        //                             // Update the order items array
+        //                             orderItems = orderItems.filter(item => item.productId !== productId);
+
+        //                             // Recalculate totals and update UI
+        //                             calculateTotals();
+        //                             updatePrintBillsButtonState();
+        //                         });
+
+
+        //                                     // Append new row to the selected items table
+        //                                     itemSelectedTable.appendChild(newRow);
+
+        //                                     // Add to order items array
+        //                                     orderItems.push({ productId, productName, productPrice, quantity: initialQuantity, total: initialTotal });
+
+        //                                     // Quantity input click handler
+        //                                     newRow.querySelector('#quantityInput').addEventListener('click', handleQuantityClick);
+        //                                 } else {
+        //                                     // Remove existing row if unchecked
+        //                                     const row = itemSelectedTable.querySelector(`[data-kt-pos-item-price="${productPrice}"]`);
+        //                                     if (row) row.remove();
+        //                                     orderItems = orderItems.filter(item => item.productId !== productId);
+        //                                 }
+
+        //                                 calculateTotals();
+        //                                 updatePrintBillsButtonState();
+        //                             });
+        //  });
+
+
         // Checkbox Handling
         checkboxes.forEach((checkbox) => {
             checkbox.addEventListener('change', (e) => {
@@ -478,143 +716,109 @@ var KTAppEcommerceSalesSaveOrder = function () {
                     const newRow = document.createElement('tr');
                     newRow.setAttribute('data-kt-pos-element', 'item');
                     newRow.setAttribute('data-kt-pos-item-price', productPrice);
-                    newRow.setAttribute('data-kt-ecommerce-edit-order-id-ajax', productId);
+                    newRow.setAttribute('data-kt-ecommerce-edit-order-id', productId);
                     newRow.setAttribute('data-barcode', productBarcode);
 
                     // Adding the new attributes for product name and product price
-                    newRow.setAttribute('data-product-name', productName); // Assuming `productName` is available
-                    newRow.setAttribute('data-product-price', productPrice); // Assuming `productPrice` is available
-
+                    newRow.setAttribute('data-product-name', productName);
+                    newRow.setAttribute('data-product-price', productPrice);
 
                     const initialQuantity = 1;
                     const initialTotal = (initialQuantity * productPrice).toFixed(2);
 
-
-
-
                     newRow.innerHTML = `
-                                    <td>
-                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                            <input class="form-check-input" type="checkbox" value="${productId}" />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="${productId}">
+                        <td>
+                            <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                <input class="form-check-input" type="checkbox" value="${productId}" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter="product" data-kt-ecommerce-edit-order-id="${productId}">
+                                <div class="ms-5">
+                                    <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold"> ${productName}</a>
+                                    <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter="price">
+                                        <span class="fw-bold text-success ms-3">${formatMoney(productPrice)}</span>
+                                    </span></div>
+                                    <div class="text-muted fs-7">SKU:sku</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-end pe-5" data-order="0">
+                            <input type="text" id="quantityInput" value="${initialQuantity}" readonly class="form-control border-0 text-center px-0 quantityInput" style="font-size: 18px; width: 50px;">
+                        </td>
+                        <td class="text-end pe-5" data-order="0">
+                            <span class="fw-bold text-success ms-3" data-kt-pos-element="item-total">${formatMoney(initialTotal)}</span>
+                        </td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-icon btn-light-danger remove-item" type="button">
+                                <i class="ki-duotone ki-cross fs-2">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>
+                            </button>
+                        </td>
+                    `;
 
-                                            <!-- Title and Details -->
-                                            <div class="ms-5">
-                                                <!-- Title -->
-                                                <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold"> ${productName}</a>
-                                                <!-- Price -->
-                                                <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter="price">
-                                                <span class="fw-bold text-success ms-3">${formatMoney(productPrice)}</span>
-                                                </span></div>
-                                                <!-- SKU -->
-                                                <div class="text-muted fs-7">SKU:sku</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-end pe-5" data-order="0">
-                                        <input type="text" id="quantityInput" value="${initialQuantity}" readonly class="form-control border-0 text-center px-0 quantityInput" style="font-size: 18px; width: 50px;">
-                                    </td>
-                                    <td class="text-end pe-5" data-order="0">
+                    // Append new row to the selected items table
+                    itemSelectedTable.appendChild(newRow);
 
-                                         <span class="fw-bold text-success ms-3" data-kt-pos-element="item-total">${formatMoney(initialTotal)}</span>
-                                    </td>
-                                    <td class="text-end">
-                                        <button class="btn btn-sm btn-icon btn-light-danger remove-item" type="button">
-                                            <i class="ki-duotone ki-cross fs-2">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                            </i>
-                                        </button>
-                                        </td>
+                    // Uncheck the corresponding checkbox in the product table
+                    checkbox.checked = false;
 
-                                `;
+                    // Add to order items array
+                    orderItems.push({ productId, productName, productPrice, quantity: initialQuantity, total: initialTotal });
 
+                    // Quantity input click handler
+                    newRow.querySelector('#quantityInput').addEventListener('click', handleQuantityClick);
 
-                                 //newRow.style.borderBottom = '1px solid green';
+                    // Add event listener for the remove button
+                    const removeButton = newRow.querySelector('.remove-item');
+                    removeButton.addEventListener('click', () => {
+                        console.log('Removing Product ID:', productId);
 
-                                 const removeButton = newRow.querySelector('.remove-item');
-                                //  removeButton.addEventListener('click', () => {
-                                //      // Remove the row
-                                //      newRow.remove();
+                        // Remove the row
+                        newRow.remove();
 
-                                //      // Uncheck the corresponding checkbox in the product table
-                                //     //  const correspondingCheckbox = document.querySelector(
-                                //     //      `#kt_ecommerce_edit_order_product_table-ajax tr[data-product-id="${productId}"] input[type="checkbox"]`
-                                //     //  );
+                        // Locate the corresponding checkbox by barcode
+                        const productRow = document.querySelector(
+                            `#kt_ecommerce_edit_order_product_table-ajax tr[data-barcode="${newRow.getAttribute('data-barcode')}"]`
+                        );
 
-                                //       const correspondingCheckbox = document.querySelector(`[data-kt-ecommerce-edit-order-id-ajax="${productId}"]`)
-                                //                         .closest('tr')
-                                //                         .querySelector('input[type="checkbox"]');
-                                //     console.log(correspondingCheckbox);
-                                //      if (correspondingCheckbox) {
-                                //          correspondingCheckbox.checked = false;
-                                //      } else {
-                                //         console.error(`Product row not found for Product ID: ${productId}`);
-                                //     }
+                        if (productRow) {
+                            const correspondingCheckbox = productRow.querySelector('input[type="checkbox"]');
+                            if (correspondingCheckbox) {
+                                correspondingCheckbox.checked = false;
+                                console.log('Checkbox unchecked for barcode:', newRow.getAttribute('data-barcode'));
+                            } else {
+                                console.error('Checkbox not found for barcode:', newRow.getAttribute('data-barcode'));
+                            }
+                        } else {
+                            console.error('Product row not found for barcode:', newRow.getAttribute('data-barcode'));
+                        }
 
-                                //      // Remove the item from the orderItems array
-                                //      orderItems = orderItems.filter(item => item.productId !== productId);
+                        // Update the order items array
+                        orderItems = orderItems.filter(item => item.productId !== productId);
 
+                        // Recalculate totals and update UI
+                        calculateTotals();
+                        updatePrintBillsButtonState();
+                    });
 
-                                //      calculateTotals();
-                                //      updatePrintBillsButtonState();
-                                //  });
+                    // Recalculate totals and update UI
+                    calculateTotals();
+                    updatePrintBillsButtonState();
+                } else {
+                    // If unchecked, remove any associated row from itemSelectedTable
+                    const row = itemSelectedTable.querySelector(`[data-barcode="${productBarcode}"]`);
+                    if (row) row.remove();
+                    orderItems = orderItems.filter(item => item.productId !== productId);
 
+                    calculateTotals();
+                    updatePrintBillsButtonState();
+                }
+            });
+        });
 
-                                removeButton.addEventListener('click', () => {
-                                    console.log('Removing Product ID:', productId);
-
-                                    // Remove the row
-                                    newRow.remove();
-
-                                    // Locate the corresponding checkbox by barcode
-                                    const productRow = document.querySelector(
-                                        `#kt_ecommerce_edit_order_product_table-ajax tr[data-barcode="${newRow.getAttribute('data-barcode')}"]`
-                                    );
-
-                                    if (productRow) {
-                                        const correspondingCheckbox = productRow.querySelector('input[type="checkbox"]');
-                                        if (correspondingCheckbox) {
-                                            correspondingCheckbox.checked = false;
-                                            console.log('Checkbox unchecked for barcode:', newRow.getAttribute('data-barcode'));
-                                        } else {
-                                            console.error('Checkbox not found for barcode:', newRow.getAttribute('data-barcode'));
-                                        }
-                                    } else {
-                                        console.error('Product row not found for barcode:', newRow.getAttribute('data-barcode'));
-                                    }
-
-                                    // Update the order items array
-                                    orderItems = orderItems.filter(item => item.productId !== productId);
-
-                                    // Recalculate totals and update UI
-                                    calculateTotals();
-                                    updatePrintBillsButtonState();
-                                });
-
-
-                                            // Append new row to the selected items table
-                                            itemSelectedTable.appendChild(newRow);
-
-                                            // Add to order items array
-                                            orderItems.push({ productId, productName, productPrice, quantity: initialQuantity, total: initialTotal });
-
-                                            // Quantity input click handler
-                                            newRow.querySelector('#quantityInput').addEventListener('click', handleQuantityClick);
-                                        } else {
-                                            // Remove existing row if unchecked
-                                            const row = itemSelectedTable.querySelector(`[data-kt-pos-item-price="${productPrice}"]`);
-                                            if (row) row.remove();
-                                            orderItems = orderItems.filter(item => item.productId !== productId);
-                                        }
-
-                                        calculateTotals();
-                                        updatePrintBillsButtonState();
-                                    });
-                                });
                                         // Clear All Button
                                         clearAllButton.addEventListener('click', () => {
                                             itemSelectedTable.innerHTML = '';

@@ -68,6 +68,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('product', ProductController::class);
     Route::delete('/deleteproduct/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+    Route::get('/products/search', [ProductController::class, 'searchProducts'])->name('products.search');
+
 
     Route::resource('report', ReportController::class);
     Route::resource('return', ReturnController::class);

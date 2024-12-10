@@ -123,58 +123,7 @@
                               </tr>
                           </thead>
                           <tbody class="fw-semibold text-gray-600" >
-                                  @foreach($products as $product)
-                                  <tr data-barcode="{{ $product->sku }}" data-product-id="{{ $product->id}}" data-kt-ecommerce-edit-order-id-ajax="{{ $product->id}}" >
-                                                      <td>
-                                                          <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                              <input class="form-check-input" type="checkbox" value="1"  />
-                                                          </div>
-                                                      </td>
-                                                      <td>
-                                                          <div class="d-flex align-items-center" data-kt-ecommerce-edit-order-filter-ajax="product" data-kt-ecommerce-edit-order-id-ajax="{{ $product->id}}">
-                                                              <!--begin::Thumbnail-->
-                                                              <a href="#" class="symbol symbol-50px">
-                                                                  <span class="symbol-label" style="background-image:url('{{ $product->cover ? asset('storage/' . $product->cover->path) : asset('storage/uploads/category_default.jpg') }}');"></span>
-                                                              </a>
-                                                              <!--end::Thumbnail-->
 
-                                                              <div class="ms-5">
-                                                                  <!--begin::Title-->
-                                                                  <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $product->name }}</a>
-                                                                  <!--end::Title-->
-
-                                                                  <!--begin::Price-->
-                                                                  <div class="fw-semibold fs-7">Price: ₦<span data-kt-ecommerce-edit-order-filter-ajax="price">
-                                                                  <span class="fw-bold text-success ms-3">{{ $product->base_price}}</span>
-                                                                  </span></div>
-                                                                  <!--end::Price-->
-
-                                                                  <!--begin::SKU-->
-                                                                  <div class="text-muted fs-7">SKU: {{ $product->sku }}</div>
-                                                                  <!--end::SKU-->
-
-                                                              </div>
-                                                          </div>
-                                                      </td>
-                                                      <td class="text-end pe-5" data-order="0">
-                                                                                              {{-- <span class="badge badge-light-danger">Sold out</span> --}}
-                                                              <span class="fw-bold text-success ms-3">{{ number_format($product->stock, 2) }}</span>
-                                                      </td>
-                                                      <td class="text-end pe-5" data-order="0">
-                                                          {{-- <span class="badge badge-light-danger">Sold out</span> --}}
-                                                              <span class="fw-bold text-success ms-3">{{ number_format($product->stock, 2) }}</span>
-                                                      </td>
-                                                      <td class="text-end pe-5" data-order="0">
-                                                        {{-- <span class="badge badge-light-danger">Sold out</span> --}}
-                                                            <span class="fw-bold text-success ms-3">{{ number_format($product->stock, 2) }}</span>
-                                                    </td>
-                                                    <td class="text-end pe-5" data-order="0">
-                                                        {{-- <span class="badge badge-light-danger">Sold out</span> --}}
-                                                            <span class="fw-bold text-success ms-3">{{ number_format($product->stock, 2) }}</span>
-                                                    </td>
-
-                                  </tr>
-                                  @endforeach
 
                           </tbody>
                       </table>
@@ -606,6 +555,7 @@
     <script>
         // Set the URL for the payments.store route in a JavaScript variable
         const paymentStoreUrl = '{{ route('orders.saveorders') }}';
+        const productSearchQuery = '{{ route('products.search') }}';
 
         document.addEventListener('click', () => {
             document.getElementById('searchInput').focus();
