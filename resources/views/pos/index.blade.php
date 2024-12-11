@@ -158,7 +158,7 @@
                                             <th class="min-w-100px text-end pe-5">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="fw-semibold text-gray-600" id="itemselected">
+                                    <tbody class="fw-semibold text-gray-600" id="itemSelectedTable">
 
 
 
@@ -563,81 +563,81 @@
 
 
 
-    //     document.addEventListener('DOMContentLoaded', function() {
-    //             const searchInput = document.getElementById('searchInput');
-    //             const productTableContainer = document.getElementById('productTableContainer');
-    //             const selectAllCheckbox = document.getElementById('selectAllCheckbox');
-    //             const productCheckboxes = document.querySelectorAll('.product-checkbox');
+        document.addEventListener('DOMContentLoaded', function() {
+                const searchInput = document.getElementById('searchInput');
+                const productTableContainer = document.getElementById('productTableContainer');
+                const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+                const productCheckboxes = document.querySelectorAll('.product-checkbox');
 
-    //             // Function to hide table
-    //             function hideTable() {
-    //                 productTableContainer.classList.remove('show');
-    //                 productTableContainer.classList.add('hide');
+                // Function to hide table
+                function hideTable() {
+                    productTableContainer.classList.remove('show');
+                    productTableContainer.classList.add('hide');
 
-    //                 setTimeout(() => {
-    //                     productTableContainer.classList.add('hidden');
-    //                 }, 500);
-    //             }
+                    setTimeout(() => {
+                        productTableContainer.classList.add('hidden');
+                    }, 500);
+                }
 
-    //             // Function to focus and select input
-    //             function focusAndSelectInput() {
-    //                 searchInput.focus();
-    //                 searchInput.select();
-    //             }
+                // Function to focus and select input
+                function focusAndSelectInput() {
+                    searchInput.focus();
+                    searchInput.select();
+                }
 
-    //             // Ensure table is hidden on page load
-    //             hideTable();
+                // Ensure table is hidden on page load
+                hideTable();
 
-    //             // Toggle table visibility based on input
-    //             searchInput.addEventListener('input', function() {
-    //                 if (this.value.trim().length > 0) {
-    //                     // Show table only when there are characters
-    //                     productTableContainer.classList.remove('hidden', 'hide');
-    //                     productTableContainer.classList.add('show');
-    //                 } else {
-    //                     // Hide table when input is empty
-    //                     hideTable();
-    //                 }
-    //             });
+                // Toggle table visibility based on input
+                searchInput.addEventListener('input', function() {
+                    if (this.value.trim().length > 0) {
+                        // Show table only when there are characters
+                        productTableContainer.classList.remove('hidden', 'hide');
+                        productTableContainer.classList.add('show');
+                    } else {
+                        // Hide table when input is empty
+                        hideTable();
+                    }
+                });
 
-    //             // Handle Enter key press to clear input and hide table
-    //             searchInput.addEventListener('keydown', function(e) {
-    //                 if (e.key === 'Enter') {
-    //                     this.value = '';
-    //                     hideTable();
-    //                     e.preventDefault();
-    //                 }
-    //             });
+                // Handle Enter key press to clear input and hide table
+                searchInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        this.value = '';
+                        hideTable();
+                        e.preventDefault();
+                    }
+                });
 
-    //             // Select all checkboxes
-    //             selectAllCheckbox.addEventListener('change', function() {
-    //                 productCheckboxes.forEach(checkbox => {
-    //                     checkbox.checked = this.checked;
-    //                 });
+                // Select all checkboxes
+                selectAllCheckbox.addEventListener('change', function() {
+                    productCheckboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
 
-    //                 // Clear input and hide table immediately
-    //                 searchInput.value = '';
-    //                 hideTable();
-    //                 focusAndSelectInput();
-    //             });
+                    // Clear input and hide table immediately
+                    searchInput.value = '';
+                    hideTable();
+                    focusAndSelectInput();
+                });
 
-    //             // Individual product checkbox event
-    //             productCheckboxes.forEach(checkbox => {
-    //                 checkbox.addEventListener('change', function() {
-    //                     // Clear input and hide table immediately when checkbox is checked
-    //                     if (this.checked) {
-    //                         searchInput.value = '';
-    //                         hideTable();
-    //                         focusAndSelectInput();
-    //                     }
-    //                 });
-    //             });
+                // Individual product checkbox event
+                productCheckboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        // Clear input and hide table immediately when checkbox is checked
+                        if (this.checked) {
+                            searchInput.value = '';
+                            hideTable();
+                            focusAndSelectInput();
+                        }
+                    });
+                });
 
-    //             // Prevent table from hiding when interacting with it
-    //             productTableContainer.addEventListener('click', function(e) {
-    //                 e.stopPropagation();
-    //             });
-    // });
+                // Prevent table from hiding when interacting with it
+                productTableContainer.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+    });
 
 
 

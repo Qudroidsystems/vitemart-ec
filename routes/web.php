@@ -39,7 +39,7 @@ use App\Http\Controllers\PermissionController;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
@@ -68,7 +68,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('product', ProductController::class);
     Route::delete('/deleteproduct/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
-    Route::get('/products/search', [ProductController::class, 'searchProducts'])->name('products.search');
+    //Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
 
 
     Route::resource('report', ReportController::class);
