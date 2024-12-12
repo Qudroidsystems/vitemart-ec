@@ -75,7 +75,7 @@
 
 
        <!--begin::Aside column-->
-       <div class="w-100 flex-lg-row-auto w-lg-700px mb-7 me-7 me-lg-10">
+       <div class="w-100 flex-lg-row-auto w-lg-800px mb-7 me-7 me-lg-10">
 
 
 
