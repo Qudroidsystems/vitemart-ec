@@ -117,7 +117,7 @@
                                   <th class="min-w-100px text-end pe-5">QANTITY</th>
                                   <th class="min-w-100px text-end pe-5"> CATEGORY</th>
                                   <th>Status</th>
-                                  <th>Actions</th> <!-- Ensure you have 5 columns here -->
+                                  <th>Discount</th> <!-- Ensure you have 5 columns here -->
 
                               </tr>
                           </thead>
@@ -294,7 +294,8 @@
                                 <!--end::Input-->
 
                                 <!--begin::Icon-->
-                                <i class="ki-duotone ki-paypal fs-2hx mb-2 pe-0"><span class="path1"></span><span class="path2"></span></i>                        <!--end::Icon-->
+                                <i class="ki-duotone ki-paypal fs-2hx mb-2 pe-0"><span class="path1"></span><span class="path2"></span></i>
+                                    <!--end::Icon-->
 
                                 <!--begin::Title-->
                                 <span class="fs-7 fw-bold d-block">E-Wallet</span>
