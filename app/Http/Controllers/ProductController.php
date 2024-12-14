@@ -43,8 +43,9 @@ class ProductController extends Controller
         $query = $request->get('query');
         $barcode = $request->get('barcode');
 
-        // Fetch products based on query or barcode
+        // Fetch products based on query or barcode, and include the category
         $products = Product::query()
+            ->with('categories') // Eager load the related category
             ->when($barcode, function ($query, $barcode) {
                 return $query->where('sku', $barcode);
             })
@@ -53,6 +54,7 @@ class ProductController extends Controller
                     ->orWhere('sku', 'like', '%' . $search . '%');
             })
             ->get();
+
 
         // Return JSON response
         return response()->json([
@@ -95,7 +97,7 @@ class ProductController extends Controller
             'unit' => 'required|exists:units,id', // Unit ID should exist in the units table
             'brand' => 'required|exists:brands,id', // Brand ID should exist in the brands table
             'warehouse' => 'required|exists:warehouses,id', // Warehouse ID should exist in the warehouses table
-           'sku' => 'required|unique:products,sku|max:255',
+            'sku' => 'required|unique:products,sku|max:255',
             'barcode' => 'nullable|string|max:255',
             'stock' => 'required|integer|min:0',
             'stock_alert' => 'nullable|integer|min:0',
@@ -174,11 +176,12 @@ class ProductController extends Controller
 
 
 
-        $product->save();
+            $product->save();
 
-        // if (isset($validatedData['category'])) {
-        //     $product->categories()->sync([$validatedData['category']]); // Sync category
-        // }
+            if (isset($validatedData['category'])) {
+                $product->categories()->sync([$validatedData['category']]); // Sync category
+            }
+
                 // Attach related data (tags, brands, units, warehouses) to the product
             if (isset($validatedData['selected_tag_ids'])) {
                 // Decode the selected_tag_ids JSON string to an array
@@ -190,24 +193,24 @@ class ProductController extends Controller
                 }
             }
 
-        // Attach related data (tags, brands, units, warehouses) to the product
-        if (isset($validatedData['tag'])) {
-            $product->tags()->sync($validatedData['selected_tag_ids']); // Attach tags
-        }
+            // Attach related data (category,tags, brands, units, warehouses) to the product
+            if (isset($validatedData['tag'])) {
+                $product->tags()->sync($validatedData['selected_tag_ids']); // Attach tags
+            }
 
-        if (isset($validatedData['brand'])) {
-            $product->brands()->sync($validatedData['brand']); // Attach brands
-        }
+            if (isset($validatedData['brand'])) {
+                $product->brands()->sync($validatedData['brand']); // Attach brands
+            }
 
-        if (isset($validatedData['unit'])) {
-            $product->units()->sync($validatedData['unit']); // Attach units
-        }
+            if (isset($validatedData['unit'])) {
+                $product->units()->sync($validatedData['unit']); // Attach units
+            }
 
-        if (isset($validatedData['warehouse'])) {
-            $product->warehouses()->sync($validatedData['warehouse']); // Attach warehouses
-        }
+            if (isset($validatedData['warehouse'])) {
+                $product->warehouses()->sync($validatedData['warehouse']); // Attach warehouses
+            }
 
-        return redirect()->back()->with('success', 'Product created successfully!');
+            return redirect()->back()->with('success', 'Product created successfully!');
       }
     }
 

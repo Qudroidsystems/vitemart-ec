@@ -203,9 +203,6 @@
             <select name="status" class="form-select mb-2" data-control="select2" data-placeholder="Select an option" id="kt_ecommerce_add_product_status_select">
                 <option></option>
                 <option value="published" selected>Walk in Customer</option>
-                <option value="draft">Draft</option>
-                <option value="scheduled">Scheduled</option>
-                <option value="inactive">Inactive</option>
             </select>
             <!--end::Select2-->
                 <h3 class="card-title fw-bold text-gray-800 fs-2qx">Current Order</h3>
@@ -366,11 +363,11 @@
     <div class="modal fade modal-default" id="print-receipt" aria-labelledby="print-receipt" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="d-flex justify-content-end">
+                {{-- <div class="d-flex justify-content-end">
                     <button type="button" class="close p-0" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
-                </div>
+                </div> --}}
                 <div class="modal-body">
                     <div id="receiptContent">
 
@@ -459,97 +456,7 @@
 
 
      <!-- Print Receipt -->
-     <div class="modal fade modal-default" id="printout" aria-labelledby="printout" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="d-flex justify-content-end">
-                    <button type="button" class="close p-0" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="receiptContent">
 
-                                <div class="icon-head text-center">
-                                            <a href="javascript:void(0);">
-                                                <img src="https://dreamspos.dreamstechnologies.com/html/template/assets/img/logo.png" width="100" height="30" alt="Receipt Logo">
-                                            </a>
-                                </div>
-
-                                <div class="text-center info text-center">
-                                    <h6>Gozak Supermarket,Ondo,</h6>
-                                    <p class="mb-0">Phone Number: +1 5656665656</p>
-                                    <p class="mb-0">Email: <a href="https://dreamspos.dreamstechnologies.com/cdn-cgi/l/email-protection#f7928f969a879b92b7909a969e9bd994989a"><span class="__cf_email__" data-cfemail="cbaeb3aaa6bba7ae8baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a></p>
-                                </div>
-                                <div class="tax-invoice">
-                                    <h6 class="text-center">Invoice Receipt </h6>
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-6">
-                                            <div class="invoice-user-name"><span>Name: </span><span id="invoiceUserName">John Doe</span></div>
-                                            <div class="invoice-user-name"><span>Invoice No: </span><span id="invoiceNumber">CS132453</span></div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-6">
-                                            <div class="invoice-user-name"><span>Order Id: </span><span id="orderId">#LL93784</span></div>
-                                            <div class="invoice-user-name"><span>Date: </span><span id="invoiceDate">01.07.2022</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <table class="table-borderless w-100 table-fit">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Product</th>
-                                            <th>Qty</th>
-                                            <th>Price</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="receiptTableBody">
-
-                                        <tr class="subtotal-row">
-                                            <td colspan="4">
-                                                <table class="table-borderless w-100 table-fit">
-                                                    <tr>
-                                                        <td>Sub Total :</td>
-                                                        <td class="text-end">$700.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Discount :</td>
-                                                        <td class="text-end">00.00</td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>Total Bill :</td>
-                                                        <td class="text-end">$655.00</td>
-                                                    </tr>
-
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-
-                                </table>
-                                <div>
-                                    <p>Order ID: <span id="receiptOrderId"></span></p>
-                                    <p>Grand Total: <span id="receiptGrandTotal"></span></p>
-                                </div>
-                     </div>
-                                <div class="text-center invoice-bar">
-                                    {{-- <p>**VAT against this challan is payable through central registration. Thank you for your business!</p> --}}
-                                    <a href="javascript:void(0);">
-                                        <img src="https://dreamspos.dreamstechnologies.com/html/template/assets/img/barcode/barcode-03.jpg" alt="Barcode">
-                                    </a>
-                                    {{-- <p>Sale 31</p> --}}
-                                    <p>Thank You For Shopping With Us. Please Come Again</p>
-
-                                    <button id="printSlip" class="btn btn-primary">Print Receipt</button>
-                                </div>
-
-
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- /Print Receipt -->
 
 
