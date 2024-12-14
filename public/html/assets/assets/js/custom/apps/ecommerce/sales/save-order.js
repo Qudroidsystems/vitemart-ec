@@ -228,75 +228,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             // Function to handle quantity modal
-            // const handleQuantityClick = (event) => {
-            //         // Find the closest product row
-            //         selectedProductRow = event.target.closest('[data-kt-pos-element="item"]');
-
-            //         // Get the current quantity from the row
-            //         const currentQuantity = selectedProductRow.querySelector('#quantityInput').value;
-
-            //         // Set the modal input field to the current quantity
-            //         modalQuantityInput.value = currentQuantity;
-
-            //         // Show the modal
-            //         const modal = new bootstrap.Modal(quantityModal);
-            //         modal.show();
-
-            //         // Add event listener to update button in the modal
-            //         const updateQuantityBtn = document.getElementById('updateQuantityBtn');
-            //         updateQuantityBtn.addEventListener('click', () => {
-            //             // Call the update function (if defined)
-            //             updateQuantity();
-
-            //             // Update the row's quantity from modal input
-            //             selectedProductRow.querySelector('#quantityInput').value = modalQuantityInput.value;
-
-            //             // Dismiss the modal
-            //             modal.hide();
-
-            //             // Optional: Set focus back to the row or another element
-            //             selectedProductRow.focus();
-            //         });
-            //     };
-
-            // Function to handle quantity modal
             const handleQuantityClick = (event) => {
-                // Find the closest product row
-                selectedProductRow = event.target.closest('[data-kt-pos-element="item"]');
+                    // Find the closest product row
+                    selectedProductRow = event.target.closest('[data-kt-pos-element="item"]');
 
-                // Get the current quantity from the row
-                const currentQuantity = selectedProductRow.querySelector('#quantityInput').value;
+                    // Get the current quantity from the row
+                    const currentQuantity = selectedProductRow.querySelector('#quantityInput').value;
 
-                // Set the modal input field to the current quantity
-                modalQuantityInput.value = currentQuantity;
+                    // Set the modal input field to the current quantity
+                    modalQuantityInput.value = currentQuantity;
 
-                // Show the modal
-                const modal = new bootstrap.Modal(quantityModal);
+                    // Show the modal
+                    const modal = new bootstrap.Modal(quantityModal);
+                    modal.show();
 
-                // Listen for the modal "shown.bs.modal" event to ensure it's fully loaded
-                quantityModal.addEventListener('shown.bs.modal', () => {
-                    // Focus on the modal input field
-                    modalQuantityInput.focus();
-                });
+                    // Add event listener to update button in the modal
+                    const updateQuantityBtn = document.getElementById('updateQuantityBtn');
+                    updateQuantityBtn.addEventListener('click', () => {
+                        // Call the update function (if defined)
+                        updateQuantity();
 
-                modal.show();
+                        // Update the row's quantity from modal input
+                        selectedProductRow.querySelector('#quantityInput').value = modalQuantityInput.value;
 
-                // Add event listener to update button in the modal
-                const updateQuantityBtn = document.getElementById('updateQuantityBtn');
-                updateQuantityBtn.addEventListener('click', () => {
-                    // Call the update function (if defined)
-                    updateQuantity();
+                        // Dismiss the modal
+                        modal.hide();
 
-                    // Update the row's quantity from modal input
-                    selectedProductRow.querySelector('#quantityInput').value = modalQuantityInput.value;
+                        // Optional: Set focus back to the row or another element
+                        selectedProductRow.focus();
+                    });
+                };
 
-                    // Dismiss the modal
-                    modal.hide();
 
-                    // Optional: Set focus back to the row or another element
-                    selectedProductRow.focus();
-                });
-            };
+
+
 
 
 
