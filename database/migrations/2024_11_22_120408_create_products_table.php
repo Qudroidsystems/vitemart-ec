@@ -37,29 +37,28 @@ return new class extends Migration
             $table->timestamps();
         });
 
-         // Create the product_variant table for managing product variants
-        //  Schema::create('product_variant', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->foreignId('product_id')->constrained()->onDelete('cascade'); // Foreign key to products
-        //     $table->foreignId('variant_value_id')->constrained()->onDelete('cascade'); // Foreign key to variation values
-        //     $table->string('sku')->unique(); // Unique SKU for the variant
-        //     $table->decimal('vat_amount', 5, 2)->nullable(); // VAT Amount (%)
-        //     $table->integer('stock')->default(0); // Stock quantity for this variant
-        //     $table->integer('stock_alert')->default(0); // Stock quantity for this variant
-        //     $table->string('barcode')->nullable(); // Optional Barcode for the variant
-        //     $table->string('thumbnail')->nullable(); // Optional Thumbnail Image for the variant
-        //     $table->decimal('base_price', 10, 2); // Base Price
-        //     $table->decimal('discounted_price', 10, 2)->nullable(); // Discounted Price
-        //     $table->enum('discount_type', ['percentage', 'fixed'])->nullable(); // Discount Type
-        //     $table->decimal('discount_value', 10, 2)->nullable(); // Discount Value (Percentage or Fixed)
-        //     $table->string('tax')->nullable();
-        //     $table->string('tax_value')->nullable();
-        //     $table->string('manufured')->nullable();
-        //     $table->string('expiry')->nullable();
+        // Create the product_variant table for managing product variants
+        Schema::create('product_variant', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')->constrained()->onDelete('cascade'); // Foreign key to products
+            $table->foreignId('variant_value_id')->constrained()->onDelete('cascade'); // Foreign key to variation values
+            $table->string('sku')->unique(); // Unique SKU for the variant
+            $table->decimal('vat_amount', 5, 2)->nullable(); // VAT Amount (%)
+            $table->integer('stock')->default(0); // Stock quantity for this variant
+            $table->integer('stock_alert')->default(0); // Stock quantity for this variant
+            $table->string('barcode')->nullable(); // Optional Barcode for the variant
+            $table->string('thumbnail')->nullable(); // Optional Thumbnail Image for the variant
+            $table->decimal('base_price', 10, 2); // Base Price
+            $table->decimal('discounted_price', 10, 2)->nullable(); // Discounted Price
+            $table->enum('discount_type', ['percentage', 'fixed'])->nullable(); // Discount Type
+            $table->decimal('discount_value', 10, 2)->nullable(); // Discount Value (Percentage or Fixed)
+            $table->string('tax')->nullable();
+            $table->string('tax_value')->nullable();
+            $table->string('manufured')->nullable();
+            $table->string('expiry')->nullable();
 
-        //     $table->timestamps();
-        // });
-
+            $table->timestamps();
+        });
 
         Schema::create('product_category', function (Blueprint $table) {
             $table->id();
@@ -95,10 +94,8 @@ return new class extends Migration
             $table->unique(['product_id', 'unit_id']); // Prevent duplicate entries
         });
 
-
-
-         // Stocks Table
-         Schema::create('stocks', function (Blueprint $table) {
+        // Stocks Table
+        Schema::create('stocks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->onDelete('cascade'); // Product reference
             $table->integer('quantity'); // Quantity change (+/-)
@@ -107,9 +104,6 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null'); // User reference
             $table->timestamps();
         });
-
-        
-
 
     }
 
